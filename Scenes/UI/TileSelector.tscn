@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjdch1vt0u3qe"]
+
+[ext_resource type="Script" path="res://Scripts/UI/TileSelector.gd" id="1_y6b30"]
+
+[node name="TileSelectorControl" type="Control"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_right = 256.0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_y6b30")
+
+[node name="TileSelector" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TileSelector"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="TileSelector/MarginContainer"]
+visible = false
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+
+[node name="Tiles" type="VBoxContainer" parent="TileSelector"]
+layout_mode = 2
+size_flags_horizontal = 0

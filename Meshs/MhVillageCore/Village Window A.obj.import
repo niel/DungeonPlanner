@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bv4t7v8raqvhx"
+path="res://.godot/imported/Village Window A.obj-e6d4b81ea97cc1f160ea2d75b134e42e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Village Window A.obj-e6d4b81ea97cc1f160ea2d75b134e42e.mesh"]
+
+source_file="res://Meshs/MhVillageCore/Village Window A.obj"
+dest_files=["res://.godot/imported/Village Window A.obj-e6d4b81ea97cc1f160ea2d75b134e42e.mesh", "res://.godot/imported/Village Window A.obj-e6d4b81ea97cc1f160ea2d75b134e42e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

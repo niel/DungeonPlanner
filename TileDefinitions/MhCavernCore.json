@@ -1,0 +1,92 @@
+[
+	{
+		"id": "CavernCornerA",
+		"imagePath": "res://Images/MhCavernCore/Cavern Corner A-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Corner A.obj"
+	},
+	{
+		"id": "CavernCornerB",
+		"imagePath": "res://Images/MhCavernCore/Cavern Corner B-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Corner B.obj"
+	},
+	{
+		"id": "CavernCornerC",
+		"imagePath": "res://Images/MhCavernCore/Cavern Corner C-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Corner C.obj"
+	},
+	{
+		"id": "CavernCornerD",
+		"imagePath": "res://Images/MhCavernCore/Cavern Corner D-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Corner D.obj"
+	},
+	{
+		"id": "CavernDoublePillarA",
+		"imagePath": "res://Images/MhCavernCore/Cavern Double Pillar A-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Double Pillar A.obj"
+	},
+	{
+		"id": "CavernFloorA",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor A-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor A.obj"
+	},
+	{
+		"id": "CavernFloorB",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor B-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor B.obj"
+	},
+	{
+		"id": "CavernFloorC",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor C-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor C.obj"
+	},
+	{
+		"id": "CavernFloorD",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor D-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor D.obj"
+	},
+	{
+		"id": "CavernFloorE",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor E-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor E.obj"
+	},
+	{
+		"id": "CavernFloorF",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor F-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor F.obj"
+	},
+	{
+		"id": "CavernFloorG",
+		"imagePath": "res://Images/MhCavernCore/Cavern Floor G-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Floor G.obj"
+	},
+	{
+		"id": "CavernPillarA",
+		"imagePath": "res://Images/MhCavernCore/Cavern Pillar A-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Pillar A.obj"
+	},
+	{
+		"id": "CavernPillarB",
+		"imagePath": "res://Images/MhCavernCore/Cavern Pillar B-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Pillar B.obj"
+	},
+	{
+		"id": "CavernWallA",
+		"imagePath": "res://Images/MhCavernCore/Cavern Wall A-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Wall A.obj"
+	},
+	{
+		"id": "CavernWallB",
+		"imagePath": "res://Images/MhCavernCore/Cavern Wall B-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Wall B.obj"
+	},
+	{
+		"id": "CavernWallC",
+		"imagePath": "res://Images/MhCavernCore/Cavern Wall C-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Wall C.obj"
+	},
+	{
+		"id": "CavernWallD",
+		"imagePath": "res://Images/MhCavernCore/Cavern Wall D-FINAL.png",
+		"meshPath": "res://Meshs/MhCavernCore/Cavern Wall D.obj"
+	}
+]
