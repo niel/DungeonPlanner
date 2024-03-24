@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cjh3e3b4jjxrl"
+path="res://.godot/imported/HoM Pillar B.obj-a37f2d931675b8f500bfdd6e331ae710.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HoM Pillar B.obj-a37f2d931675b8f500bfdd6e331ae710.mesh"]
+
+source_file="res://Meshes/MhHoMCore/HoM Pillar B.obj"
+dest_files=["res://.godot/imported/HoM Pillar B.obj-a37f2d931675b8f500bfdd6e331ae710.mesh", "res://.godot/imported/HoM Pillar B.obj-a37f2d931675b8f500bfdd6e331ae710.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

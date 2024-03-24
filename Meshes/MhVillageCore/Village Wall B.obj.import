@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bkp44mhq12djh"
+path="res://.godot/imported/Village Wall B.obj-92b1980fd2e792a9c25793ad7b1becee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Village Wall B.obj-92b1980fd2e792a9c25793ad7b1becee.mesh"]
+
+source_file="res://Meshes/MhVillageCore/Village Wall B.obj"
+dest_files=["res://.godot/imported/Village Wall B.obj-92b1980fd2e792a9c25793ad7b1becee.mesh", "res://.godot/imported/Village Wall B.obj-92b1980fd2e792a9c25793ad7b1becee.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

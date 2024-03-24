@@ -4,7 +4,7 @@ import os
 imageSize = 256
 
 if __name__ == "__main__":
-  directory = "../Images/MhCavernCore"
+  directory = "../Images/MhHoMCore"
   file_names = os.listdir(directory)
   for file_name in file_names:
     if file_name.endswith(".import"):

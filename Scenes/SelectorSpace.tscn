@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/SelectorSpace.gd" id="2_424go"]
 [ext_resource type="Shape3D" uid="uid://df4m3ihsmvpmp" path="res://Shapes/Space.tres" id="2_vcody"]
-[ext_resource type="BoxMesh" uid="uid://bya2aydmfix2l" path="res://Meshs/SpaceMesh.tres" id="3_cg2ct"]
+[ext_resource type="BoxMesh" uid="uid://bya2aydmfix2l" path="res://Meshes/SpaceMesh.tres" id="3_cg2ct"]
 [ext_resource type="Material" uid="uid://dhb0tqadvk3rt" path="res://Materials/DefaultMaterial.tres" id="4_ek1hn"]
 [ext_resource type="Texture2D" uid="uid://5s3na7er7w4t" path="res://Sprites/Unselected.png" id="5_chtgg"]
 

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dh1mvkehl1h6u"
+path="res://.godot/imported/Cavern Pillar A.obj-e8428dbfc475bc6aca667d37aa1b7b47.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Cavern Pillar A.obj-e8428dbfc475bc6aca667d37aa1b7b47.mesh"]
+
+source_file="res://Meshes/MhCavernCore/Cavern Pillar A.obj"
+dest_files=["res://.godot/imported/Cavern Pillar A.obj-e8428dbfc475bc6aca667d37aa1b7b47.mesh", "res://.godot/imported/Cavern Pillar A.obj-e8428dbfc475bc6aca667d37aa1b7b47.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
