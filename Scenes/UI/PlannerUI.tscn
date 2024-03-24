@@ -1,13 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://ccxbpogh4na0x"]
+[gd_scene load_steps=4 format=3 uid="uid://ccxbpogh4na0x"]
 
 [ext_resource type="PackedScene" uid="uid://bjdch1vt0u3qe" path="res://Scenes/UI/TileSelector.tscn" id="1_p3h20"]
 [ext_resource type="Script" path="res://Scripts/UI/PlannerUI.gd" id="1_wubfe"]
+[ext_resource type="PackedScene" uid="uid://cvkc0yd6fdkx1" path="res://Scenes/UI/SetSelector.tscn" id="3_51qet"]
 
 [node name="PlannerUI" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 0.229
+anchor_bottom = 2.745
+offset_right = 0.191986
+offset_bottom = 0.239868
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wubfe")
@@ -15,13 +17,14 @@ script = ExtResource("1_wubfe")
 [node name="Background" type="Panel" parent="."]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 1
-offset_right = 256.0
+offset_right = 384.0
 offset_bottom = 1780.0
 
 [node name="TileSelectorContainer" type="VSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 0.0432099
+offset_left = 128.0
 offset_right = 256.0
 offset_bottom = 1700.0
 split_offset = 1500
@@ -49,6 +52,11 @@ layout_mode = 2
 text = "Next
 "
 text_overrun_behavior = 3
+
+[node name="SetSelectorControl" parent="." instance=ExtResource("3_51qet")]
+layout_mode = 1
+offset_right = -136.0
+offset_bottom = 1.00024
 
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Previous" to="." method="_on_previous_pressed"]
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Next" to="." method="_on_next_pressed"]

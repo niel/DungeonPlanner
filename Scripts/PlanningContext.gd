@@ -1,51 +1,65 @@
 extends Node
 
 class TileContext:
-	var rotation: Vector3
-	var tile: Tile
-	var mesh: Mesh
+  var rotation: Vector3
+  var tile: Tile
+  var mesh: Mesh
 
 signal context_updated(TileContext)
+
+const setDefinitionsPath = "res://TileDefinitions/"
 
 var tileResourcesClass = preload("res://Scripts/Data/TileResources.gd")
 
 var selectedTileContext: TileContext
 var mainBoard: Node3D
-var tile_resources
+var tileResources: TileResources
 
 func initialize():
-	tile_resources = tileResourcesClass.new()
-	load_tile_resources()
-	selectedTileContext = TileContext.new()
-	selectedTileContext.rotation = Vector3.ZERO
+  tileResources = tileResourcesClass.new()
+  load_tileResources()
+  selectedTileContext = TileContext.new()
+  selectedTileContext.rotation = Vector3.ZERO
 
-func load_tile_resources():
-	var cavernsSetDefinition = "res://TileDefinitions/MhCavernCore.json"
-	var fileContents = FileAccess.get_file_as_string(cavernsSetDefinition)
-	var parsedJson = JSON.parse_string(fileContents)
-	tile_resources.add_set_from_json(parsedJson)
+func load_tileResources():
+  var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
+  if setDefinitionsDir == null:
+    print("Failed to open ", setDefinitionsPath)
+    return
+  setDefinitionsDir.list_dir_begin()
+  var fileName = setDefinitionsDir.get_next()
+  while fileName != "":
+    add_tile_set_at_path(setDefinitionsPath + fileName)
+    fileName = setDefinitionsDir.get_next()
+
+func add_tile_set_at_path(path: String):
+  var fileContents = FileAccess.get_file_as_string(path)
+  var parsedJson = JSON.parse_string(fileContents)
+  tileResources.add_set_from_json(parsedJson)
 
 func get_selected_mesh() -> Mesh:
-	return selectedTileContext.mesh
+  return selectedTileContext.mesh
 
 func set_selected_mesh(mesh: Mesh):
-	selectedTileContext.mesh = mesh
-	
+  selectedTileContext.mesh = mesh
+  
 func get_selected_tile_context() -> TileContext:
-	return selectedTileContext
-	
+  return selectedTileContext
+  
 func left_rotation():
-	selectedTileContext.rotation[1] += 90
-	context_updated.emit()
-	
+  selectedTileContext.rotation[1] += 90
+  context_updated.emit()
+  
 func right_rotation():
-	selectedTileContext.rotation[1] -= 90
-	context_updated.emit()
-	
+  selectedTileContext.rotation[1] -= 90
+  context_updated.emit()
+  
 func get_selected_rotation() -> Vector3:
-	return selectedTileContext.rotation
-	
+  return selectedTileContext.rotation
+  
 func update_selected_tile(newSelected: Tile) :
-	selectedTileContext.tile = newSelected
-	selectedTileContext.mesh = load(newSelected.meshPath)
-	print("Selected is ", selectedTileContext.tile.id)
+  selectedTileContext.tile = newSelected
+  selectedTileContext.mesh = load(newSelected.meshPath)
+  if selectedTileContext.mesh == null:
+    print("Failed to load mesh at ", newSelected.meshPath)
+  print("Selected is ", selectedTileContext.tile.id)

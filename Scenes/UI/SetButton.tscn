@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtck3enslckr1"]
+
+[ext_resource type="Script" path="res://Scripts/UI/SetSelectorButton.gd" id="1_ve738"]
+
+[node name="Set" type="MarginContainer"]
+offset_right = 84.0
+offset_bottom = 31.0
+script = ExtResource("1_ve738")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Set_name"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
