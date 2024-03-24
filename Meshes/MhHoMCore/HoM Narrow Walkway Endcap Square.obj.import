@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ddr8200p2ffxx"
+path="res://.godot/imported/HoM Narrow Walkway Endcap Square.obj-482967eb5c2014b44795f12f972dc0dc.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HoM Narrow Walkway Endcap Square.obj-482967eb5c2014b44795f12f972dc0dc.mesh"]
+
+source_file="res://Meshes/MhHoMCore/HoM Narrow Walkway Endcap Square.obj"
+dest_files=["res://.godot/imported/HoM Narrow Walkway Endcap Square.obj-482967eb5c2014b44795f12f972dc0dc.mesh", "res://.godot/imported/HoM Narrow Walkway Endcap Square.obj-482967eb5c2014b44795f12f972dc0dc.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

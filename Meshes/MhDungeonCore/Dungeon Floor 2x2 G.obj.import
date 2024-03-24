@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b2m5bo1aopxjf"
+path="res://.godot/imported/Dungeon Floor 2x2 G.obj-cea688126713a28f115c0eca3f8a2751.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Dungeon Floor 2x2 G.obj-cea688126713a28f115c0eca3f8a2751.mesh"]
+
+source_file="res://Meshes/MhDungeonCore/Dungeon Floor 2x2 G.obj"
+dest_files=["res://.godot/imported/Dungeon Floor 2x2 G.obj-cea688126713a28f115c0eca3f8a2751.mesh", "res://.godot/imported/Dungeon Floor 2x2 G.obj-cea688126713a28f115c0eca3f8a2751.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

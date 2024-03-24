@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b6k6wan8ek57b"
+path="res://.godot/imported/Cavern Floor A.obj-c3f1cb580351132664cfc4551190ebed.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Cavern Floor A.obj-c3f1cb580351132664cfc4551190ebed.mesh"]
+
+source_file="res://Meshes/MhCavernCore/Cavern Floor A.obj"
+dest_files=["res://.godot/imported/Cavern Floor A.obj-c3f1cb580351132664cfc4551190ebed.mesh", "res://.godot/imported/Cavern Floor A.obj-c3f1cb580351132664cfc4551190ebed.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -6,10 +6,10 @@
 
 [node name="PlannerUI" type="Control"]
 layout_mode = 3
-anchor_right = 0.229
+anchor_right = 0.333
 anchor_bottom = 2.745
-offset_right = 0.191986
-offset_bottom = 0.239868
+offset_right = 128.384
+offset_bottom = 1.23987
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wubfe")
@@ -17,14 +17,14 @@ script = ExtResource("1_wubfe")
 [node name="Background" type="Panel" parent="."]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 1
-offset_right = 384.0
+offset_right = 512.0
 offset_bottom = 1780.0
 
 [node name="TileSelectorContainer" type="VSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 0.0432099
-offset_left = 128.0
+offset_left = 256.0
 offset_right = 256.0
 offset_bottom = 1700.0
 split_offset = 1500
@@ -55,8 +55,8 @@ text_overrun_behavior = 3
 
 [node name="SetSelectorControl" parent="." instance=ExtResource("3_51qet")]
 layout_mode = 1
-offset_right = -136.0
-offset_bottom = 1.00024
+offset_right = -256.0
+offset_bottom = 1.0
 
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Previous" to="." method="_on_previous_pressed"]
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Next" to="." method="_on_next_pressed"]

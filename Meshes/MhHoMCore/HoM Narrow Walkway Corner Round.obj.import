@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://1axqpotym75l"
+path="res://.godot/imported/HoM Narrow Walkway Corner Round.obj-f6d0b7da9679ea5d4e211d3e06cd3cf2.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HoM Narrow Walkway Corner Round.obj-f6d0b7da9679ea5d4e211d3e06cd3cf2.mesh"]
+
+source_file="res://Meshes/MhHoMCore/HoM Narrow Walkway Corner Round.obj"
+dest_files=["res://.godot/imported/HoM Narrow Walkway Corner Round.obj-f6d0b7da9679ea5d4e211d3e06cd3cf2.mesh", "res://.godot/imported/HoM Narrow Walkway Corner Round.obj-f6d0b7da9679ea5d4e211d3e06cd3cf2.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

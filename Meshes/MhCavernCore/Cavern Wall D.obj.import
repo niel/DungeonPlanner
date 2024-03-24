@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://by6h50asqp8en"
+path="res://.godot/imported/Cavern Wall D.obj-8a4525d85739182ddacf05439d47b885.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Cavern Wall D.obj-8a4525d85739182ddacf05439d47b885.mesh"]
+
+source_file="res://Meshes/MhCavernCore/Cavern Wall D.obj"
+dest_files=["res://.godot/imported/Cavern Wall D.obj-8a4525d85739182ddacf05439d47b885.mesh", "res://.godot/imported/Cavern Wall D.obj-8a4525d85739182ddacf05439d47b885.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b3gs8vkkwrvny"
+path="res://.godot/imported/HoM Door Frame A.obj-794db182964e9955a9d905d3cdd5dc2e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/HoM Door Frame A.obj-794db182964e9955a9d905d3cdd5dc2e.mesh"]
+
+source_file="res://Meshes/MhHoMCore/HoM Door Frame A.obj"
+dest_files=["res://.godot/imported/HoM Door Frame A.obj-794db182964e9955a9d905d3cdd5dc2e.mesh", "res://.godot/imported/HoM Door Frame A.obj-794db182964e9955a9d905d3cdd5dc2e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

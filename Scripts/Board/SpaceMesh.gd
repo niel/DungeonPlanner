@@ -3,7 +3,7 @@ extends MeshInstance3D
 var defaultMaterial = preload("res://Materials/DefaultMaterial.tres")
 var previewMaterial = preload("res://Materials/HoveredMaterial.tres")
 var spaceMaterial = preload("res://Materials/SpaceMaterial.tres")
-var setMesh: Mesh = preload("res://Meshs/SpaceMesh.tres")
+var setMesh: Mesh = preload("res://Meshes/SpaceMesh.tres")
 var setRotation = Vector3.ZERO
 var set = false
 
