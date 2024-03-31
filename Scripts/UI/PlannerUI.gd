@@ -1,11 +1,13 @@
 extends Node
 
 signal tile_selected(tile: Tile)
+signal save_current_scene()
+signal load_scene()
 
 var resources: TileResources
 
 @onready var tileSelectorUI = $TileSelectorContainer/TileSelectorControl
-@onready var setSelectorUI = $SetSelectorContainer/SetSelectorControl
+@onready var setSelectorUI = $LeftColumn/SetSelectorControl
 
 func _ready():
   tileSelectorUI.tile_selected.connect(set_selected_tile)
@@ -27,3 +29,11 @@ func _on_previous_pressed():
 
 func _on_next_pressed():
   tileSelectorUI.go_to_next_page()
+
+
+func _on_save_pressed():
+  save_current_scene.emit()
+
+
+func _on_load_pressed():
+  load_scene.emit()

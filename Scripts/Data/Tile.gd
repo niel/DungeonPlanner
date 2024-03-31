@@ -35,6 +35,6 @@ func create_tile_from_json(json: Dictionary) -> TileStatus:
         print("Failed to save mesh to ", resPath, " with status ", saveStatus)
       return TileStatus.CREATED
     else:
-      print("STL file does not exist: ", stlPath)
+      print("STL file does not exist: ", stlPath) 
   return TileStatus.NOT_FOUND
 
