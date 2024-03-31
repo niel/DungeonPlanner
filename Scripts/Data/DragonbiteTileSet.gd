@@ -7,11 +7,14 @@ var tiles:Array = []
 var name:String = ""
 
 func load_from_json(json:Dictionary):
+  var startTime = Time.get_ticks_msec()
   for tileJson in json["tiles"]:
     var tile: Tile = tileClass.new()
     tile.create_tile_from_json(tileJson)
     tiles.append(tile)
   name = json["name"]
+  var endTime = Time.get_ticks_msec()
+  print("Loaded tileset " + name + " in " + str(endTime - startTime) + "ms")
 
 func get_size() -> int:
   return tiles.size()

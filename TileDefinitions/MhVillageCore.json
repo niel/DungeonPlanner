@@ -4,72 +4,72 @@
       {
         "id": "VillageCornerA",
         "imagePath": "res://Images/MhVillageCore/Village Corner A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Corner A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Corner A.stl"
       },
       {
         "id": "VillageCornerWindowA",
         "imagePath": "res://Images/MhVillageCore/Village Corner Window A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Corner Window A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Corner Window A.stl"
       },
       {
         "id": "VillageCornerWindowB",
         "imagePath": "res://Images/MhVillageCore/Village Corner Window B-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Corner Window B.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Corner Window B.stl"
       },
       {
         "id": "VillageDoorC",
         "imagePath": "res://Images/MhVillageCore/Village Door C-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Door Frame A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Door Frame A.stl"
       },
       {
         "id": "VillageFloor2x2",
         "imagePath": "res://Images/MhVillageCore/Village Floor 2x2-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor 2x2.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor 2x2.stl"
       },
       {
         "id": "VillageFloorPartition3-way",
         "imagePath": "res://Images/MhVillageCore/Village Floor Partition 3-way-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor Partition 3-way.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor Partition 3-way.stl"
       },
       {
         "id": "VillageFloorPartitionA",
         "imagePath": "res://Images/MhVillageCore/Village Floor Partition A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor Partition A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor Partition A.stl"
       },
       {
         "id": "VillageFloorPartitionCorner",
         "imagePath": "res://Images/MhVillageCore/Village Floor Partition Corner-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor Partition Corner.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor Partition Corner.stl"
       },
       {
         "id": "VillageFloorPartitionEndcap",
         "imagePath": "res://Images/MhVillageCore/Village Floor Partition Endcap-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor Partition Endcap.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor Partition Endcap.stl"
       },
       {
         "id": "VillageFloorPostA",
         "imagePath": "res://Images/MhVillageCore/Village Floor Post A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Floor Post A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Floor Post A.stl"
       },
       {
         "id": "VillagePillarA",
         "imagePath": "res://Images/MhVillageCore/Village Pillar A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Pillar A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Pillar A.stl"
       },
       {
         "id": "VillageWallA",
         "imagePath": "res://Images/MhVillageCore/Village Wall A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Wall A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Wall A.stl"
       },
       {
         "id": "VillageWallB",
         "imagePath": "res://Images/MhVillageCore/Village Wall B-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Wall B.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Wall B.stl"
       },
       {
         "id": "VillageWindowA",
         "imagePath": "res://Images/MhVillageCore/Village Window A-FINAL.png",
-        "meshPath": "res://Meshes/MhVillageCore/Village Window A.obj"
+        "stlPath": "res://Meshes/MhVillageCore/Village Window A.stl"
       }
     ]
   }

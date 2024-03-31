@@ -5,7 +5,7 @@ signal tile_selected(tile: Tile)
 var resources: TileResources
 
 @onready var tileSelectorUI = $TileSelectorContainer/TileSelectorControl
-@onready var setSelectorUI = $SetSelectorControl
+@onready var setSelectorUI = $SetSelectorContainer/SetSelectorControl
 
 func _ready():
   tileSelectorUI.tile_selected.connect(set_selected_tile)

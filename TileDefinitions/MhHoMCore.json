@@ -4,107 +4,107 @@
     {
       "id": "HoMArchwayA",
       "imagePath": "res://Images/MhHoMCore/HoM Archway A-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Archway A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Archway A.stl"
     },
     {
       "id": "HoMCorner",
       "imagePath": "res://Images/MhHoMCore/HoM Corner-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Corner.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Corner.stl"
     },
     {
       "id": "HoMDoor",
       "imagePath": "res://Images/MhHoMCore/HoM Door E-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Door Frame A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Door Frame A.stl"
     },
     {
       "id": "HoMFloorA",
       "imagePath": "res://Images/MhHoMCore/HoM Floor A-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Floor A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Floor A.stl"
     },
     {
       "id": "HoMFloorB",
       "imagePath": "res://Images/MhHoMCore/HoM Floor B-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Floor B.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Floor B.stl"
     },
     {
       "id": "HoMFloorC",
       "imagePath": "res://Images/MhHoMCore/HoM Floor C-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Floor C.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Floor C.stl"
     },
     {
       "id": "HoMFloorD",
       "imagePath": "res://Images/MhHoMCore/HoM Floor D-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Floor D.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Floor D.stl"
     },
     {
       "id": "HoMNarrowWalkway3Way",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway 3-Way-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway 3-Way.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway 3-Way.stl"
     },
     {
       "id": "HoMNarrowWalkway4Way",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway 4-Way-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway 4-Way.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway 4-Way.stl"
     },
     {
       "id": "HoMNarrowWalkwayA",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway A-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway A.stl"
     },
     {
       "id": "HoMNarrowWalkwayB",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway B-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway B.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway B.stl"
     },
     {
       "id": "HoMNarrowWalkwayC",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway C-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway C.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway C.stl"
     },
     {
       "id": "HoMNarrowWalkwayCornerRound",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway Corner Round-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Corner Round.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Corner Round.stl"
     },
     {
       "id": "HoMNarrowWalkwayCornerSquare",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway Corner Square-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Corner Square.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Corner Square.stl"
     },
     {
       "id": "HoMNarrowWalkwayEndcapRound",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway Endcap Round-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Endcap Round.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Endcap Round.stl"
     },
     {
       "id": "HoMNarrowWalkwayEndcapSquare",
       "imagePath": "res://Images/MhHoMCore/HoM Narrow Walkway Endcap Square-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Endcap Square.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Narrow Walkway Endcap Square.stl"
     },
     {
       "id": "HoMPillarA",
       "imagePath": "res://Images/MhHoMCore/HoM Pillar A-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Pillar A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Pillar A.stl"
     },
     {
       "id": "HoMPillarB",
       "imagePath": "res://Images/MhHoMCore/HoM Pillar B-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Pillar B.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Pillar B.stl"
     },
     {
       "id": "HoMWallA",
       "imagePath": "res://Images/MhHoMCore/HoM Wall A-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Wall A.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Wall A.stl"
     },
     {
       "id": "HoMWallB",
       "imagePath": "res://Images/MhHoMCore/HoM Wall B-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Wall B.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Wall B.stl"
     },
     {
       "id": "HoMWallC",
       "imagePath": "res://Images/MhHoMCore/HoM Wall C-FINAL.png",
-      "meshPath": "res://Meshes/MhHoMCore/HoM Wall C.obj"
+      "stlPath": "res://Meshes/MhHoMCore/HoM Wall C.stl"
     }
   ]
 }

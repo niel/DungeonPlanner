@@ -2,15 +2,9 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/SetSelector.gd" id="1_v45t2"]
 
-[node name="SetSelector" type="Control"]
+[node name="SetSelectorControl" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1024.0
-offset_bottom = 1132.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 script = ExtResource("1_v45t2")
 
 [node name="SetSelector" type="MarginContainer" parent="."]
@@ -23,3 +17,4 @@ grow_vertical = 2
 
 [node name="Sets" type="VBoxContainer" parent="SetSelector"]
 layout_mode = 2
+size_flags_horizontal = 4
