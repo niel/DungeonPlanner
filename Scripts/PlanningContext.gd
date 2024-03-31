@@ -33,7 +33,7 @@ func load_tileResources():
     add_tile_set_at_path(setDefinitionsPath + fileName)
     fileName = setDefinitionsDir.get_next()
   var endTime = Time.get_ticks_msec()
-  print("Resources loaded in %.1f sec" % (endTime - startTime) / 1000.0)
+  print("Resources loaded in ", (endTime - startTime) / 1000.0, " sec")
 
 func add_tile_set_at_path(path: String):
   var fileContents = FileAccess.get_file_as_string(path)
