@@ -8,7 +8,7 @@
 layout_mode = 3
 anchor_right = 0.333
 anchor_bottom = 2.745
-offset_right = 128.384
+offset_right = 129.384
 offset_bottom = 1.23987
 grow_horizontal = 2
 grow_vertical = 2
@@ -53,10 +53,13 @@ text = "Next
 "
 text_overrun_behavior = 3
 
-[node name="SetSelectorControl" parent="." instance=ExtResource("3_51qet")]
-layout_mode = 1
-offset_right = -256.0
-offset_bottom = 1.0
+[node name="SetSelectorContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 1780.0
+
+[node name="SetSelectorControl" parent="SetSelectorContainer" instance=ExtResource("3_51qet")]
+layout_mode = 2
 
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Previous" to="." method="_on_previous_pressed"]
 [connection signal="pressed" from="TileSelectorContainer/HSplitContainer/Next" to="." method="_on_next_pressed"]

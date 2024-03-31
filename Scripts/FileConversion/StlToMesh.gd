@@ -1,0 +1,109 @@
+class_name StlToMesh
+extends RefCounted
+
+#https://en.wikipedia.org/wiki/STL_(file_format)
+class Triangle:
+  var normal: Vector3
+  var vertices: Array
+
+
+func stlFileToArrayMesh(stl_file: String) -> ArrayMesh:
+  var stl = FileAccess.open(stl_file, FileAccess.READ)
+  
+  var surfaceTool = SurfaceTool.new()
+  surfaceTool.begin(Mesh.PRIMITIVE_TRIANGLES)
+  if isAscii(stl):
+    convertAscii(stl, surfaceTool)
+  else:
+    convertBinary(stl, surfaceTool)
+  return surfaceTool.commit()
+
+func isAscii(file: FileAccess) -> bool:
+  var currentPos = file.get_position()
+  file.seek(0)
+  # ASCII STL begins with "solid"
+  var header = file.get_buffer(5)
+  var is_ascii = header.get_string_from_ascii() == "solid"
+  
+  # Reset file position
+  file.seek(currentPos)
+  return is_ascii
+
+func convertBinary(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
+  #Skip header
+  file.seek(80)
+
+  #Read file
+  var triangles = []
+  var facetCount = file.get_32()
+  for i in range(facetCount):
+    var triangle = Triangle.new()
+    var normalX = file.get_float()
+    var normalY = file.get_float()
+    var normalZ = file.get_float()
+    triangle.normal = Vector3(normalX, normalY, normalZ)
+
+    var vertices = []
+    for j in range(3):
+      var vertexX = file.get_float()
+      var vertexY = file.get_float()
+      var vertexZ = file.get_float()
+      vertices.append(Vector3(vertexX, vertexY, vertexZ))
+    vertices.reverse()
+    triangle.vertices = vertices
+    triangles.append(triangle)
+
+    # 2 unused bytes
+    file.seek(file.get_position() + 2)
+
+  #Center the mesh, calculate the bounding box
+  var maxVertex: Vector3 = Vector3(-INF, -INF, -INF)
+  var minVertex: Vector3 = Vector3(INF, INF, INF)
+  for triangle in triangles:
+    for vertex in triangle.vertices:
+      maxVertex = maxVector(maxVertex, vertex)
+      minVertex = minVector(minVertex, vertex)
+
+  var center: Vector3 = (maxVertex + minVertex) / 2
+  for triangle in triangles:
+    for i in range(3):
+      #Center the mesh, mesh is centered on x and z axis, and above Z axis
+      #Rotate to make this be the right way up is in default tile rotation 
+      triangle.vertices[i][0] -= center[0]
+      triangle.vertices[i][1] -= center[1]
+      triangle.vertices[i][2] -= minVertex[2]
+    
+  for triangle in triangles:
+    surfaceTool.set_normal(triangle.normal)
+    for vertex in triangle.vertices:
+      surfaceTool.add_vertex(vertex)
+  return true
+
+func maxVector(a: Vector3, b: Vector3) -> Vector3:
+  return Vector3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z))
+
+func minVector(a: Vector3, b: Vector3) -> Vector3:
+  return Vector3(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z))
+
+func convertAscii(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
+  # Skip header
+  var line = file.get_line()
+  var vertices = []
+  while !file.eof_reached():
+    line = file.get_line()
+    match line.begins_with(line):
+      "facet":
+        var normal = line.split(" ").slice(2)
+        surfaceTool.set_normal(Vector3(normal[0].to_float(), normal[1].to_float(), normal[2].to_float()))
+      "outer loop":
+        vertices = []
+      "vertex":
+        var vertex = line.split(" ").slice(1)
+        vertices.append(Vector3(vertex[0].to_float(), vertex[1].to_float(), vertex[2].to_float()))
+      "endloop":
+        vertices.reverse()
+        for v in vertices:
+          surfaceTool.add_vertex(v)
+      #Nothing to do on "endfacet" or "endsolid"
+  return true
+    

@@ -19,9 +19,10 @@ func initialize():
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
-  selectedTileContext.rotation = Vector3.ZERO
+  selectedTileContext.rotation = Vector3.LEFT * 90
 
 func load_tileResources():
+  var startTime = Time.get_ticks_msec()
   var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
   if setDefinitionsDir == null:
     print("Failed to open ", setDefinitionsPath)
@@ -31,6 +32,8 @@ func load_tileResources():
   while fileName != "":
     add_tile_set_at_path(setDefinitionsPath + fileName)
     fileName = setDefinitionsDir.get_next()
+  var endTime = Time.get_ticks_msec()
+  print("Resources loaded in %.1f sec" % (endTime - startTime) / 1000.0)
 
 func add_tile_set_at_path(path: String):
   var fileContents = FileAccess.get_file_as_string(path)
@@ -59,7 +62,10 @@ func get_selected_rotation() -> Vector3:
   
 func update_selected_tile(newSelected: Tile) :
   selectedTileContext.tile = newSelected
-  selectedTileContext.mesh = load(newSelected.meshPath)
+  if newSelected.mesh != null:
+    selectedTileContext.mesh = newSelected.mesh
+    print("Loaded mesh from tile")
+  else:
+    selectedTileContext.mesh = load(newSelected.objPath)
   if selectedTileContext.mesh == null:
-    print("Failed to load mesh at ", newSelected.meshPath)
-  print("Selected is ", selectedTileContext.tile.id)
+    print("Failed to load mesh at ", newSelected.objPath)
