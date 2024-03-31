@@ -24,6 +24,7 @@ script = ExtResource("3_ddvbv")
 [node name="Camera3D" type="Camera3D" parent="CameraControl"]
 transform = Transform3D(0.999987, -0.0028548, -0.0042289, 0.00466035, 0.848451, 0.529253, 0.00207709, -0.529266, 0.848454, 9.38428, 35.9734, 22.8059)
 projection = 1
+current = true
 fov = 88.9447
 size = 65.0
 

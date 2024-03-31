@@ -6,20 +6,27 @@ class TileContext:
   var mesh: Mesh
 
 signal context_updated(TileContext)
+signal scene_loaded(SavedScene)
 
 const setDefinitionsPath = "res://TileDefinitions/"
+const defaultRotation = Vector3.LEFT * 90
+const savedScenePath = "user://SavedScenes/"
+const savedSceneName = "testScene.json"
 
 var tileResourcesClass = preload("res://Scripts/Data/TileResources.gd")
 
 var selectedTileContext: TileContext
 var mainBoard: Node3D
 var tileResources: TileResources
+var currentScene: SavedScene
 
 func initialize():
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
-  selectedTileContext.rotation = Vector3.LEFT * 90
+  selectedTileContext.rotation = defaultRotation
+  currentScene = SavedScene.new()
+  currentScene.sceneName = "New Scene"
 
 func load_tileResources():
   var startTime = Time.get_ticks_msec()
@@ -69,3 +76,29 @@ func update_selected_tile(newSelected: Tile) :
     selectedTileContext.mesh = load(newSelected.objPath)
   if selectedTileContext.mesh == null:
     print("Failed to load mesh at ", newSelected.objPath)
+
+func set_tile(x: int, z:int, tile: TileContext):
+  currentScene.setTileAt(x, z, tile)
+
+func save_current_scene():
+  var jsonString = currentScene.toJson()
+  var dir = DirAccess.open("user://")
+  if dir.dir_exists(savedScenePath) == false:
+    dir.make_dir(savedScenePath)
+  var file = FileAccess.open(savedScenePath + savedSceneName, FileAccess.WRITE)
+  file.store_line(jsonString)
+  file.close()
+
+func load_scene():
+  var file = FileAccess.open(savedScenePath + savedSceneName, FileAccess.READ)
+  var jsonString = file.get_as_text()
+  currentScene.fromJson(jsonString)
+  file.close()
+  scene_loaded.emit(currentScene)
+  
+func get_tile_from_id(id:String) -> Tile:
+  for tileSet in tileResources.tileSets:
+    for tile in tileSet.tiles:
+      if tile.id == id:
+        return tile
+  return null

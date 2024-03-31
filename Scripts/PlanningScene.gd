@@ -18,6 +18,9 @@ func _ready():
   board.create_board()
   plannerUI.set_tile_resources(planning_context.tileResources)
   plannerUI.tile_selected.connect(planning_context.update_selected_tile)
+  plannerUI.save_current_scene.connect(planning_context.save_current_scene)
+  plannerUI.load_scene.connect(planning_context.load_scene)
+  planning_context.scene_loaded.connect(board.load_scene)
   viewport = get_viewport()
   viewport.size_changed.connect(resize_ui)
 
