@@ -1,12 +1,13 @@
 extends Node
 
+class_name PlanningSceneContext
+
 class TileContext:
   var rotation: Vector3
   var tile: Tile
   var mesh: Mesh
 
 signal context_updated(TileContext)
-signal scene_loaded(SavedScene)
 
 const setDefinitionsPath = "res://TileDefinitions/"
 const defaultRotation = Vector3.LEFT * 90
@@ -18,14 +19,14 @@ var tileResourcesClass = preload("res://Scripts/Data/TileResources.gd")
 var selectedTileContext: TileContext
 var mainBoard: Node3D
 var tileResources: TileResources
-var currentScene: SavedScene
+var currentScene: SceneData
 
 func initialize():
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
   selectedTileContext.rotation = defaultRotation
-  currentScene = SavedScene.new()
+  currentScene = SceneData.new()
   currentScene.sceneName = "New Scene"
 
 func load_tileResources():
@@ -40,6 +41,7 @@ func load_tileResources():
     add_tile_set_at_path(setDefinitionsPath + fileName)
     fileName = setDefinitionsDir.get_next()
   var endTime = Time.get_ticks_msec()
+  setDefinitionsDir.list_dir_end()
   print("Resources loaded in ", (endTime - startTime) / 1000.0, " sec")
 
 func add_tile_set_at_path(path: String):
@@ -80,21 +82,8 @@ func update_selected_tile(newSelected: Tile) :
 func set_tile(x: int, z:int, tile: TileContext):
   currentScene.setTileAt(x, z, tile)
 
-func save_current_scene():
-  var jsonString = currentScene.toJson()
-  var dir = DirAccess.open("user://")
-  if dir.dir_exists(savedScenePath) == false:
-    dir.make_dir(savedScenePath)
-  var file = FileAccess.open(savedScenePath + savedSceneName, FileAccess.WRITE)
-  file.store_line(jsonString)
-  file.close()
-
-func load_scene():
-  var file = FileAccess.open(savedScenePath + savedSceneName, FileAccess.READ)
-  var jsonString = file.get_as_text()
-  currentScene.fromJson(jsonString)
-  file.close()
-  scene_loaded.emit(currentScene)
+func set_current_scene(newScene: SceneData):
+  currentScene = newScene
   
 func get_tile_from_id(id:String) -> Tile:
   for tileSet in tileResources.tileSets:

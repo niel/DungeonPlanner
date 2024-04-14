@@ -1,4 +1,4 @@
-class_name SavedScene
+class_name SceneData
 extends RefCounted
 
 class SavedTile:
