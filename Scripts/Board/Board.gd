@@ -54,7 +54,7 @@ func rotate_degrees(degrees: int):
   print(degrees)
   pass
 
-func load_scene(scene:SavedScene):
+func load_scene(scene:SceneData):
   var updated = []
   for i in startRows:
     var newRow = []
