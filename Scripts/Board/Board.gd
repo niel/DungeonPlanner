@@ -43,6 +43,8 @@ func on_space_hover_exit(space: Node3D):
     hoveredSpace = null
       
 func on_space_clicked(space: Node3D, x: int, y: int):
+  if context.get_selected_tile_context().tile == null:
+    return
   space.set_tile(context.get_selected_tile_context())
   context.set_tile(x, y, context.get_selected_tile_context())
 

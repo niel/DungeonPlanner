@@ -34,9 +34,11 @@ func resize_ui():
 
 func new_scene():
   var newScene = SceneData.new()
+  planningContext.currentScene = newScene
   board.load_scene(newScene)
 
-func save_scene():
+func save_scene(scene_name: String):
+  planningContext.currentScene.sceneName = scene_name
   var sceneData = planningContext.currentScene
   saveManager.save_scene_to_json(sceneData)
 
