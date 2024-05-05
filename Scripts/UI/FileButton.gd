@@ -3,9 +3,11 @@ extends MenuButton
 const ID_NEW = 0
 const ID_OPEN = 1
 const ID_SAVE = 2
+const ID_SAVE_AS = 3
 
 signal new_scene()
 signal save_scene()
+signal save_scene_as()
 signal load_scene(sceneName: String)
 
 const ID_SCENES_START = 100
@@ -22,6 +24,7 @@ func _ready():
   menu.add_submenu_item("Open", openMenu.name, ID_OPEN)
   menu.add_item("Save", ID_SAVE)
   menu.id_pressed.connect(self._on_MenuButton_id_pressed)
+  menu.add_item("Save As", ID_SAVE_AS)
 
 func set_saves(saveNames: Array):
   recentScenes = saveNames
@@ -50,6 +53,8 @@ func _on_MenuButton_id_pressed(id: int):
       pass
     ID_SAVE:
       save_scene.emit()
+    ID_SAVE_AS:
+      save_scene_as.emit()
 
 
 func onSubmenuPress(id: int, menuName: String):

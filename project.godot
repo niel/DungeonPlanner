@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.0", "Forward Plus")
 [autoload]
 
 PlanningContext="*res://Scripts/PlanningContext.gd"
+DebugCam="*res://addons/debug_camera/scripts/DebugCamAutoload.gd"
 
 [debug]
 
@@ -25,3 +26,7 @@ gdscript/warnings/integer_division=0
 [dotnet]
 
 project/assembly_name="DungeonPlanner"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/debug_camera/plugin.cfg")

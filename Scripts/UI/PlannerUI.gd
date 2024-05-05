@@ -6,24 +6,28 @@ class UIContext:
 
 signal tile_selected(tile: Tile)
 signal new_scene()
-signal save_current_scene()
+signal save_current_scene(sceneName: String)
 signal load_scene(sceneName: String)
 
 var context: UIContext = UIContext.new()
 var resources: TileResources
-var saveNames: Array[String] = ["scene1", "scene2", "scene3"]
+var saveNames: Array[String] = []
 
 @onready var tileSelectorUI = $Left/HSplitContainer/TileSelectorContainer/TileSelectorControl
 @onready var setSelectorUI = $Left/HSplitContainer/LeftColumn/SetSelectorControl
 @onready var menuBar = $Top/MenuBar
 
+@onready var fileButton = $Top/MenuBar/FileButton
+@onready var saveAsDialog = $Top/MenuBar/FileButton/SaveAsDialogControl
+
 func _ready():
   tileSelectorUI.tile_selected.connect(set_selected_tile)
   setSelectorUI.set_selected.connect(set_selected_set)
-  var fileButton = menuBar.get_node(NodePath("./FileButton"))
   fileButton.new_scene.connect(self._on_file_new)
   fileButton.load_scene.connect(self._on_file_load)
   fileButton.save_scene.connect(self._on_file_save)
+  fileButton.save_scene_as.connect(self.show_save_as_dialog)
+  saveAsDialog.saved_with_name.connect(self._on_save_as)
 
 func set_tile_resources(newResources: TileResources):
   resources = newResources
@@ -38,7 +42,10 @@ func set_selected_set(tileSet: DragonbiteTileSet):
 
 func set_save_names(names: Array[String]):
   saveNames = names
-  menuBar.get_node(NodePath("./FileButton")).set_saves(saveNames)
+  fileButton.set_saves(saveNames)
+
+func show_save_as_dialog():
+  saveAsDialog.visible = true
 
 func _on_previous_pressed():
   tileSelectorUI.go_to_previous_page()
@@ -56,6 +63,12 @@ func _on_file_load(sceneName: String):
 
 func _on_file_save():
   if context.currentScene == "":
-    print("No scene to save")
+    show_save_as_dialog()
     return
-  save_current_scene.emit()
+  save_current_scene.emit(context.currentScene)
+
+func _on_save_as(sceneName: String):
+  context.currentScene = sceneName
+  save_current_scene.emit(context.currentScene)
+  saveNames.append(sceneName)
+  fileButton.set_saves(saveNames)

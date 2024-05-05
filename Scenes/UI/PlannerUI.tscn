@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccxbpogh4na0x"]
+[gd_scene load_steps=7 format=3 uid="uid://ccxbpogh4na0x"]
 
 [ext_resource type="PackedScene" uid="uid://bjdch1vt0u3qe" path="res://Scenes/UI/TileSelector.tscn" id="1_p3h20"]
 [ext_resource type="Script" path="res://Scripts/UI/PlannerUI.gd" id="1_wubfe"]
 [ext_resource type="Theme" uid="uid://b0urpy7o51mus" path="res://Themes/MenuBar.tres" id="2_ock22"]
 [ext_resource type="PackedScene" uid="uid://cvkc0yd6fdkx1" path="res://Scenes/UI/SetSelector.tscn" id="3_51qet"]
 [ext_resource type="Script" path="res://Scripts/UI/FileButton.gd" id="3_cr31u"]
+[ext_resource type="PackedScene" uid="uid://cwjg548hsv7kc" path="res://Scenes/UI/SaveAsDialog.tscn" id="4_v7e5h"]
 
 [node name="PlannerUI" type="Control"]
 layout_mode = 3
@@ -42,6 +43,9 @@ theme_override_font_sizes/font_size = 32
 text = "File"
 text_overrun_behavior = 3
 script = ExtResource("3_cr31u")
+
+[node name="SaveAsDialogControl" parent="Top/MenuBar/FileButton" instance=ExtResource("4_v7e5h")]
+visible = false
 
 [node name="Left" type="MarginContainer" parent="."]
 layout_mode = 0

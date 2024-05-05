@@ -14,7 +14,7 @@ script = ExtResource("1_1ah6t")
 shape = ExtResource("2_5s7wl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-transform = Transform3D(0.0929646, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 mesh = ExtResource("3_lyrb8")
 script = ExtResource("4_erc02")
 
