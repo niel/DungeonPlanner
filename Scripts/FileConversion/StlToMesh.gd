@@ -6,17 +6,18 @@ class Triangle:
   var normal: Vector3
   var vertices: Array
 
+const targetSize = 50.0
 
 func stlFileToArrayMesh(stl_file: String) -> ArrayMesh:
   var stl = FileAccess.open(stl_file, FileAccess.READ)
-  
-  var surfaceTool = SurfaceTool.new()
-  surfaceTool.begin(Mesh.PRIMITIVE_TRIANGLES)
+
+  var triangles = []
   if isAscii(stl):
-    convertAscii(stl, surfaceTool)
+    return convertAscii(stl)
   else:
-    convertBinary(stl, surfaceTool)
-  return surfaceTool.commit()
+    triangles = convertBinary(stl)
+  triangles = centerMesh(triangles)
+  return saveMesh(triangles)
 
 func isAscii(file: FileAccess) -> bool:
   var currentPos = file.get_position()
@@ -29,7 +30,7 @@ func isAscii(file: FileAccess) -> bool:
   file.seek(currentPos)
   return is_ascii
 
-func convertBinary(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
+func convertBinary(file: FileAccess) -> Array:
   #Skip header
   file.seek(80)
 
@@ -55,7 +56,9 @@ func convertBinary(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
 
     # 2 unused bytes
     file.seek(file.get_position() + 2)
+  return triangles
 
+func centerMesh(triangles: Array) -> Array:
   #Center the mesh, calculate the bounding box
   var maxVertex: Vector3 = Vector3(-INF, -INF, -INF)
   var minVertex: Vector3 = Vector3(INF, INF, INF)
@@ -72,12 +75,23 @@ func convertBinary(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
       triangle.vertices[i][0] -= center[0]
       triangle.vertices[i][1] -= center[1]
       triangle.vertices[i][2] -= minVertex[2]
-    
+
+  maxVertex = Vector3(-INF, -INF, -INF)
+  minVertex = Vector3(INF, INF, INF)
+  for triangle in triangles:
+    for vertex in triangle.vertices:
+      maxVertex = maxVector(maxVertex, vertex)
+      minVertex = minVector(minVertex, vertex)
+  return triangles  
+  
+func saveMesh(triangles: Array) -> ArrayMesh:
+  var surfaceTool = SurfaceTool.new()
+  surfaceTool.begin(Mesh.PRIMITIVE_TRIANGLES)
   for triangle in triangles:
     surfaceTool.set_normal(triangle.normal)
     for vertex in triangle.vertices:
       surfaceTool.add_vertex(vertex)
-  return true
+  return surfaceTool.commit()
 
 func maxVector(a: Vector3, b: Vector3) -> Vector3:
   return Vector3(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z))
@@ -85,7 +99,10 @@ func maxVector(a: Vector3, b: Vector3) -> Vector3:
 func minVector(a: Vector3, b: Vector3) -> Vector3:
   return Vector3(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z))
 
-func convertAscii(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
+# TODO Double check that this works
+func convertAscii(file: FileAccess) -> ArrayMesh:
+  var surfaceTool = SurfaceTool.new()
+  surfaceTool.begin(Mesh.PRIMITIVE_TRIANGLES)
   # Skip header
   var line = file.get_line()
   var vertices = []
@@ -105,5 +122,4 @@ func convertAscii(file: FileAccess, surfaceTool: SurfaceTool) -> bool:
         for v in vertices:
           surfaceTool.add_vertex(v)
       #Nothing to do on "endfacet" or "endsolid"
-  return true
-    
+  return surfaceTool.commit()

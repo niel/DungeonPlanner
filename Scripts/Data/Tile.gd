@@ -3,6 +3,8 @@ extends RefCounted
 
 enum TileStatus {CACHED, CREATED, NOT_FOUND}
 
+const missingImagePath = "res://Images/Missing.png"
+
 var id = ""
 var imagePath = ""
 var stlPath = ""
@@ -16,6 +18,8 @@ func create_tile_from_json(json: Dictionary) -> TileStatus:
   imagePath = json.get("imagePath", "")
   if (imagePath == ""):
     print("Tile imagePath is empty")
+    imagePath = missingImagePath
+
   stlPath = json.get("stlPath", "")
   if stlPath != "":
     var resPath = stlPath.replace("stl", "res").replace("res://", "user://")
