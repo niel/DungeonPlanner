@@ -3,7 +3,7 @@ extends Node
 const UI_SCALE = 0.00054
 
 var planningContext
-var saveManager
+var saveManager: SaveManager = SaveManager.new()
 var viewport
 @onready var board = $Board
 @onready var uiCanvas = $CanvasLayer
@@ -11,13 +11,11 @@ var viewport
 @onready var inputListener = $InputListener
 
 func _ready():
-  planningContext = PlanningSceneContext.new()
-  saveManager = SaveManager.new()
-
-  planningContext.initialize()
+  planningContext = PlanningSceneContext.get_instance(self)
   inputListener.connect_context(planningContext)
   board.connect_to_context(planningContext)
   board.create_board()
+  board.load_scene(planningContext.currentScene)
   plannerUI.set_tile_resources(planningContext.tileResources)
   plannerUI.tile_selected.connect(planningContext.update_selected_tile)
   plannerUI.new_scene.connect(self.new_scene) 

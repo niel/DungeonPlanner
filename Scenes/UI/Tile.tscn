@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c053lwru8coli"]
 
 [ext_resource type="Texture2D" uid="uid://dffvg1purojw5" path="res://Images/MhVillageCore/Village Corner A-FINAL.png" id="1_i4rxw"]
-[ext_resource type="Script" path="res://Scripts/UI/TileSelectorButton.gd" id="1_p3xo4"]
+[ext_resource type="Script" uid="uid://deirjbpuafv2b" path="res://Scripts/UI/TileSelectorButton.gd" id="1_p3xo4"]
 
 [node name="Tile" type="MarginContainer"]
 anchors_preset = 8

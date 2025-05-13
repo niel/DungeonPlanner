@@ -1,14 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://jveymq6kchxv"]
 
-[ext_resource type="Script" path="res://Scripts/SelectorSpace.gd" id="2_424go"]
 [ext_resource type="Shape3D" uid="uid://df4m3ihsmvpmp" path="res://Shapes/Space.tres" id="2_vcody"]
 [ext_resource type="BoxMesh" uid="uid://bya2aydmfix2l" path="res://Meshes/SpaceMesh.tres" id="3_cg2ct"]
 [ext_resource type="Material" uid="uid://dhb0tqadvk3rt" path="res://Materials/DefaultMaterial.tres" id="4_ek1hn"]
 [ext_resource type="Texture2D" uid="uid://5s3na7er7w4t" path="res://Sprites/Unselected.png" id="5_chtgg"]
 
+[sub_resource type="Resource" id="Resource_3b5wr"]
+metadata/__load_path__ = "res://Scripts/SelectorSpace.gd"
+
 [node name="SelectorSpace" type="Node3D"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
-script = ExtResource("2_424go")
+script = SubResource("Resource_3b5wr")
 
 [node name="Area3D" type="Area3D" parent="."]
 

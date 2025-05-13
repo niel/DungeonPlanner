@@ -1,11 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://6xf3hvpg0mls"]
-
-[ext_resource type="Script" path="res://Scripts/UI/SaveSelector.gd" id="1_37jtw"]
+[gd_scene format=3 uid="uid://6xf3hvpg0mls"]
 
 [node name="SaveSelector" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_37jtw")
 metadata/_edit_use_anchors_ = true
 
 [node name="SaveSelector" type="MarginContainer" parent="."]

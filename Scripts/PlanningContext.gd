@@ -11,8 +11,8 @@ signal context_updated(TileContext)
 
 const setDefinitionsPath = "res://TileDefinitions/"
 const defaultRotation = Vector3.LEFT * 90
+const nodePath = "PlanningContext"
 const savedScenePath = "user://SavedScenes/"
-const savedSceneName = "testScene.json"
 
 var tileResourcesClass = preload("res://Scripts/Data/TileResources.gd")
 
@@ -21,13 +21,16 @@ var mainBoard: Node3D
 var tileResources: TileResources
 var currentScene: SceneData
 
-func initialize():
+func _ready():
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
   selectedTileContext.rotation = defaultRotation
   currentScene = SceneData.new()
   currentScene.sceneName = "New Scene"
+
+static func get_instance(from: Node) -> PlanningSceneContext:
+  return from.get_tree().get_root().get_node(nodePath)
 
 func load_tileResources():
   var startTime = Time.get_ticks_msec()

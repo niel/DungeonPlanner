@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://hx11pvk41ggm"]
 
 [ext_resource type="PackedScene" uid="uid://bvldvjouragl3" path="res://Scenes/Board.tscn" id="1_77tmc"]
-[ext_resource type="Script" path="res://Scripts/PlanningScene.gd" id="1_nfhcs"]
-[ext_resource type="Script" path="res://Scripts/Input/CameraMovement.gd" id="3_ddvbv"]
-[ext_resource type="Script" path="res://Scripts/Input/InputListener.gd" id="4_1ik5p"]
+[ext_resource type="Script" uid="uid://cpxxyxbhbldbi" path="res://Scripts/PlanningScene.gd" id="1_nfhcs"]
+[ext_resource type="Script" uid="uid://dgu8s1mbeeocu" path="res://Scripts/Input/CameraMovement.gd" id="3_ddvbv"]
+[ext_resource type="Script" uid="uid://bnushuvk3btte" path="res://Scripts/Input/InputListener.gd" id="4_1ik5p"]
 [ext_resource type="PackedScene" uid="uid://ccxbpogh4na0x" path="res://Scenes/UI/PlannerUI.tscn" id="6_3i8v2"]
 
 [node name="MainScene" type="Node"]

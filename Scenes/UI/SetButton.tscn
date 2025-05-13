@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtck3enslckr1"]
 
-[ext_resource type="Script" path="res://Scripts/UI/SetSelectorButton.gd" id="1_ve738"]
+[ext_resource type="Script" uid="uid://c35lc2jyxse5l" path="res://Scripts/UI/SetSelectorButton.gd" id="1_ve738"]
 
 [node name="Set" type="MarginContainer"]
 anchors_preset = 8
