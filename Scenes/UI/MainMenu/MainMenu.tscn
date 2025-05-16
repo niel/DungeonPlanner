@@ -30,4 +30,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Load Scene"
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Confirm delete"
+initial_position = 2
+dialog_text = "Deleting map "
+
 [connection signal="pressed" from="VBoxContainer/New Scene" to="." method="on_new_scene"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="delete_scene_confirmed"]

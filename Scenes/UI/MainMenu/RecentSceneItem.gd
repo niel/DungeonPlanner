@@ -1,10 +1,13 @@
-extends MarginContainer
+extends HBoxContainer
 
-signal pressed
+signal delete_pressed
+signal select_pressed
 
 func setText(text: String):
-  $Button.text = text
+  $%Name.text = text
 
-func forward_pressed():
-  pressed.emit()
-  
+func forward_delete_pressed():
+  delete_pressed.emit()
+
+func forward_select_pressed():
+  select_pressed.emit()

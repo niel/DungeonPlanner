@@ -36,3 +36,8 @@ func save_scene_to_json(scene: SceneData):
   var file = FileAccess.open(savedScenesPath + scene.sceneName + ".json", FileAccess.WRITE)
   file.store_string(jsonString)
   file.close()
+
+func delete_scene(file_name: String):
+  var localPath = savedScenesPath + file_name + ".json"
+  OS.move_to_trash(ProjectSettings.globalize_path(localPath))
+  sceneNames.erase(file_name)
