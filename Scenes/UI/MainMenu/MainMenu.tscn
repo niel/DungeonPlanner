@@ -25,11 +25,6 @@ text = "New Scene"
 [node name="RecentScenes" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Load Scene" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Load Scene"
-
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 title = "Confirm delete"
 initial_position = 2
