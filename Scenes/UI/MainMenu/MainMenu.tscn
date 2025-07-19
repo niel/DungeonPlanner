@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhqcdwpxul6uo"]
+[gd_scene load_steps=3 format=3 uid="uid://dhqcdwpxul6uo"]
 
 [ext_resource type="Script" uid="uid://d3ickkox8vwuo" path="res://Scripts/UI/MainMenu.gd" id="1_les83"]
+[ext_resource type="PackedScene" uid="uid://cm8f1ot0p4yyv" path="res://Scenes/UI/MainMenu/ImportTileSet.tscn" id="2_7rqq1"]
 
 [node name="MainMenu" type="PanelContainer"]
 anchors_preset = 15
@@ -14,15 +15,35 @@ script = ExtResource("1_les83")
 layout_mode = 2
 color = Color(0, 0.45098, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Tile sets" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="New Scene" type="Button" parent="VBoxContainer"]
+[node name="Import tiles" type="Button" parent="HBoxContainer/Tile sets"]
+layout_mode = 2
+text = "Import set"
+
+[node name="Label" type="Label" parent="HBoxContainer/Tile sets"]
+layout_mode = 2
+text = "Imported sets"
+
+[node name="ImportedSets" type="VBoxContainer" parent="HBoxContainer/Tile sets"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LoadScene" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="New Scene" type="Button" parent="HBoxContainer/LoadScene"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "New Scene"
 
-[node name="RecentScenes" type="VBoxContainer" parent="VBoxContainer"]
+[node name="RecentScenes" type="VBoxContainer" parent="HBoxContainer/LoadScene"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
@@ -30,5 +51,14 @@ title = "Confirm delete"
 initial_position = 2
 dialog_text = "Deleting map "
 
-[connection signal="pressed" from="VBoxContainer/New Scene" to="." method="on_new_scene"]
+[node name="ImportTileSet" parent="." instance=ExtResource("2_7rqq1")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
+[connection signal="pressed" from="HBoxContainer/LoadScene/New Scene" to="." method="on_new_scene"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="delete_scene_confirmed"]
+[connection signal="import_directory_selected" from="ImportTileSet" to="." method="import_new_set"]
