@@ -67,18 +67,21 @@ func import_tile_set_from_directory(path: String, setName: String):
   if setDefinitionDir == null:
     print("Failed to open ", DirAccess.get_open_error())
     return
+  var newSet := DragonbiteTileSet.new()
   # Get name
+  newSet.name = setName
   setDefinition["name"] = setName
-  # Get tiles
+  # Get tiles and import stl files
   var tiles = []
   var stlFilePaths := setDefinitionDir.get_files()
   for fileName in stlFilePaths:
     if fileName.get_extension() != "stl":
       continue
+    var newTile = newSet.import_tile(path + "/" + fileName)
     var tileDefinition = {}
-    var id = fileName.get_file().get_slice(".", 0)
-    tileDefinition["id"] = id
-    tileDefinition["resPath"] = tilePath + setName + "/" + id + ".res"
+    tileDefinition["name"] = newTile.name
+    tileDefinition["id"] = newTile.id
+    tileDefinition["resPath"] = tilePath + setName + "/" + newTile.name + ".res"
     tiles.append(tileDefinition)
   setDefinition["tiles"] = tiles
   # Save file
@@ -86,14 +89,7 @@ func import_tile_set_from_directory(path: String, setName: String):
   var setDefinitionJson = FileAccess.open(setDefinitionsPath + setName + ".json", FileAccess.WRITE)
   setDefinitionJson.store_string(result)
   setDefinitionJson.close()
-  # Import stl files
-  var fullPaths = []
-  for fileName in stlFilePaths:
-    if fileName.get_extension() != "stl":
-      continue
-    var fullPath = path + "/" + fileName
-    fullPaths.append(fullPath)
-  tileResources.import_set(setName, fullPaths)
+  tileResources.add_set(newSet)
 
 func get_selected_mesh() -> Mesh:
   return selectedTileContext.mesh

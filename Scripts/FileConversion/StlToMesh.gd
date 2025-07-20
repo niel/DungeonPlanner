@@ -6,7 +6,16 @@ class Triangle:
   var normal: Vector3
   var vertices: Array
 
-const targetSize = 50.0
+var hash_input: PackedByteArray = PackedByteArray()
+var mesh: ArrayMesh
+var mesh_hash: String
+
+func _init(sourcePath: String):
+  mesh = stlFileToArrayMesh(sourcePath)
+  var hasher = HashingContext.new()
+  hasher.start(HashingContext.HashType.HASH_MD5)
+  hasher.update(hash_input)
+  mesh_hash = hasher.finish().hex_encode()
 
 func stlFileToArrayMesh(stl_file: String) -> ArrayMesh:
   var stl = FileAccess.open(stl_file, FileAccess.READ)
@@ -50,6 +59,9 @@ func convertBinary(file: FileAccess) -> Array:
       var vertexY = file.get_float()
       var vertexZ = file.get_float()
       vertices.append(Vector3(vertexX, vertexY, vertexZ))
+      append_vertex_to_hash_input(vertexX)
+      append_vertex_to_hash_input(vertexY)
+      append_vertex_to_hash_input(vertexZ)
     vertices.reverse()
     triangle.vertices = vertices
     triangles.append(triangle)
@@ -57,6 +69,10 @@ func convertBinary(file: FileAccess) -> Array:
     # 2 unused bytes
     file.seek(file.get_position() + 2)
   return triangles
+
+func append_vertex_to_hash_input(vertex: float):
+  # Add vertex to hash input, truncating to thousandths place to avoid precision issues
+  hash_input.append(int(vertex * 1000))
 
 func centerMesh(triangles: Array) -> Array:
   #Center the mesh, calculate the bounding box

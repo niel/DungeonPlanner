@@ -9,6 +9,9 @@ func add_imported_set(json: Dictionary):
   newSet.load_from_json(json)
   tileSets.append(newSet)
 
+func add_set(new_set: DragonbiteTileSet):
+  tileSets.append(new_set)
+
 func import_set(setName: String, stlFilePaths: Array):
   var newSet := DragonbiteTileSet.new()
   newSet.import_set(setName, stlFilePaths)

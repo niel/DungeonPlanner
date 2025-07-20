@@ -5,21 +5,24 @@ enum TileStatus {CACHED, CREATED, NOT_FOUND, CACHE_MISS}
 
 const missingImagePath = "res://Images/Missing.png"
 
-var id = ""
-var imagePath = ""
+var name = ""
+var imagePath = missingImagePath
 var mesh: Mesh
-var stlToMesh = StlToMesh.new()
+var id: String = ""
 
-func load_imported_tile(json: Dictionary):
-  var resPath = json.get("resPath", "")
+func  load_imported_tile(json: Dictionary):
+  var resPath = json.get(DragonbiteTileSet.keyTileResPath, "")
   if !FileAccess.file_exists(resPath):
     return TileStatus.CACHE_MISS
-  id = json.get("id", "")
-  if (id == ""):
-    print("Tile id is empty")
-  imagePath = json.get("imagePath", "")
+  name = json.get(DragonbiteTileSet.keyTileName, "")
+  if (name == ""):
+    print("Tile name is empty")
+  imagePath = json.get(DragonbiteTileSet.keyTileImagePath, "")
   if (imagePath == ""):
     imagePath = missingImagePath
+  id = json.get(DragonbiteTileSet.keyTileId, "")
+  if (id == ""):
+    print("Tile ID is empty")
   mesh = load(resPath) 
   return TileStatus.CACHED
 
@@ -31,10 +34,12 @@ func create_tile(sourcePath: String, destinationPath: String) -> TileStatus:
     print("Destination file already exists: ", destinationPath)
     return TileStatus.CACHED
   var startTime = Time.get_ticks_msec()
-  mesh = stlToMesh.stlFileToArrayMesh(sourcePath)
+  var stlToMesh = StlToMesh.new(sourcePath)
+  mesh = stlToMesh.mesh
+  id = stlToMesh.mesh_hash
   var endTime = Time.get_ticks_msec()
-  id = sourcePath.get_file().get_slice(".", 0)
-  print("Imported ", id, " in ", endTime - startTime, " ms")
+  name = sourcePath.get_file().get_slice(".", 0)
+  print("Imported ", name, " in ", endTime - startTime, " ms")
   var dir = DirAccess.open("user://")
   var destinationDir = destinationPath.get_base_dir()
   if !dir.dir_exists(destinationDir):

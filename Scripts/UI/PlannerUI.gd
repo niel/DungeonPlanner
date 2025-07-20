@@ -31,7 +31,7 @@ func _ready():
 
 func set_tile_resources(newResources: TileResources):
   resources = newResources
-  set_selected_set(resources.tileSets[1])
+  set_selected_set(resources.tileSets[0])
   setSelectorUI.set_selectable_sets(resources.tileSets)
 
 func set_selected_tile(tile: Tile):
