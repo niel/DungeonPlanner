@@ -61,4 +61,4 @@ size_flags_vertical = 4
 [connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/New Scene" to="." method="on_new_scene"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="delete_scene_confirmed"]
-[connection signal="import_directory_selected" from="ImportTileSet" to="." method="import_new_set"]
+[connection signal="set_imported" from="ImportTileSet" to="." method="update_imported_sets"]

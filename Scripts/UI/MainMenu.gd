@@ -37,10 +37,6 @@ func update_imported_sets():
     label.text = importedSet
     importedSetsContainer.add_child(label)
 
-func import_new_set(path: String, setName: String) -> void:
-  context.import_tile_set_from_directory(path, setName)
-  update_imported_sets()
-
 func import_set_pressed():
   importSet.initialize()
 

@@ -72,6 +72,7 @@ layout_mode = 2
 text = "Not selected"
 
 [node name="ActionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
@@ -84,6 +85,11 @@ text = "Confirm"
 [node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 layout_mode = 2
 text = "Cancel"
+
+[node name="ImportStatus" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
 
 [node name="FileDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true

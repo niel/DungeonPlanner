@@ -8,6 +8,8 @@ class TileContext:
   var mesh: Mesh
 
 signal context_updated(TileContext)
+signal import_started(int)
+signal tile_imported()
 
 const defaultRotation = Vector3.LEFT * 90
 const savedScenePath = "user://SavedScenes/"
@@ -74,6 +76,7 @@ func import_tile_set_from_directory(path: String, setName: String):
   # Get tiles and import stl files
   var tiles = []
   var stlFilePaths := setDefinitionDir.get_files()
+  call_deferred("emit_import_started", stlFilePaths.size())
   for fileName in stlFilePaths:
     if fileName.get_extension() != "stl":
       continue
@@ -83,6 +86,7 @@ func import_tile_set_from_directory(path: String, setName: String):
     tileDefinition["id"] = newTile.id
     tileDefinition["resPath"] = tilePath + setName + "/" + newTile.name + ".res"
     tiles.append(tileDefinition)
+    call_deferred("emit_tile_imported")
   setDefinition["tiles"] = tiles
   # Save file
   var result = JSON.stringify(setDefinition, "  ")
@@ -90,6 +94,12 @@ func import_tile_set_from_directory(path: String, setName: String):
   setDefinitionJson.store_string(result)
   setDefinitionJson.close()
   tileResources.add_set(newSet)
+
+func emit_import_started(total_tiles: int):
+  import_started.emit(total_tiles)
+
+func emit_tile_imported():
+  tile_imported.emit()
 
 func get_selected_mesh() -> Mesh:
   return selectedTileContext.mesh
