@@ -15,6 +15,7 @@ const defaultRotation = Vector3.LEFT * 90
 const savedScenePath = "user://SavedScenes/"
 const setDefinitionsPath = "user://SetDefinitions/"
 const nodePath = "PlanningContext"
+const userDir = "user://"
 const tilePath = "user://Meshes/"
 
 var tileResourcesClass = preload("res://Scripts/Data/TileResources.gd")
@@ -25,12 +26,11 @@ var tileResources: TileResources
 var currentScene: SceneData
 
 func _ready():
-  var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
-  if setDefinitionsDir == null:
-    setDefinitionsDir.make_dir_recursive(setDefinitionsPath)
-  var savedScenesDir = DirAccess.open(savedScenePath)
-  if savedScenesDir == null:
-    savedScenesDir.make_dir_recursive(savedScenePath)
+  var userDirAccess = DirAccess.open(userDir)
+  if not userDirAccess.dir_exists(savedScenePath):
+    userDirAccess.make_dir_recursive(savedScenePath)
+  if not userDirAccess.dir_exists(setDefinitionsPath):
+    userDirAccess.make_dir_recursive(setDefinitionsPath)
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
