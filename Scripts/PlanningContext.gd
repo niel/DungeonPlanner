@@ -25,6 +25,12 @@ var tileResources: TileResources
 var currentScene: SceneData
 
 func _ready():
+  var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
+  if setDefinitionsDir == null:
+    setDefinitionsDir.make_dir_recursive(setDefinitionsPath)
+  var savedScenesDir = DirAccess.open(savedScenePath)
+  if savedScenesDir == null:
+    savedScenesDir.make_dir_recursive(savedScenePath)
   tileResources = tileResourcesClass.new()
   load_tileResources()
   selectedTileContext = TileContext.new()
