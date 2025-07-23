@@ -1,14 +1,9 @@
 extends Control
 
-class TileViewModel:
-  var index: int
-  var tile: Tile
-  var hidden: bool = false
-
 signal tile_selected(tile: Tile)
 
 const tileUi = preload("res://Scenes/UI/Tile.tscn")
-const numberOfTiles = 6
+const numberOfTiles = 25
 
 var selectedSet: DragonbiteTileSet
 var currentPage: int = 0
@@ -29,8 +24,8 @@ func _ready():
 
 func set_selected_set(tileSet: DragonbiteTileSet):
   selectedSet = tileSet
-  for i in range(numberOfTiles):
-    tileViewModels[i].tile = selectedSet.tiles[i]
+  currentPage = 0
+  update_view_models()
   update_buttons()
 
 func update_view_models():
@@ -41,18 +36,13 @@ func update_view_models():
       tileVM.hidden = true
       continue
     tileVM.hidden = false
-    tileVM.tile = selectedSet.tiles[tileIdx]
+    tileVM.tile = selectedSet.get_tile(tileIdx)
   update_buttons()
 
 func update_buttons():
   for i in range(numberOfTiles):
-    var tileButton = tileContainer.get_child(i)
-    var tile = tileViewModels[i]
-    if tile.hidden:
-      tileButton.visible = false
-      continue
-    tileButton.visible = true
-    tileButton.set_image(tile.tile.imagePath)
+    var tileNode = tileContainer.get_child(i)
+    tileNode.update_state(tileViewModels[i])
 
 func _on_button_pressed(index: int):
   tile_selected.emit(tileViewModels[index].tile)

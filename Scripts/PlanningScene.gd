@@ -25,6 +25,7 @@ func _ready():
   plannerUI.set_save_names(saveManager.sceneNames)
   viewport = get_viewport()
   viewport.size_changed.connect(resize_ui)
+  resize_ui()
 
 func resize_ui():
   uiCanvas.transform.x = Vector2(viewport.size[1] * UI_SCALE, 0)

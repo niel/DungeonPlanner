@@ -3,10 +3,7 @@ extends RefCounted
 
 enum TileStatus {CACHED, CREATED, NOT_FOUND, CACHE_MISS}
 
-const missingImagePath = "res://Images/Missing.png"
-
 var name = ""
-var imagePath = missingImagePath
 var mesh: Mesh
 var id: String = ""
 
@@ -17,9 +14,6 @@ func  load_imported_tile(json: Dictionary):
   name = json.get(DragonbiteTileSet.keyTileName, "")
   if (name == ""):
     print("Tile name is empty")
-  imagePath = json.get(DragonbiteTileSet.keyTileImagePath, "")
-  if (imagePath == ""):
-    imagePath = missingImagePath
   id = json.get(DragonbiteTileSet.keyTileId, "")
   if (id == ""):
     print("Tile ID is empty")
