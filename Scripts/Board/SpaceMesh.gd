@@ -6,7 +6,7 @@ var spaceMaterial = preload ("res://Materials/SpaceMaterial.tres")
 var emptySpaceMesh = preload ("res://Meshes/SpaceMesh.tres")
 var setMesh: Mesh = preload ("res://Meshes/SpaceMesh.tres")
 var setRotation = Vector3.ZERO
-var set = false
+var isSpaceMeshSet = false
 
 func start_preview(tile: PlanningContext.TileContext):
   set_surface_override_material(0, previewMaterial)
@@ -17,7 +17,7 @@ func exit_preview():
   set_rotation_degrees(setRotation)
   if get_active_material(0) == null:
     return
-  if set:
+  if isSpaceMeshSet:
     set_surface_override_material(0, defaultMaterial)
   else:
     set_surface_override_material(0, spaceMaterial)
@@ -38,7 +38,7 @@ func set_tile(newTile: PlanningContext.TileContext):
   mesh = setMesh
   setRotation = newTile.rotation
   set_rotation_degrees(setRotation)
-  set = true
+  isSpaceMeshSet = true
 
 func set_empty():
   set_surface_override_material(0, spaceMaterial)
@@ -46,4 +46,4 @@ func set_empty():
   setMesh = emptySpaceMesh
   setRotation = Vector3.ZERO
   set_rotation_degrees(Vector3.ZERO)
-  set = false
+  isSpaceMeshSet = false

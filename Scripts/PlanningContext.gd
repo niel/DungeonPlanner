@@ -137,7 +137,6 @@ func update_selected_tile(newSelected: Tile) :
   selectedTileContext.tile = newSelected
   if newSelected.mesh != null:
     selectedTileContext.mesh = newSelected.mesh
-    print("Loaded mesh from tile")
   else:
     selectedTileContext.mesh = load(newSelected.objPath)
   if selectedTileContext.mesh == null:
