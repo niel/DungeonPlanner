@@ -10,6 +10,7 @@ var confirmationDialogTarget: String
 @onready var importedSetsContainer: VBoxContainer = $%ImportedSets
 @onready var importSet: MarginContainer = $%ImportTileSet
 @onready var recentScenesContainer: VBoxContainer = $%RecentScenes
+@onready var sceneImportDialog: FileDialog = $%SceneImportDialog
 var saveManager := SaveManager.new()
 
 func _ready():
@@ -41,7 +42,7 @@ func import_set_pressed():
   importSet.initialize()
 
 func load_recent_scene(scene_name: String):
-  var sceneData = saveManager.load_scene_from_json(scene_name)
+  var sceneData = saveManager.load_scene_from_user(scene_name)
   context.currentScene = sceneData
   change_to_planning_scene()
 
@@ -63,3 +64,12 @@ func change_to_planning_scene():
   var error = get_tree().change_scene_to_packed(planning_scene)
   if error != OK:
     print("Error loading planning scene: ", error)
+
+func _on_import_scene_pressed() -> void:
+  sceneImportDialog.popup_centered()
+
+func _on_scene_import_dialog_file_selected(path: String) -> void:
+  var sceneData = saveManager.load_scene_from_json(path)
+  context.currentScene = sceneData
+  saveManager.save_scene_to_user(sceneData)
+  change_to_planning_scene()

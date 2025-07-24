@@ -39,9 +39,9 @@ func new_scene():
 func save_scene(scene_name: String):
   planningContext.currentScene.sceneName = scene_name
   var sceneData = planningContext.currentScene
-  saveManager.save_scene_to_json(sceneData)
+  saveManager.save_scene_to_user(sceneData)
 
 func load_scene(scene_name: String):
-  var sceneData = saveManager.load_scene_from_json(scene_name)
+  var sceneData = saveManager.load_scene_from_user(scene_name)
   planningContext.set_current_scene(sceneData)
   board.load_scene(sceneData)
