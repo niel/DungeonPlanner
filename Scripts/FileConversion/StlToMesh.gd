@@ -25,7 +25,7 @@ func stlFileToArrayMesh(stl_file: String) -> ArrayMesh:
     return convertAscii(stl)
   else:
     triangles = convertBinary(stl)
-  triangles = centerMesh(triangles)
+  triangles = positionMesh(triangles)
   return saveMesh(triangles)
 
 func isAscii(file: FileAccess) -> bool:
@@ -74,7 +74,8 @@ func append_vertex_to_hash_input(vertex: float):
   # Add vertex to hash input, truncating to thousandths place to avoid precision issues
   hash_input.append(int(vertex * 1000))
 
-func centerMesh(triangles: Array) -> Array:
+# Line up the mesh with the planning grid. For an odd length side, center the mesh, for an even length side, offset the mesh by half a tile.
+func positionMesh(triangles: Array) -> Array:
   #Center the mesh, calculate the bounding box
   var maxVertex: Vector3 = Vector3(-INF, -INF, -INF)
   var minVertex: Vector3 = Vector3(INF, INF, INF)
@@ -84,20 +85,19 @@ func centerMesh(triangles: Array) -> Array:
       minVertex = minVector(minVertex, vertex)
 
   var center: Vector3 = (maxVertex + minVertex) / 2
+  var lengthX = get_tile_length(minVertex.x, maxVertex.x)
+  if lengthX % 2 == 0:
+    center.x += 25
+  var lengthY = get_tile_length(minVertex.y, maxVertex.y)
+  if lengthY % 2 == 0:
+    center.y += 25
   for triangle in triangles:
     for i in range(3):
       #Center the mesh, mesh is centered on x and z axis, and above Z axis
-      #Rotate to make this be the right way up is in default tile rotation 
+      #Rotation to make this be the right way up is in default tile
       triangle.vertices[i][0] -= center[0]
       triangle.vertices[i][1] -= center[1]
       triangle.vertices[i][2] -= minVertex[2]
-
-  maxVertex = Vector3(-INF, -INF, -INF)
-  minVertex = Vector3(INF, INF, INF)
-  for triangle in triangles:
-    for vertex in triangle.vertices:
-      maxVertex = maxVector(maxVertex, vertex)
-      minVertex = minVector(minVertex, vertex)
   return triangles  
   
 func saveMesh(triangles: Array) -> ArrayMesh:
@@ -114,6 +114,15 @@ func maxVector(a: Vector3, b: Vector3) -> Vector3:
 
 func minVector(a: Vector3, b: Vector3) -> Vector3:
   return Vector3(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z))
+
+# Tiles are 50x50, return the tile length for a given min and max value, rounded to the nearest tile
+func get_tile_length(minVal : float, maxVal: float) -> int:
+  var diff = maxVal - minVal
+  var tileCount = int(diff / 50)
+  var leftover = diff - (tileCount * 50)
+  if leftover >= 25:
+    tileCount += 1
+  return tileCount
 
 # TODO Double check that this works
 func convertAscii(file: FileAccess) -> ArrayMesh:
