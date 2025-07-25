@@ -1,7 +1,7 @@
 class_name TileResources
 extends RefCounted
 
-var tileSets:Array = []
+var tileSets: Array = []
 var selectedSetIdx = 0
 
 func add_imported_set(json: Dictionary):

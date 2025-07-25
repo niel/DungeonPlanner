@@ -2,7 +2,7 @@ extends Control
 
 signal set_imported()
 
-const importStatusLabelTemplate = "Imported %d/%d tiles"
+const importStatusLabelTemplate = "Importing %d tiles, currently %d/%d"
 
 @onready var actionButtons: HBoxContainer = $%ActionButtons
 @onready var confirmButton: Button = $%Confirm
@@ -72,9 +72,9 @@ func _on_set_name_text_changed(new_text:String) -> void:
 func setup_import_status_label(total_tiles: int):
   importTileAmount = total_tiles
   importedTilesCount = 0
-  importStatusLabel.text = importStatusLabelTemplate % [importedTilesCount, importTileAmount]
+  importStatusLabel.text = importStatusLabelTemplate % [importTileAmount, importedTilesCount, importTileAmount]
   importStatusLabel.visible = true
 
 func update_import_status_label():
   importedTilesCount += 1
-  importStatusLabel.text = importStatusLabelTemplate % [importedTilesCount, importTileAmount]
+  importStatusLabel.text = importStatusLabelTemplate % [importTileAmount, importedTilesCount, importTileAmount]
