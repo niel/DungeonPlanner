@@ -143,7 +143,7 @@ func update_selected_tile(newSelected: Tile) :
     print("Failed to load mesh at ", newSelected.objPath)
 
 func set_tile(x: int, z:int, tile: TileContext):
-  currentScene.setTileAt(x, z, tile)
+  currentScene.setTileAt(x, z, tile, self)
 
 func set_current_scene(newScene: SceneData):
   currentScene = newScene

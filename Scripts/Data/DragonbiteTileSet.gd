@@ -8,6 +8,8 @@ const keyTileImagePath = "imagePath"
 const keyTileName = "name"
 const keyTileId = "id"
 const keyTileResPath = "resPath"
+const keyTileXSize = "xSize"
+const keyTileYSize = "ySize"
 
 var tiles:Array = []
 var name:String = ""

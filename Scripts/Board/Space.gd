@@ -13,9 +13,11 @@ func update_context(context: PlanningContext.TileContext):
 
 func set_tile(tile: PlanningContext.TileContext):
   meshNode.set_tile(tile)
+  visible = true
 
 func start_preview(tile: PlanningContext.TileContext):
   meshNode.start_preview(tile)
+  visible = true
 
 func end_preview():
   meshNode.exit_preview()
@@ -37,3 +39,6 @@ func _on_area_3d_mouse_exited():
 
 func set_empty():
   meshNode.set_empty()
+
+func set_invisible():
+  visible = false

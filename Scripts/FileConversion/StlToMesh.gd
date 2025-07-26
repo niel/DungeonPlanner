@@ -9,6 +9,8 @@ class Triangle:
 var hash_input: PackedByteArray = PackedByteArray()
 var mesh: ArrayMesh
 var mesh_hash: String
+var x_size: int
+var y_size: int
 
 func _init(sourcePath: String):
   mesh = stlFileToArrayMesh(sourcePath)
@@ -85,11 +87,11 @@ func positionMesh(triangles: Array) -> Array:
       minVertex = minVector(minVertex, vertex)
 
   var center: Vector3 = (maxVertex + minVertex) / 2
-  var lengthX = get_tile_length(minVertex.x, maxVertex.x)
-  if lengthX % 2 == 0:
+  x_size = get_tile_length(minVertex.x, maxVertex.x)
+  if x_size % 2 == 0:
     center.x += 25
-  var lengthY = get_tile_length(minVertex.y, maxVertex.y)
-  if lengthY % 2 == 0:
+  y_size = get_tile_length(minVertex.y, maxVertex.y)
+  if y_size % 2 == 0:
     center.y += 25
   for triangle in triangles:
     for i in range(3):
