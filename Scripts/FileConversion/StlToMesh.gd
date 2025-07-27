@@ -89,7 +89,7 @@ func positionMesh(triangles: Array) -> Array:
   var center: Vector3 = (maxVertex + minVertex) / 2
   x_size = get_tile_length(minVertex.x, maxVertex.x)
   if x_size % 2 == 0:
-    center.x += 25
+    center.x -= 25
   y_size = get_tile_length(minVertex.y, maxVertex.y)
   if y_size % 2 == 0:
     center.y += 25

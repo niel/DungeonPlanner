@@ -63,6 +63,7 @@ func calculateOccupiedSpaces(tile: SavedTile):
   if tileData == null:
     print("[calculateOccupiedSpaces] Tile with ID ", tile.id, " not found in context.")
     return
+  # Create base offsets based on tile size
   var xSize = tileData.x_size
   var ySize = tileData.y_size
   tile.occupiedSpaces.clear()
@@ -70,9 +71,28 @@ func calculateOccupiedSpaces(tile: SavedTile):
   var xStart = xEnd - xSize + 1
   var yEnd = ySize / 2
   var yStart = yEnd - ySize + 1
+  var occupiedSpaceOffsets = []
   for x in range(xStart, xEnd + 1):
     for y in range(yStart, yEnd + 1):
-      tile.occupiedSpaces.append(Vector2(tile.x + x, tile.z + y))
+      occupiedSpaceOffsets.append(Vector2(x, y))
+  # Rotate occupied spaces based on tile rotation
+  while tile.rotation.y < 0:
+    tile.rotation.y += 360
+  while tile.rotation.y >= 360:
+    tile.rotation.y -= 360
+  if abs(tile.rotation.y - 90) <0.01:
+    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+      return Vector2(pos.y, -pos.x))
+  elif abs(tile.rotation.y - 180) < 0.01:
+    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+      return Vector2(-pos.x, -pos.y))
+  elif abs(tile.rotation.y - 270) < 0.01:
+    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+      return Vector2(-pos.y, pos.x))
+  # Calculate final occupied spaces
+  tile.occupiedSpaces.clear()
+  for offset in occupiedSpaceOffsets:
+    tile.occupiedSpaces.append(offset + Vector2(tile.x, tile.z))
 
 func hasTileAt(x: int, z: int) -> bool:
   for tile in tiles:
