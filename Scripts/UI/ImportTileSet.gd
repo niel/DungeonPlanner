@@ -6,8 +6,8 @@ const importStatusLabelTemplate = "Importing %d tiles, currently %d/%d"
 
 @onready var actionButtons: HBoxContainer = $%ActionButtons
 @onready var confirmButton: Button = $%Confirm
-@onready var context := PlanningSceneContext.get_instance(self)
 @onready var fileDialog: FileDialog = $%FileDialog
+var fileLoader = LoadSavedFiles.new()
 var firstSetup: bool = true
 var importTileAmount: int = 0
 var importedTilesCount: int = 0
@@ -56,15 +56,15 @@ func update_confirm_button():
 
 func confirm_pressed():
   if importPath != "":
-    context.import_started.connect(setup_import_status_label)
-    context.tile_imported.connect(update_import_status_label)
+    fileLoader.import_started.connect(setup_import_status_label)
+    fileLoader.tile_imported.connect(update_import_status_label)
     actionButtons.visible = false
-    importThread.start(context.import_tile_set_from_directory.bind(importPath, setName))
+    importThread.start(fileLoader.import_tile_set_from_directory.bind(importPath, setName))
 
 func cancel_pressed():
   visible = false
 
-func _on_set_name_text_changed(new_text:String) -> void:
+func _on_set_name_text_changed(new_text: String) -> void:
   setName = new_text
   setNamed = new_text != ""
   update_confirm_button()

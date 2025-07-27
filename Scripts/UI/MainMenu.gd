@@ -6,7 +6,6 @@ const ui_recent_scene_item = preload("res://Scenes/UI/MainMenu/RecentSceneItem.t
 
 @onready var confirmationDialog: ConfirmationDialog = $ConfirmationDialog
 var confirmationDialogTarget: String
-@onready var context := PlanningSceneContext.get_instance(self)
 @onready var importedSetsContainer: VBoxContainer = $%ImportedSets
 @onready var importSet: MarginContainer = $%ImportTileSet
 @onready var recentScenesContainer: VBoxContainer = $%RecentScenes
@@ -14,6 +13,7 @@ var confirmationDialogTarget: String
 var saveManager := SaveManager.new()
 
 func _ready():
+  SceneContext.initialize()
   update_recent_scenes()
   update_imported_sets()
 
@@ -30,7 +30,7 @@ func update_recent_scenes():
     recentScenesContainer.add_child(button)
 
 func update_imported_sets():
-  var importedSets = context.get_set_names()
+  var importedSets = SceneContext.get_set_names()
   for child in importedSetsContainer.get_children():
     child.queue_free()
   for importedSet in importedSets:
@@ -43,7 +43,7 @@ func import_set_pressed():
 
 func load_recent_scene(scene_name: String):
   var sceneData = saveManager.load_scene_from_user(scene_name)
-  context.currentScene = sceneData
+  SceneContext.get_instance(self).currentScene = sceneData
   change_to_planning_scene()
 
 func delete_recent_scene(scene_name: String):
@@ -70,6 +70,6 @@ func _on_import_scene_pressed() -> void:
 
 func _on_scene_import_dialog_file_selected(path: String) -> void:
   var sceneData = saveManager.load_scene_from_json(path)
-  context.currentScene = sceneData
+  SceneContext.get_instance(self).currentScene = sceneData
   saveManager.save_scene_to_user(sceneData)
   change_to_planning_scene()

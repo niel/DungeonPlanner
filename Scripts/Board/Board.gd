@@ -8,12 +8,6 @@ const spaceSize = 5
 
 var boardNodes:Array = []
 var hoveredSpace: Node3D
-var context: PlanningContext
-
-# Called when the node enters the scene tree for the first time.
-func connect_to_context(newContext: PlanningContext):
-  context = newContext
-  context.context_updated.connect(on_context_updated)
       
 func create_board():
   const xOffset = float(startRows) / 2 * spaceSize * -1.0
@@ -35,7 +29,7 @@ func create_board():
 
 func on_space_hover_enter(space: Node3D):
   hoveredSpace = space
-  hoveredSpace.start_preview(context.selectedTileContext)
+  hoveredSpace.start_preview(SceneContext.selectedTileContext)
 
 func on_space_hover_exit(space: Node3D):
   if hoveredSpace == space:
@@ -43,12 +37,12 @@ func on_space_hover_exit(space: Node3D):
     hoveredSpace = null
       
 func on_space_clicked(space: Node3D, x: int, y: int):
-  var selectedTileContext = context.get_selected_tile_context()
+  var selectedTileContext = SceneContext.get_selected_tile_context()
   if selectedTileContext.tile == null:
     return
-  context.set_tile(x, y, selectedTileContext)
+  SceneContext.set_tile(x, y, selectedTileContext)
   space.set_tile(selectedTileContext)
-  var setTile = context.currentScene.getTileAt(x, y)
+  var setTile = SceneContext.currentScene.getTileAt(x, y)
   for occupiedSpace in setTile.occupiedSpaces:
     var occupiedX = occupiedSpace.x
     var occupiedY = occupiedSpace.y
@@ -57,11 +51,7 @@ func on_space_clicked(space: Node3D, x: int, y: int):
 
 func on_context_updated():
   if hoveredSpace != null:
-    hoveredSpace.update_context(context.get_selected_tile_context())
-
-func rotate_degrees(degrees: int):
-  print(degrees)
-  pass
+    hoveredSpace.update_context(SceneContext.get_selected_tile_context())
 
 func load_scene(scene:SceneData):
   var updated = []
@@ -71,8 +61,8 @@ func load_scene(scene:SceneData):
       newRow.append(false)
     updated.append(newRow)
   for tile in scene.tiles:
-    var tileData = context.get_tile_from_id(tile.id)
-    var tileContext = PlanningContext.TileContext.new()
+    var tileData = SceneContext.get_tile_from_id(tile.id)
+    var tileContext = SceneContext.TileContext.new()
     tileContext.tile = tileData
     tileContext.rotation = tile.rotation
     tileContext.mesh = tileData.mesh

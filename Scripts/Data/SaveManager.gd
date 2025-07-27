@@ -25,7 +25,7 @@ func load_scene_from_json(file_path: String) -> SceneData:
       return SceneData.new()
     var jsonString = file.get_as_text()
     var parsedScene = SceneData.new()
-    parsedScene.fromJson(jsonString, PlanningSceneContext.get_instance(self))
+    parsedScene.fromJson(jsonString)
     file.close()
     var fileName = file_path.get_file().trim_suffix(".json")
     parsedScene.sceneName = fileName
@@ -39,7 +39,7 @@ func load_scene_from_user(file_name: String) -> SceneData:
       return newScene
     var jsonString = file.get_as_text()
     var parsedScene = SceneData.new()
-    parsedScene.fromJson(jsonString, PlanningSceneContext.get_instance(self))
+    parsedScene.fromJson(jsonString)
     file.close()
     return parsedScene
 
