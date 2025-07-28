@@ -8,14 +8,14 @@ signal space_clicked(Node3D, x, z)
 var x = 0
 var z = 0
 
-func update_context(context: PlanningContext.TileContext):
-  meshNode.set_preview_context(context)
+func update_context(context: PlanningContext.TileContext, isError: bool):
+  meshNode.set_tile_context(context, isError)
 
 func set_tile(tile: PlanningContext.TileContext):
   meshNode.set_tile(tile)
 
-func start_preview(tile: PlanningContext.TileContext):
-  meshNode.start_preview(tile)
+func start_preview(tile: PlanningContext.TileContext, isError: bool):
+  meshNode.set_tile_context(tile, isError)
 
 func end_preview():
   meshNode.exit_preview()

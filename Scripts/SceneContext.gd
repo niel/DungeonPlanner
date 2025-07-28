@@ -13,7 +13,6 @@ const nodePath = "PlanningContext"
 const userDir = "user://"
 
 static var selectedTileContext: TileContext
-static var mainBoard: Node3D
 static var tileResources: TileResources
 static var currentScene: SceneData
 
@@ -98,3 +97,8 @@ static func get_tile_from_id(id: String) -> Tile:
       if tile.id == id:
         return tile
   return null
+
+static func does_selected_tile_fit(position: Vector2) -> bool:
+  if selectedTileContext.tile == null:
+    return false
+  return currentScene.doesTileFit(selectedTileContext.tile, position, selectedTileContext.rotation)

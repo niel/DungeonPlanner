@@ -17,6 +17,7 @@ const key_sceneName = "sceneName"
 const key_tiles = "tiles"
 
 var sceneName = ""
+var size = Vector2(10, 10)
 var tiles = []
 
 func toJson() -> String:
@@ -43,7 +44,7 @@ func fromJson(json: String):
     tile.rotation = Vector3(float(rotation[0]), float(rotation[1]), float(rotation[2])) + PlanningContext.defaultRotation
     tile.x = tileData[SavedTile.key_x]
     tile.z = tileData[SavedTile.key_z]
-    calculateOccupiedSpaces(tile)
+    updateTileOffset(tile)
     tiles.append(tile)
 
 func splitOnAnyOf(string: String, delimiters: String) -> Array:
@@ -58,15 +59,19 @@ func splitOnAnyOf(string: String, delimiters: String) -> Array:
       currentToken += c
   return tokens
 
-func calculateOccupiedSpaces(tile: SavedTile):
+func updateTileOffset(tile: SavedTile):
   var tileData = SceneContext.get_tile_from_id(tile.id)
   if tileData == null:
     print("[calculateOccupiedSpaces] Tile with ID ", tile.id, " not found in context.")
     return
+  var newOccupiedSpaces = calculateOccupiedSpaces(tileData, Vector2(tile.x, tile.z), tile.rotation)
+  tile.occupiedSpaces.clear()
+  tile.occupiedSpaces.append_array(newOccupiedSpaces)
+
+func calculateOccupiedSpaces(tileData: Tile, position: Vector2, rotation: Vector3) -> Array:
   # Create base offsets based on tile size
   var xSize = tileData.x_size
   var ySize = tileData.y_size
-  tile.occupiedSpaces.clear()
   var xEnd = xSize / 2
   var xStart = xEnd - xSize + 1
   var yEnd = ySize / 2
@@ -76,28 +81,35 @@ func calculateOccupiedSpaces(tile: SavedTile):
     for y in range(yStart, yEnd + 1):
       occupiedSpaceOffsets.append(Vector2(x, y))
   # Rotate occupied spaces based on tile rotation
-  while tile.rotation.y < 0:
-    tile.rotation.y += 360
-  while tile.rotation.y >= 360:
-    tile.rotation.y -= 360
-  if abs(tile.rotation.y - 90) <0.01:
+  while rotation.y < 0:
+    rotation.y += 360
+  while rotation.y >= 360:
+    rotation.y -= 360
+  if abs(rotation.y - 90) <0.01:
     occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
       return Vector2(pos.y, -pos.x))
-  elif abs(tile.rotation.y - 180) < 0.01:
+  elif abs(rotation.y - 180) < 0.01:
     occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
       return Vector2(-pos.x, -pos.y))
-  elif abs(tile.rotation.y - 270) < 0.01:
+  elif abs(rotation.y - 270) < 0.01:
     occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
       return Vector2(-pos.y, pos.x))
-  # Calculate final occupied spaces
-  tile.occupiedSpaces.clear()
-  for offset in occupiedSpaceOffsets:
-    tile.occupiedSpaces.append(offset + Vector2(tile.x, tile.z))
+  # Combine offsets with position
+  occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(offset):
+    return Vector2(position.x + offset.x, position.y + offset.y))
+  return occupiedSpaceOffsets
 
 func hasTileAt(x: int, z: int) -> bool:
   for tile in tiles:
     if tile.x == x and tile.z == z:
       return true
+  return false
+
+func hasPositionInTileOccupyingSpace(x: int, z: int) -> bool:
+  for tile in tiles:
+    for occupiedSpace in tile.occupiedSpaces:
+      if occupiedSpace.x == x and occupiedSpace.y == z:
+        return true
   return false
 
 func getTileAt(x: int, z: int) -> SavedTile:
@@ -107,6 +119,8 @@ func getTileAt(x: int, z: int) -> SavedTile:
   return null
 
 func setTileAt(x: int, z: int, tileContext: SceneContext.TileContext):
+  if not doesTileFit(tileContext.tile, Vector2(x, z), tileContext.rotation):
+    return
   var savedTile: SavedTile
   if (hasTileAt(x, z)):
     savedTile = getTileAt(x, z)
@@ -117,5 +131,19 @@ func setTileAt(x: int, z: int, tileContext: SceneContext.TileContext):
     tiles.append(savedTile)
   savedTile.id = tileContext.tile.id
   savedTile.rotation = tileContext.rotation
-  calculateOccupiedSpaces(savedTile)
+  updateTileOffset(savedTile)
   return
+
+func doesTileFit(tile: Tile, position: Vector2, rotation: Vector3) -> bool:
+  # Allow tile overwrite
+  if hasTileAt(position.x, position.y):
+    return true
+  var occupiedSpaces = calculateOccupiedSpaces(tile, position, rotation)
+  for space in occupiedSpaces:
+    if hasPositionInTileOccupyingSpace(space.x, space.y):
+      return false
+    if space.x < 0 or space.y < 0:
+      return false
+    if space.x >= size.x or space.y >= size.y:
+      return false
+  return true

@@ -6,7 +6,7 @@ const startRows = 10
 const startCols = 10
 const spaceSize = 5
 
-var boardNodes:Array = []
+var boardNodes: Array = []
 var hoveredSpace: Node3D
       
 func create_board():
@@ -29,7 +29,10 @@ func create_board():
 
 func on_space_hover_enter(space: Node3D):
   hoveredSpace = space
-  hoveredSpace.start_preview(SceneContext.selectedTileContext)
+  var spacePosition = Vector2(hoveredSpace.x, hoveredSpace.z)
+  # Error if tile doesn't fit
+  var hoverError = not SceneContext.does_selected_tile_fit(spacePosition)
+  hoveredSpace.start_preview(SceneContext.get_selected_tile_context(), hoverError)
 
 func on_space_hover_exit(space: Node3D):
   if hoveredSpace == space:
@@ -39,6 +42,8 @@ func on_space_hover_exit(space: Node3D):
 func on_space_clicked(space: Node3D, x: int, y: int):
   var selectedTileContext = SceneContext.get_selected_tile_context()
   if selectedTileContext.tile == null:
+    return
+  if not SceneContext.does_selected_tile_fit(Vector2(x, y)):
     return
   SceneContext.set_tile(x, y, selectedTileContext)
   space.set_tile(selectedTileContext)
@@ -51,9 +56,12 @@ func on_space_clicked(space: Node3D, x: int, y: int):
 
 func on_context_updated():
   if hoveredSpace != null:
-    hoveredSpace.update_context(SceneContext.get_selected_tile_context())
+    var spacePosition = Vector2(hoveredSpace.x, hoveredSpace.z)
+    # Error if tile doesn't fit
+    var hoverError = not SceneContext.does_selected_tile_fit(spacePosition)
+    hoveredSpace.update_context(SceneContext.get_selected_tile_context(), hoverError)
 
-func load_scene(scene:SceneData):
+func load_scene(scene: SceneData):
   var updated = []
   for i in startRows:
     var newRow = []
