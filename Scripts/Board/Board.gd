@@ -6,14 +6,8 @@ const startRows = 10
 const startCols = 10
 const spaceSize = 5
 
-var board:Array = []
+var boardNodes: Array = []
 var hoveredSpace: Node3D
-var context: PlanningContext
-
-# Called when the node enters the scene tree for the first time.
-func connect_to_context(newContext: PlanningContext):
-  context = newContext
-  context.context_updated.connect(on_context_updated)
       
 func create_board():
   const xOffset = float(startRows) / 2 * spaceSize * -1.0
@@ -21,13 +15,13 @@ func create_board():
   for i in startRows:
     var newRow = []
     newRow.resize(startCols)
-    board.append(newRow)
+    boardNodes.append(newRow)
     for j in startCols:
       var newSpace: Node3D = space_scene.instantiate()
       newSpace.x = i
       newSpace.z = j
       add_child(newSpace)
-      board[i][j] = newSpace
+      boardNodes[i][j] = newSpace
       newSpace.set_position(Vector3(spaceSize * i + xOffset, 0, spaceSize * j + zOffset))
       newSpace.space_hover_enter.connect(on_space_hover_enter)
       newSpace.space_hover_exit.connect(on_space_hover_exit)
@@ -35,7 +29,10 @@ func create_board():
 
 func on_space_hover_enter(space: Node3D):
   hoveredSpace = space
-  hoveredSpace.start_preview(context.selectedTileContext)
+  var spacePosition = Vector2(hoveredSpace.x, hoveredSpace.z)
+  # Error if tile doesn't fit
+  var hoverError = not SceneContext.does_selected_tile_fit(spacePosition)
+  hoveredSpace.start_preview(SceneContext.get_selected_tile_context(), hoverError)
 
 func on_space_hover_exit(space: Node3D):
   if hoveredSpace == space:
@@ -43,20 +40,28 @@ func on_space_hover_exit(space: Node3D):
     hoveredSpace = null
       
 func on_space_clicked(space: Node3D, x: int, y: int):
-  if context.get_selected_tile_context().tile == null:
+  var selectedTileContext = SceneContext.get_selected_tile_context()
+  if selectedTileContext.tile == null:
     return
-  space.set_tile(context.get_selected_tile_context())
-  context.set_tile(x, y, context.get_selected_tile_context())
+  if not SceneContext.does_selected_tile_fit(Vector2(x, y)):
+    return
+  SceneContext.set_tile(x, y, selectedTileContext)
+  space.set_tile(selectedTileContext)
+  var setTile = SceneContext.currentScene.getTileAt(x, y)
+  for occupiedSpace in setTile.occupiedSpaces:
+    var occupiedX = occupiedSpace.x
+    var occupiedY = occupiedSpace.y
+    if occupiedX != x or occupiedY != y:
+      boardNodes[occupiedX][occupiedY].set_invisible()
 
 func on_context_updated():
   if hoveredSpace != null:
-    hoveredSpace.update_context(context.get_selected_tile_context())
+    var spacePosition = Vector2(hoveredSpace.x, hoveredSpace.z)
+    # Error if tile doesn't fit
+    var hoverError = not SceneContext.does_selected_tile_fit(spacePosition)
+    hoveredSpace.update_context(SceneContext.get_selected_tile_context(), hoverError)
 
-func rotate_degrees(degrees: int):
-  print(degrees)
-  pass
-
-func load_scene(scene:SceneData):
+func load_scene(scene: SceneData):
   var updated = []
   for i in startRows:
     var newRow = []
@@ -64,14 +69,14 @@ func load_scene(scene:SceneData):
       newRow.append(false)
     updated.append(newRow)
   for tile in scene.tiles:
-    var tileData = context.get_tile_from_id(tile.id)
-    var tileContext = PlanningContext.TileContext.new()
+    var tileData = SceneContext.get_tile_from_id(tile.id)
+    var tileContext = SceneContext.TileContext.new()
     tileContext.tile = tileData
     tileContext.rotation = tile.rotation
     tileContext.mesh = tileData.mesh
-    board[tile.x][tile.z].set_tile(tileContext)
+    boardNodes[tile.x][tile.z].set_tile(tileContext)
     updated[tile.x][tile.z] = true
   for i in startRows:
     for j in startCols:
       if !updated[i][j]:
-        board[i][j].set_empty()
+        boardNodes[i][j].set_empty()

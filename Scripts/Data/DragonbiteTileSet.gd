@@ -8,6 +8,8 @@ const keyTileImagePath = "imagePath"
 const keyTileName = "name"
 const keyTileId = "id"
 const keyTileResPath = "resPath"
+const keyTileXSize = "xSize"
+const keyTileYSize = "ySize"
 
 var tiles:Array = []
 var name:String = ""
@@ -47,6 +49,12 @@ func import_tile(stlFilePath: String) -> Tile:
   else:
     print("Failed to import tile from ", stlFilePath)
     return null
+
+func get_tile(index: int) -> Tile:
+  if index < 0 or index >= tiles.size():
+    print("Index out of bounds: ", index, " for tileset ", name)
+    return null
+  return tiles[index]
 
 func get_size() -> int:
   return tiles.size()

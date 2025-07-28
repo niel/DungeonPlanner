@@ -2,7 +2,7 @@ extends Control
 
 class SetViewModel:
   var index: int
-  var set: DragonbiteTileSet
+  var tileSet: DragonbiteTileSet
 
 signal set_selected(set: DragonbiteTileSet)
 
@@ -18,7 +18,7 @@ func _ready():
   for i in range(setCount):
     var setVm = SetViewModel.new()
     setVm.index = i
-    setVm.set = null
+    setVm.tileSet = null
     setViewModels.append(setVm)
     
     var setButton = setButtonScene.instantiate()
@@ -34,14 +34,14 @@ func update_view_models():
   for i in range(setCount):
     var setVm = setViewModels[i]
     setVm.index = i
-    setVm.set = selectableSets[i % selectableSets.size()]
+    setVm.tileSet = selectableSets[i % selectableSets.size()]
   update_buttons()
 
 func update_buttons():
   for i in range(setCount):
     var currentVm = setViewModels[i]
     var setButton = setContainer.get_child(i)
-    setButton.set_text(currentVm.set.name)
+    setButton.set_text(currentVm.tileSet.name)
 
 func _on_button_pressed(setIndex: int):
-  set_selected.emit(setViewModels[setIndex].set)
+  set_selected.emit(setViewModels[setIndex].tileSet)
