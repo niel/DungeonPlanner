@@ -23,6 +23,7 @@ func exit_preview():
     set_surface_override_material(0, spaceMaterial)
 
 func set_preview_context(context: PlanningContext.TileContext):
+  visible = true
   var selectedMesh: Mesh = context.mesh
   if selectedMesh != null:
     mesh = selectedMesh
@@ -31,6 +32,7 @@ func set_preview_context(context: PlanningContext.TileContext):
     set_rotation_degrees(context.rotation)
 	
 func set_tile(newTile: PlanningContext.TileContext):
+  visible = true
   if newTile == null or get_active_material(0) == null:
     return
   set_surface_override_material(0, defaultMaterial)
@@ -41,9 +43,13 @@ func set_tile(newTile: PlanningContext.TileContext):
   isSpaceMeshSet = true
 
 func set_empty():
+  visible = true
   set_surface_override_material(0, spaceMaterial)
   mesh = emptySpaceMesh
   setMesh = emptySpaceMesh
   setRotation = Vector3.ZERO
   set_rotation_degrees(Vector3.ZERO)
   isSpaceMeshSet = false
+
+func set_invisible():
+  visible = false

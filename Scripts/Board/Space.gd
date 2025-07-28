@@ -13,11 +13,9 @@ func update_context(context: PlanningContext.TileContext):
 
 func set_tile(tile: PlanningContext.TileContext):
   meshNode.set_tile(tile)
-  visible = true
 
 func start_preview(tile: PlanningContext.TileContext):
   meshNode.start_preview(tile)
-  visible = true
 
 func end_preview():
   meshNode.exit_preview()
@@ -41,4 +39,4 @@ func set_empty():
   meshNode.set_empty()
 
 func set_invisible():
-  visible = false
+  meshNode.set_invisible()
