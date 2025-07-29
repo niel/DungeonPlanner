@@ -47,12 +47,6 @@ func on_space_clicked(space: Node3D, x: int, y: int):
     return
   SceneContext.set_tile(x, y, selectedTileContext)
   space.set_tile(selectedTileContext)
-  var setTile = SceneContext.currentScene.getTileAt(x, y)
-  for occupiedSpace in setTile.occupiedSpaces:
-    var occupiedX = occupiedSpace.x
-    var occupiedY = occupiedSpace.y
-    if occupiedX != x or occupiedY != y:
-      boardNodes[occupiedX][occupiedY].set_invisible()
 
 func on_context_updated():
   if hoveredSpace != null:

@@ -37,6 +37,3 @@ func _on_area_3d_mouse_exited():
 
 func set_empty():
   meshNode.set_empty()
-
-func set_invisible():
-  meshNode.set_invisible()
