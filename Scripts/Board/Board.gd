@@ -2,8 +2,8 @@ extends Node3D
 
 var space_scene = preload("res://Scenes/Space.tscn")
 
-const startRows = 10
-const startCols = 10
+const startRows = 20
+const startCols = 20
 const spaceSize = 5
 
 var boardNodes: Array = []
