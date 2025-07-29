@@ -16,4 +16,5 @@ With the DungeonPlanner, you can import scenes created by other people. In order
 Here is an example scene, this scene requires tiles from the Sewer Starter Set published by Aether Studios.
  - Set: https://drive.google.com/file/d/1gMnhrOASlSBOwo4oWlRp4GrPjwUBNmB0/view
  - Scene: https://www.myminifactory.com/object/3d-print-aesewr0-city-sewers-starter-set-383585
-After both the set and scene are imported, selecting sewer test should load this scene <img width="516" height="346" alt="image" src="https://github.com/user-attachments/assets/b247e6cb-fa94-4a2e-a1af-b2f3e7ec6385" />
+After both the set and scene are imported, selecting sewer test should load this scene
+<img width="516" height="346" alt="image" src="https://github.com/user-attachments/assets/b247e6cb-fa94-4a2e-a1af-b2f3e7ec6385" />
