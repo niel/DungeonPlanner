@@ -105,12 +105,15 @@ func hasTileAt(x: int, z: int) -> bool:
       return true
   return false
 
-func hasPositionInTileOccupyingSpace(x: int, z: int) -> bool:
+func hasPositionInTileOccupyingSpaceExcludingSelf(position: Vector2, tile_origin: Vector2) -> bool:
   for tile in tiles:
+    if tile.x == tile_origin.x and tile.z == tile_origin.y:
+      continue  # Skip the tile at the given position
     for occupiedSpace in tile.occupiedSpaces:
-      if occupiedSpace.x == x and occupiedSpace.y == z:
+      if occupiedSpace.x == position.x and occupiedSpace.y == position.y:
         return true
   return false
+
 
 func getTileAt(x: int, z: int) -> SavedTile:
   for tile in tiles:
@@ -135,12 +138,9 @@ func setTileAt(x: int, z: int, tileContext: SceneContext.TileContext):
   return
 
 func doesTileFit(tile: Tile, position: Vector2, rotation: Vector3) -> bool:
-  # Allow tile overwrite
-  if hasTileAt(position.x, position.y):
-    return true
   var occupiedSpaces = calculateOccupiedSpaces(tile, position, rotation)
   for space in occupiedSpaces:
-    if hasPositionInTileOccupyingSpace(space.x, space.y):
+    if hasPositionInTileOccupyingSpaceExcludingSelf(Vector2(space.x, space.y), position):
       return false
     if space.x < 0 or space.y < 0:
       return false
