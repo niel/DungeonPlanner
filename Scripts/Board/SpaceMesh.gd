@@ -52,6 +52,4 @@ func set_empty():
   setRotation = Vector3.ZERO
   set_rotation_degrees(Vector3.ZERO)
   isSpaceMeshSet = false
-
-func set_invisible(): 
-  visible = false
+  
