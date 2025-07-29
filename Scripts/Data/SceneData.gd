@@ -13,11 +13,11 @@ class SavedTile:
   var x = 0
   var z = 0
 
+const size = Vector2(20, 20)
 const key_sceneName = "sceneName"
 const key_tiles = "tiles"
 
 var sceneName = ""
-var size = Vector2(10, 10)
 var tiles = []
 
 func toJson() -> String:
