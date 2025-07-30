@@ -3,7 +3,7 @@ extends Control
 signal tile_selected(tile: Tile)
 
 const tileUi = preload("res://Scenes/UI/Tile.tscn")
-const numberOfTiles = 25
+const numberOfTiles = 47
 
 var selectedSet: DragonbiteTileSet
 var currentPage: int = 0
