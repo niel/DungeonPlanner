@@ -74,9 +74,16 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
+[node name="ExportDestinationSelectDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+access = 2
+filters = PackedStringArray("*.json")
+use_native_dialog = true
+
 [connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/New Scene" to="." method="on_new_scene"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/Import" to="." method="_on_import_scene_pressed"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="delete_scene_confirmed"]
 [connection signal="set_imported" from="ImportTileSet" to="." method="update_imported_sets"]
 [connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
+[connection signal="file_selected" from="ExportDestinationSelectDialog" to="." method="export_scene_at_path"]
