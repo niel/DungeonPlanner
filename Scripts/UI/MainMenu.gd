@@ -1,6 +1,7 @@
 extends PanelContainer
 
-const delete_scene_confirmation_text = "Are you sure you want to delete %s?"
+const delete_confirmation_text = "Are you sure you want to delete %s?"
+const imported_set_item_scene = preload("res://Scenes/UI/MainMenu/ImportedSetItem.tscn")
 const planning_scene = preload("res://Scenes/PlannerScene.tscn")
 const ui_recent_scene_item = preload("res://Scenes/UI/MainMenu/RecentSceneItem.tscn")
 
@@ -37,9 +38,10 @@ func update_imported_sets():
   for child in importedSetsContainer.get_children():
     child.queue_free()
   for importedSet in importedSets:
-    var label = Label.new()
-    label.text = importedSet
-    importedSetsContainer.add_child(label)
+    var new_item = imported_set_item_scene.instantiate()
+    new_item.setText(importedSet)
+    new_item.delete_pressed.connect(delete_imported_set.bind(importedSet))
+    importedSetsContainer.add_child(new_item)
 
 func import_set_pressed():
   importSet.initialize()
@@ -68,13 +70,26 @@ func export_scene_at_path(export_path: String):
   exportFile.close()
   file.close()
 
+func delete_imported_set(removed_set_name: String):
+  confirmationDialogTarget = removed_set_name
+  confirmationDialog.confirmed.connect(delete_set_confirmed)
+  confirmationDialog.dialog_text = delete_confirmation_text % confirmationDialogTarget
+  confirmationDialog.popup_centered()
+
+func delete_set_confirmed():
+  confirmationDialog.confirmed.disconnect(delete_set_confirmed)
+  print("Deleting imported set: ", confirmationDialogTarget)
+  SceneContext.remove_set(confirmationDialogTarget)
+  update_imported_sets()
+
 func delete_recent_scene(scene_name: String):
   confirmationDialogTarget = scene_name
-  confirmationDialog.dialog_text = delete_scene_confirmation_text % confirmationDialogTarget
+  confirmationDialog.confirmed.connect(delete_scene_confirmed)
+  confirmationDialog.dialog_text = delete_confirmation_text % confirmationDialogTarget
   confirmationDialog.popup_centered()
-  update_recent_scenes()
 
 func delete_scene_confirmed():
+  confirmationDialog.confirmed.disconnect(delete_scene_confirmed)
   print("Deleting scene: ", confirmationDialogTarget)
   saveManager.delete_scene(confirmationDialogTarget)
   update_recent_scenes()

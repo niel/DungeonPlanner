@@ -50,6 +50,20 @@ func import_tile(stlFilePath: String) -> Tile:
     print("Failed to import tile from ", stlFilePath)
     return null
 
+func delete_tiles():
+  var meshDir = DirAccess.open(meshesPath + name)
+  if meshDir == null:
+    print("Failed to open mesh directory for tileset: ", name)
+    return
+  meshDir.list_dir_begin()
+  var fileName = meshDir.get_next()
+  while fileName != "":
+    meshDir.remove(fileName)
+    fileName = meshDir.get_next()
+  meshDir.list_dir_end()
+  meshDir.change_dir("..")
+  meshDir.remove(name)
+
 func get_tile(index: int) -> Tile:
   if index < 0 or index >= tiles.size():
     print("Index out of bounds: ", index, " for tileset ", name)

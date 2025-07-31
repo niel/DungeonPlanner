@@ -19,3 +19,10 @@ func import_set(setName: String, stlFilePaths: Array):
 
 func get_selected_set() -> DragonbiteTileSet:
   return tileSets[selectedSetIdx]
+
+func remove_set(setName: String):
+  for i in range(tileSets.size()):
+    if tileSets[i].name == setName:
+      tileSets[i].delete_tiles()
+      tileSets.remove_at(i)
+      return

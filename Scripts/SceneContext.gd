@@ -52,6 +52,14 @@ static func add_imported_tile_set(path: String):
   var parsedJson = JSON.parse_string(fileContents)
   tileResources.add_imported_set(parsedJson)
 
+static func remove_set(setName: String):
+  tileResources.remove_set(setName)
+  var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
+  if setDefinitionsDir == null:
+    print("Failed to open ", setDefinitionsPath)
+    return
+  setDefinitionsDir.remove(setName + ".json")
+
 static func get_selected_mesh() -> Mesh:
   return selectedTileContext.mesh
 
