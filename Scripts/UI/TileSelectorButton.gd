@@ -1,7 +1,8 @@
 extends MarginContainer
 
-var index = 0
 signal tile_pressed(int)
+
+var index = 0
 
 func update_state(tileVM: TileViewModel):
   if tileVM.hidden:
@@ -14,4 +15,4 @@ func update_state(tileVM: TileViewModel):
     $Button.text = tileVM.tile.name
 
 func _on_button_pressed():
-  emit_signal("tile_pressed", index)
+  tile_pressed.emit(index)

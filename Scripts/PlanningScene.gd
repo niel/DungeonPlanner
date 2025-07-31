@@ -1,12 +1,9 @@
 extends Node
 
-const UI_SCALE = 0.00054
-
 var saveManager: SaveManager = SaveManager.new()
 var viewport
 @onready var board = $Board
-@onready var uiCanvas = $CanvasLayer
-@onready var plannerUI = $CanvasLayer/PlannerUI
+@onready var plannerUI = $%PlannerUI
 @onready var inputListener = $InputListener
 
 func _ready():
@@ -20,12 +17,7 @@ func _ready():
   print(saveManager.sceneNames)
   plannerUI.set_save_names(saveManager.sceneNames)
   viewport = get_viewport()
-  viewport.size_changed.connect(resize_ui)
-  resize_ui()
-
-func resize_ui():
-  uiCanvas.transform.x = Vector2(viewport.size[1] * UI_SCALE, 0)
-  uiCanvas.transform.y = Vector2(0, viewport.size[1] * UI_SCALE)
+  viewport.size_changed.connect(on_viewport_resized)
 
 func new_scene():
   var newScene = SceneData.new()
@@ -41,3 +33,6 @@ func load_scene(scene_name: String):
   var sceneData = saveManager.load_scene_from_user(scene_name)
   SceneContext.set_current_scene(sceneData)
   board.load_scene(sceneData)
+
+func on_viewport_resized():
+  plannerUI.on_viewport_resized(viewport.size)

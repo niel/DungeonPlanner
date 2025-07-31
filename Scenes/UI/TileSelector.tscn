@@ -2,26 +2,39 @@
 
 [ext_resource type="Script" uid="uid://uljxkrg4x2hn" path="res://Scripts/UI/TileSelector.gd" id="1_y6b30"]
 
-[node name="TileSelectorControl" type="Control"]
+[node name="TileSelectorControl" type="VBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
-layout_mode = 3
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
 offset_right = 256.0
-grow_vertical = 2
+offset_bottom = 49.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_y6b30")
 
-[node name="TileSelector" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Tiles" type="VBoxContainer" parent="TileSelector"]
+[node name="Tiles" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="PageControl" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Previous" type="Button" parent="PageControl"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Prev"
+text_overrun_behavior = 3
+
+[node name="Next" type="Button" parent="PageControl"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Next
+"
+text_overrun_behavior = 3
+
+[connection signal="resized" from="Tiles" to="." method="on_first_resize"]
+[connection signal="pressed" from="PageControl/Previous" to="." method="go_to_previous_page"]
+[connection signal="pressed" from="PageControl/Next" to="." method="go_to_next_page"]

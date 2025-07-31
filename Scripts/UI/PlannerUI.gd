@@ -1,4 +1,4 @@
-extends Node
+extends VBoxContainer
 
 class UIContext:
   var currentScene: String = ""
@@ -13,8 +13,8 @@ var context: UIContext = UIContext.new()
 var resources: TileResources
 var saveNames: Array[String] = []
 
-@onready var tileSelectorUI = $Left/HSplitContainer/TileSelectorContainer/TileSelectorControl
-@onready var setSelectorUI = $Left/HSplitContainer/LeftColumn/SetSelectorControl
+@onready var tileSelectorUI = $%TileSelectorControl
+@onready var setSelectorUI = $%SetSelectorControl
 @onready var menuBar = $Top/MenuBar
 
 @onready var fileButton = $Top/MenuBar/FileButton
@@ -47,12 +47,6 @@ func set_save_names(names: Array[String]):
 func show_save_as_dialog():
   saveAsDialog.visible = true
 
-func _on_previous_pressed():
-  tileSelectorUI.go_to_previous_page()
-
-func _on_next_pressed():
-  tileSelectorUI.go_to_next_page()
-
 func _on_file_new():
   context.currentScene = ""
   new_scene.emit()
@@ -72,3 +66,6 @@ func _on_save_as(sceneName: String):
   save_current_scene.emit(context.currentScene)
   saveNames.append(sceneName)
   fileButton.set_saves(saveNames)
+
+func on_viewport_resized(newSize: Vector2):
+    tileSelectorUI.on_viewport_resized(newSize)

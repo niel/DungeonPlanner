@@ -29,12 +29,10 @@ fov = 88.9447
 size = 65.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-scale = Vector2(0.37, 0.37)
-transform = Transform2D(0.37, 0, 0, 0.37, 0, 0)
 follow_viewport_enabled = true
 
 [node name="PlannerUI" parent="CanvasLayer" instance=ExtResource("6_3i8v2")]
-mouse_filter = 1
+unique_name_in_owner = true
 
 [connection signal="rotate_left" from="InputListener" to="Board" method="on_context_updated"]
 [connection signal="rotate_right" from="InputListener" to="Board" method="on_context_updated"]

@@ -2,19 +2,35 @@
 
 [ext_resource type="Script" uid="uid://bhemn6kltg346" path="res://Scripts/UI/SetSelector.gd" id="1_v45t2"]
 
-[node name="SetSelectorControl" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="SetSelectorControl" type="VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
 script = ExtResource("1_v45t2")
+margin = null
 
-[node name="SetSelector" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Sets" type="VBoxContainer" parent="SetSelector"]
+[node name="Sets" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="PageControl" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Previous" type="Button" parent="PageControl"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Prev"
+text_overrun_behavior = 3
+
+[node name="Next" type="Button" parent="PageControl"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Next
+"
+text_overrun_behavior = 3
+
+[connection signal="resized" from="Sets" to="." method="on_first_resize"]
+[connection signal="pressed" from="PageControl/Previous" to="." method="_on_previous_pressed"]
+[connection signal="pressed" from="PageControl/Next" to="." method="_on_next_pressed"]
