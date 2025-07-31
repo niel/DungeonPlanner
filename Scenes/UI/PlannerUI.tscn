@@ -57,6 +57,7 @@ size_flags_horizontal = 0
 [node name="SetSelectorControl" parent="Left/HSplitContainer" instance=ExtResource("3_51qet")]
 unique_name_in_owner = true
 layout_mode = 2
+margin = 81
 
 [node name="TileSelectorControl" parent="Left/HSplitContainer" instance=ExtResource("1_p3h20")]
 unique_name_in_owner = true

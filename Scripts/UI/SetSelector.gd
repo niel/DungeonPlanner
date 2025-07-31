@@ -3,10 +3,10 @@ extends VBoxContainer
 signal set_selected(set: DragonbiteTileSet)
 
 const setButtonScene = preload ("res://Scenes/UI/SetButton.tscn")
-const setCount = 15
 
 var currentPage: int = 0
 var numberOfSetButtons: int = 0
+@onready var pageControl = $%PageControl
 var selectableSets: Array = []
 var setViewModels = []
 var setContainer: VBoxContainer
@@ -68,8 +68,10 @@ func update_buttons():
       setContainer.get_child(i).queue_free()
 
   # Difference is set to 0 above so the array index doesn't go out of bounds
-  for i in range(setContainer.get_child_count() - difference):
+  var currentlyActiveButtons = setContainer.get_child_count() - difference
+  for i in range(currentlyActiveButtons):
     setContainer.get_child(i).update_state(setViewModels[i])
+  pageControl.visible = currentlyActiveButtons < selectableSets.size()
 
 func _on_button_pressed(setIndex: int):
   set_selected.emit(setViewModels[setIndex].tileSet)

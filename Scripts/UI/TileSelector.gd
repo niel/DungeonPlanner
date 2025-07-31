@@ -4,6 +4,7 @@ signal tile_selected(tile: Tile)
 
 const tileUi = preload("res://Scenes/UI/Tile.tscn")
 
+@onready var pageControl = $%PageControl
 var currentPage: int = 0
 var numberOfTileButtons = 0
 var selectedSet: DragonbiteTileSet
@@ -69,8 +70,10 @@ func update_buttons():
       tileContainer.get_child(i).queue_free()
 
   # Difference is set to 0 above so the array index doesn't go out of bounds
-  for i in range(tileContainer.get_child_count() - difference):
+  var currentlyActiveButtons = tileContainer.get_child_count() - difference
+  for i in range(currentlyActiveButtons):
     tileContainer.get_child(i).update_state(tileViewModels[i])
+  pageControl.visible = currentlyActiveButtons < selectedSet.get_size()
 
 func _on_button_pressed(index: int):
   tile_selected.emit(tileViewModels[index].tile)
