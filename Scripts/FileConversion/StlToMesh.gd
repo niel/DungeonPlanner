@@ -15,7 +15,7 @@ var y_size: int
 func _init(sourcePath: String):
   mesh = stlFileToArrayMesh(sourcePath)
   var hasher = HashingContext.new()
-  hasher.start(HashingContext.HashType.HASH_MD5)
+  hasher.start(HashingContext.HashType.HASH_SHA256)
   hasher.update(hash_input)
   mesh_hash = hasher.finish().hex_encode()
 
@@ -28,6 +28,8 @@ func stlFileToArrayMesh(stl_file: String) -> ArrayMesh:
   else:
     triangles = convertBinary(stl)
   triangles = positionMesh(triangles)
+  hash_input.append(stl.get_length())
+  stl.close()
   return saveMesh(triangles)
 
 func isAscii(file: FileAccess) -> bool:
