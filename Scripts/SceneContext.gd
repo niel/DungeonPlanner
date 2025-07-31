@@ -76,10 +76,16 @@ static func get_set_names() -> Array:
   return setNames
   
 static func left_rotation():
-  selectedTileContext.rotation[1] += 90
-  
+  var newRotation = selectedTileContext.rotation.y + 90
+  if newRotation >= 360:
+    newRotation -= 360
+  selectedTileContext.rotation[1] = newRotation
+
 static func right_rotation():
-  selectedTileContext.rotation[1] -= 90
+  var newRotation = selectedTileContext.rotation.y - 90
+  if newRotation < 0:
+    newRotation += 360
+  selectedTileContext.rotation[1] = newRotation
 
 static func get_selected_rotation() -> Vector3:
   return selectedTileContext.rotation
