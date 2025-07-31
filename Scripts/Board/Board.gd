@@ -56,6 +56,8 @@ func on_context_updated():
     hoveredSpace.update_context(SceneContext.get_selected_tile_context(), hoverError)
 
 func load_scene(scene: SceneData):
+  if scene == null:
+    return
   var updated = []
   for i in startRows:
     var newRow = []

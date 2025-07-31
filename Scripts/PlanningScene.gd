@@ -14,7 +14,6 @@ func _ready():
   plannerUI.new_scene.connect(self.new_scene)
   plannerUI.save_current_scene.connect(self.save_scene)
   plannerUI.load_scene.connect(self.load_scene)
-  print(saveManager.sceneNames)
   plannerUI.set_save_names(saveManager.sceneNames)
   viewport = get_viewport()
   viewport.size_changed.connect(on_viewport_resized)
