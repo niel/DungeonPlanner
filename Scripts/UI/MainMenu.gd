@@ -78,7 +78,6 @@ func delete_imported_set(removed_set_name: String):
 
 func delete_set_confirmed():
   confirmationDialog.confirmed.disconnect(delete_set_confirmed)
-  print("Deleting imported set: ", confirmationDialogTarget)
   SceneContext.remove_set(confirmationDialogTarget)
   update_imported_sets()
 
@@ -90,7 +89,6 @@ func delete_recent_scene(scene_name: String):
 
 func delete_scene_confirmed():
   confirmationDialog.confirmed.disconnect(delete_scene_confirmed)
-  print("Deleting scene: ", confirmationDialogTarget)
   saveManager.delete_scene(confirmationDialogTarget)
   update_recent_scenes()
 

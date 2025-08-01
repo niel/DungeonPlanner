@@ -34,5 +34,6 @@ follow_viewport_enabled = true
 [node name="PlannerUI" parent="CanvasLayer" instance=ExtResource("6_3i8v2")]
 unique_name_in_owner = true
 
+[connection signal="tile_placed" from="Board" to="CanvasLayer/PlannerUI" method="on_board_tile_placed"]
 [connection signal="rotate_left" from="InputListener" to="Board" method="on_context_updated"]
 [connection signal="rotate_right" from="InputListener" to="Board" method="on_context_updated"]

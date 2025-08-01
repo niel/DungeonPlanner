@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccxbpogh4na0x"]
+[gd_scene load_steps=8 format=3 uid="uid://ccxbpogh4na0x"]
 
 [ext_resource type="PackedScene" uid="uid://bjdch1vt0u3qe" path="res://Scenes/UI/TileSelector.tscn" id="1_p3h20"]
 [ext_resource type="Script" uid="uid://33h7ke18pfkj" path="res://Scripts/UI/PlannerUI.gd" id="1_wubfe"]
@@ -6,30 +6,36 @@
 [ext_resource type="PackedScene" uid="uid://cvkc0yd6fdkx1" path="res://Scenes/UI/SetSelector.tscn" id="3_51qet"]
 [ext_resource type="Script" uid="uid://bg6kv52sn6wvy" path="res://Scripts/UI/FileButton.gd" id="3_cr31u"]
 [ext_resource type="PackedScene" uid="uid://cwjg548hsv7kc" path="res://Scenes/UI/SaveAsDialog.tscn" id="4_v7e5h"]
+[ext_resource type="Script" uid="uid://dt0lyamdfpa3t" path="res://Scripts/UI/UnsavedChangesDialog.gd" id="7_fqoex"]
 
-[node name="PlannerUI" type="VBoxContainer"]
+[node name="PlannerUI" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 0
 script = ExtResource("1_wubfe")
 
-[node name="Top" type="MarginContainer" parent="."]
+[node name="StaticUI" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="MarginContainer" parent="StaticUI"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Panel" type="Panel" parent="Top"]
+[node name="Panel" type="Panel" parent="StaticUI/Top"]
 layout_mode = 2
 
-[node name="MenuBar" type="MenuBar" parent="Top"]
+[node name="MenuBar" type="MenuBar" parent="StaticUI/Top"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("2_ock22")
 
-[node name="FileButton" type="MenuButton" parent="Top/MenuBar"]
+[node name="FileButton" type="MenuButton" parent="StaticUI/Top/MenuBar"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 36.0
@@ -38,26 +44,54 @@ text = "File"
 text_overrun_behavior = 3
 script = ExtResource("3_cr31u")
 
-[node name="SaveAsDialogControl" parent="Top/MenuBar/FileButton" instance=ExtResource("4_v7e5h")]
+[node name="SaveAsDialogControl" parent="StaticUI/Top/MenuBar/FileButton" instance=ExtResource("4_v7e5h")]
+unique_name_in_owner = true
 visible = false
 
-[node name="Left" type="MarginContainer" parent="."]
+[node name="Left" type="MarginContainer" parent="StaticUI"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Background" type="Panel" parent="Left"]
+[node name="Background" type="Panel" parent="StaticUI/Left"]
 layout_mode = 2
 
-[node name="HSplitContainer" type="HBoxContainer" parent="Left"]
+[node name="HSplitContainer" type="HBoxContainer" parent="StaticUI/Left"]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SetSelectorControl" parent="Left/HSplitContainer" instance=ExtResource("3_51qet")]
+[node name="SetSelectorControl" parent="StaticUI/Left/HSplitContainer" instance=ExtResource("3_51qet")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TileSelectorControl" parent="Left/HSplitContainer" instance=ExtResource("1_p3h20")]
+[node name="TileSelectorControl" parent="StaticUI/Left/HSplitContainer" instance=ExtResource("1_p3h20")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Dialogs" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnsavedChangesDialog" type="AcceptDialog" parent="Dialogs"]
+unique_name_in_owner = true
+title = "Unsaved changes"
+initial_position = 1
+size = Vector2i(200, 132)
+exclusive = false
+ok_button_text = "Save"
+dialog_text = "The current scene has unsaved changes, would you like to save?"
+dialog_hide_on_ok = false
+dialog_close_on_escape = false
+dialog_autowrap = true
+script = ExtResource("7_fqoex")
+
+[node name="UnsavedChangesSaveAsDialog" parent="Dialogs" instance=ExtResource("4_v7e5h")]
+unique_name_in_owner = true
+initial_position = 1
+visible = false
+
+[connection signal="confirmed" from="Dialogs/UnsavedChangesDialog" to="." method="unsaved_changes_save"]
+[connection signal="custom_action" from="Dialogs/UnsavedChangesDialog" to="." method="unsaved_changes_custom"]
+[connection signal="saved_with_name" from="Dialogs/UnsavedChangesSaveAsDialog" to="." method="on_unsaved_changes_save_as_dialog_saved"]

@@ -1,5 +1,7 @@
 extends Node3D
 
+signal tile_placed()
+
 var space_scene = preload("res://Scenes/Space.tscn")
 
 const startRows = 20
@@ -47,6 +49,7 @@ func on_space_clicked(space: Node3D, x: int, y: int):
     return
   SceneContext.set_tile(x, y, selectedTileContext)
   space.set_tile(selectedTileContext)
+  tile_placed.emit()
 
 func on_context_updated():
   if hoveredSpace != null:
