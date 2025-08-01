@@ -53,3 +53,6 @@ func delete_scene(file_name: String):
   var localPath = savedScenesPath + file_name + ".json"
   OS.move_to_trash(ProjectSettings.globalize_path(localPath))
   sceneNames.erase(file_name)
+
+func get_scene_path(file_name: String) -> String:
+  return savedScenesPath + file_name + ".json"

@@ -12,11 +12,15 @@ const setDefinitionsPath = "user://SetDefinitions/"
 const nodePath = "PlanningContext"
 const userDir = "user://"
 
+static var currentScene: SceneData
+static var initialized: bool = false
 static var selectedTileContext: TileContext
 static var tileResources: TileResources
-static var currentScene: SceneData
 
 static func initialize():
+  if initialized:
+    return
+  initialized = true
   var userDirAccess = DirAccess.open(userDir)
   if not userDirAccess.dir_exists(savedScenePath):
     userDirAccess.make_dir_recursive(savedScenePath)
@@ -52,6 +56,14 @@ static func add_imported_tile_set(path: String):
   var parsedJson = JSON.parse_string(fileContents)
   tileResources.add_imported_set(parsedJson)
 
+static func remove_set(setName: String):
+  tileResources.remove_set(setName)
+  var setDefinitionsDir = DirAccess.open(setDefinitionsPath)
+  if setDefinitionsDir == null:
+    print("Failed to open ", setDefinitionsPath)
+    return
+  setDefinitionsDir.remove(setName + ".json")
+
 static func get_selected_mesh() -> Mesh:
   return selectedTileContext.mesh
 
@@ -68,10 +80,16 @@ static func get_set_names() -> Array:
   return setNames
   
 static func left_rotation():
-  selectedTileContext.rotation[1] += 90
-  
+  var newRotation = selectedTileContext.rotation.y + 90
+  if newRotation >= 360:
+    newRotation -= 360
+  selectedTileContext.rotation[1] = newRotation
+
 static func right_rotation():
-  selectedTileContext.rotation[1] -= 90
+  var newRotation = selectedTileContext.rotation.y - 90
+  if newRotation < 0:
+    newRotation += 360
+  selectedTileContext.rotation[1] = newRotation
 
 static func get_selected_rotation() -> Vector3:
   return selectedTileContext.rotation

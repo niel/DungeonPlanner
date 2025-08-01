@@ -23,15 +23,18 @@ var setDirectorySelected: bool = false
 func initialize():
   visible = true
   if firstSetup:
+    fileLoader.import_started.connect(setup_import_status_label)
+    fileLoader.tile_imported.connect(update_import_status_label)
     firstSetup = false
-  else:
-    setDirectorySelected = false
-    setName = ""
-    setNamed = false
-    importPath = ""
-    selectedDirLabel.text = "Not selected"
-    setNameInput.text = setName
-    update_confirm_button()
+  setDirectorySelected = false
+  setName = ""
+  setNamed = false
+  importPath = ""
+  selectedDirLabel.text = "Not selected"
+  setNameInput.text = setName
+  actionButtons.visible = true
+  importStatusLabel.visible = false
+  update_confirm_button()
 
 func _process(_delta: float) -> void:
   if importThread.is_started() and not importThread.is_alive():
@@ -56,8 +59,6 @@ func update_confirm_button():
 
 func confirm_pressed():
   if importPath != "":
-    fileLoader.import_started.connect(setup_import_status_label)
-    fileLoader.tile_imported.connect(update_import_status_label)
     actionButtons.visible = false
     importThread.start(fileLoader.import_tile_set_from_directory.bind(importPath, setName))
 

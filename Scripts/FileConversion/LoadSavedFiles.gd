@@ -4,7 +4,6 @@ extends RefCounted
 signal import_started(int)
 signal tile_imported()
 
-const setDefinitionsPath = "user://SetDefinitions/"
 const tilePath = "user://Meshes/"
 
 func import_tile_set_from_directory(path: String, setName: String):
@@ -44,7 +43,7 @@ func import_tile_set_from_directory(path: String, setName: String):
   setDefinition["tiles"] = tiles
   # Save file
   var result = JSON.stringify(setDefinition, "  ")
-  var setDefinitionJson = FileAccess.open(setDefinitionsPath + setName + ".json", FileAccess.WRITE)
+  var setDefinitionJson = FileAccess.open(SceneContext.setDefinitionsPath + setName + ".json", FileAccess.WRITE)
   setDefinitionJson.store_string(result)
   setDefinitionJson.close()
   SceneContext.tileResources.add_set(newSet)
