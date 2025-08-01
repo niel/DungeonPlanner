@@ -56,7 +56,6 @@ func export_recent_scene(scene_name: String):
   exportDestinationSelectDialog.popup_centered()
 
 func export_scene_at_path(export_path: String):
-  print("Tested, exporting scene to: ", export_path)
   var scenePath = saveManager.get_scene_path(exportSceneName)
   var file = FileAccess.open(scenePath, FileAccess.READ)
   var exportFile = FileAccess.open(export_path, FileAccess.WRITE)
