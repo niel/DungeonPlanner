@@ -1,5 +1,7 @@
 extends Node
 
+const main_menu_scene_path = "res://Scenes/UI/MainMenu/MainMenu.tscn"
+
 var saveManager: SaveManager = SaveManager.new()
 var viewport
 @onready var board = $Board
@@ -15,6 +17,7 @@ func _ready():
   plannerUI.save_current_scene.connect(self.save_scene)
   plannerUI.load_scene.connect(self.load_scene)
   plannerUI.set_save_names(saveManager.sceneNames)
+  plannerUI.quit_scene.connect(quit_scene)
   viewport = get_viewport()
   viewport.size_changed.connect(on_viewport_resized)
 
@@ -32,6 +35,13 @@ func load_scene(scene_name: String):
   var sceneData = saveManager.load_scene_from_user(scene_name)
   SceneContext.set_current_scene(sceneData)
   board.load_scene(sceneData)
+
+func quit_scene():
+  # Can't preload main menu scene because it causes circular dependencies
+  var main_menu_scene = load(main_menu_scene_path)
+  var error = get_tree().change_scene_to_packed(main_menu_scene)
+  if error != OK:
+    push_error("Failed to change scene: " + str(error))
 
 func on_viewport_resized():
   plannerUI.on_viewport_resized(viewport.size)

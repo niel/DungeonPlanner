@@ -2,7 +2,7 @@ extends PanelContainer
 
 const delete_confirmation_text = "Are you sure you want to delete %s?"
 const imported_set_item_scene = preload("res://Scenes/UI/MainMenu/ImportedSetItem.tscn")
-const planning_scene = preload("res://Scenes/PlannerScene.tscn")
+const planning_scene_path = "res://Scenes/PlannerScene.tscn"
 const ui_recent_scene_item = preload("res://Scenes/UI/MainMenu/RecentSceneItem.tscn")
 
 @onready var confirmationDialog: ConfirmationDialog = $ConfirmationDialog
@@ -99,9 +99,11 @@ func on_new_scene():
   change_to_planning_scene()
 
 func change_to_planning_scene():
+  # Can't preload planning_scene because it causes circular dependencies
+  var planning_scene = load(planning_scene_path)
   var error = get_tree().change_scene_to_packed(planning_scene)
   if error != OK:
-    print("Error loading planning scene: ", error)
+    print("Error loading planning scene: ", error_string(error))
 
 func _on_import_scene_pressed() -> void:
   sceneImportDialog.popup_centered()
