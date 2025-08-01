@@ -82,13 +82,13 @@ func number_of_pages() -> int:
     return pages + 1
   return pages
 
-func go_to_previous_page():
+func on_previous_pressed():
   currentPage -= 1
   if currentPage < 0:
     currentPage = number_of_pages() - 1
   update_view_models()
 
-func go_to_next_page():
+func on_next_pressed():
   currentPage += 1
   if currentPage >= number_of_pages():
     currentPage = 0
@@ -105,9 +105,7 @@ func on_viewport_resized(newSize: Vector2):
 
 func calculate_number_of_tiles(targetSize: float = 0):
   var baseSet = setButtonScene.instantiate()
-  print("Set size: ", baseSet.size, " separator size: ", setContainer.get_theme_constant("separation"), " Set container size: ", setContainer.size)
   var newNumberOfSets = int((targetSize - baseSet.size.y) / (baseSet.size.y + setContainer.get_theme_constant("separation"))) + 1
-  print("Calculated number of sets: ", newNumberOfSets)
   if newNumberOfSets != numberOfSetButtons:
     numberOfSetButtons = newNumberOfSets
     currentPage = 0

@@ -107,9 +107,7 @@ func on_viewport_resized(newSize: Vector2):
 
 func calculate_number_of_tiles(targetSize: float = 0):
   var baseTile = tileUi.instantiate()
-  print("Tile size: ", baseTile.size, " separator size: ", tileContainer.get_theme_constant("separation"), " Tile container size: ", tileContainer.size)
   var newNumberOfTiles = int((targetSize - baseTile.size.y) / (baseTile.size.y + tileContainer.get_theme_constant("separation"))) + 1
-  print("Calculated number of tiles: ", newNumberOfTiles)
   if newNumberOfTiles != numberOfTileButtons:
     numberOfTileButtons = newNumberOfTiles
     currentPage = 0

@@ -13,7 +13,7 @@ var context: UIContext
 var resources: TileResources
 
 @onready var tileSelectorUI = $%TileSelectorControl
-@onready var setSelectorUI = $%SetSelectorControl
+@onready var setImportNode = $%SetSelectorControl
 @onready var menuBar = $Top/MenuBar
 
 @onready var fileButton = $Top/MenuBar/FileButton
@@ -21,7 +21,7 @@ var resources: TileResources
 
 func _ready():
   tileSelectorUI.tile_selected.connect(set_selected_tile)
-  setSelectorUI.set_selected.connect(set_selected_set)
+  setImportNode.set_selected.connect(set_selected_set)
   fileButton.new_scene.connect(self._on_file_new)
   fileButton.load_scene.connect(self._on_file_load)
   fileButton.save_scene.connect(self._on_file_save)
@@ -34,7 +34,7 @@ func _ready():
 func set_tile_resources(newResources: TileResources):
   resources = newResources
   set_selected_set(resources.tileSets[0])
-  setSelectorUI.set_selectable_sets(resources.tileSets)
+  setImportNode.set_selectable_sets(resources.tileSets)
 
 func set_selected_tile(tile: Tile):
   tile_selected.emit(tile)
@@ -69,4 +69,5 @@ func _on_save_as(sceneName: String):
   fileButton.set_saves(context.recentScenes)
 
 func on_viewport_resized(newSize: Vector2):
-    tileSelectorUI.on_viewport_resized(newSize)
+  setImportNode.on_viewport_resized(newSize)
+  tileSelectorUI.on_viewport_resized(newSize)

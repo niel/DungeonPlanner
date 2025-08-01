@@ -32,5 +32,5 @@ text = "Next
 text_overrun_behavior = 3
 
 [connection signal="resized" from="Sets" to="." method="on_first_resize"]
-[connection signal="pressed" from="PageControl/Previous" to="." method="_on_previous_pressed"]
-[connection signal="pressed" from="PageControl/Next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="PageControl/Previous" to="." method="on_previous_pressed"]
+[connection signal="pressed" from="PageControl/Next" to="." method="on_next_pressed"]
