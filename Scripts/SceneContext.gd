@@ -12,11 +12,15 @@ const setDefinitionsPath = "user://SetDefinitions/"
 const nodePath = "PlanningContext"
 const userDir = "user://"
 
+static var currentScene: SceneData
+static var initialized: bool = false
 static var selectedTileContext: TileContext
 static var tileResources: TileResources
-static var currentScene: SceneData
 
 static func initialize():
+  if initialized:
+    return
+  initialized = true
   var userDirAccess = DirAccess.open(userDir)
   if not userDirAccess.dir_exists(savedScenePath):
     userDirAccess.make_dir_recursive(savedScenePath)

@@ -14,7 +14,6 @@ var tileViewModels = []
 
 func _ready():
   tileContainer = $%Tiles
-  print("Number of tile buttons: ", numberOfTileButtons)
   for i in range(numberOfTileButtons):
     var tileVM = TileViewModel.new()
     tileVM.index = i
