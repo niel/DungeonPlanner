@@ -4,9 +4,9 @@ signal tile_selected(tile: Tile)
 
 const tileUi = preload("res://Scenes/UI/Tile.tscn")
 
-@onready var pageControl = $%PageControl
 var currentPage: int = 0
 var numberOfTileButtons = 0
+@onready var pageControl = $%PageControl
 var selectedSet: DragonbiteTileSet
 var tileContainer: VBoxContainer
 var tileViewModels = []
