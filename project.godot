@@ -29,3 +29,7 @@ project/assembly_name="DungeonPlanner"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
