@@ -1,0 +1,93 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhqcdwpxul6uo"]
+
+[ext_resource type="Script" uid="uid://d3ickkox8vwuo" path="res://scene_builder/ui/MainMenu.gd" id="1_les83"]
+[ext_resource type="PackedScene" uid="uid://cm8f1ot0p4yyv" path="res://main_menu/ImportTileSet.tscn" id="2_7rqq1"]
+
+[node name="MainMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_les83")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0.45098, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Tile sets" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Import tiles" type="Button" parent="HBoxContainer/Tile sets"]
+layout_mode = 2
+text = "Import set"
+
+[node name="Label" type="Label" parent="HBoxContainer/Tile sets"]
+layout_mode = 2
+text = "Imported sets"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/Tile sets"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ImportedSets" type="VBoxContainer" parent="HBoxContainer/Tile sets/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LoadScene" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SceneButtons" type="HBoxContainer" parent="HBoxContainer/LoadScene"]
+layout_mode = 2
+
+[node name="New Scene" type="Button" parent="HBoxContainer/LoadScene/SceneButtons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "New Scene"
+
+[node name="Import" type="Button" parent="HBoxContainer/LoadScene/SceneButtons"]
+layout_mode = 2
+text = "Import Scene"
+
+[node name="RecentScenes" type="VBoxContainer" parent="HBoxContainer/LoadScene"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Confirm delete"
+initial_position = 2
+dialog_text = "Deleting map "
+
+[node name="ImportTileSet" parent="." instance=ExtResource("2_7rqq1")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SceneImportDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json")
+use_native_dialog = true
+
+[node name="ExportDestinationSelectDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+access = 2
+filters = PackedStringArray("*.json")
+use_native_dialog = true
+
+[connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
+[connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/New Scene" to="." method="on_new_scene"]
+[connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/Import" to="." method="_on_import_scene_pressed"]
+[connection signal="set_imported" from="ImportTileSet" to="." method="update_imported_sets"]
+[connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
+[connection signal="file_selected" from="ExportDestinationSelectDialog" to="." method="export_scene_at_path"]

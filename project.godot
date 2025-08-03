@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
 
-PlanningContext="*res://Scripts/SceneContext.gd"
+PlanningContext="*res://common/SceneContext.gd"
 
 [debug]
 
@@ -29,3 +29,7 @@ project/assembly_name="DungeonPlanner"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbralat45wqb6"]
+
+[ext_resource type="Script" uid="uid://hhxki5vh7h3q" path="res://main_menu/RecentSceneItem.gd" id="1_g0v8i"]
+
+[node name="RecentSceneItem" type="HBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.5
+offset_top = -15.5
+offset_right = 24.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("1_g0v8i")
+
+[node name="Name" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Select" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Select
+"
+
+[node name="Delete" type="Button" parent="."]
+layout_mode = 2
+text = "Delete"
+
+[node name="Export" type="Button" parent="."]
+layout_mode = 2
+text = "Export
+"
+
+[connection signal="pressed" from="Select" to="." method="forward_select_pressed"]
+[connection signal="pressed" from="Delete" to="." method="forward_delete_pressed"]
+[connection signal="pressed" from="Export" to="." method="forward_export_pressed"]
