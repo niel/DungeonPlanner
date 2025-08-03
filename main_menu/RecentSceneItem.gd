@@ -4,7 +4,7 @@ signal delete_pressed
 signal export_pressed
 signal select_pressed
 
-func setText(text: String):
+func set_text(text: String):
   $%Name.text = text
 
 func forward_delete_pressed():

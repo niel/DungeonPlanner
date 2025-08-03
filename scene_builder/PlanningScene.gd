@@ -1,47 +1,48 @@
 extends Node
 
-const main_menu_scene_path = "res://main_menu/MainMenu.tscn"
+const MAIN_MENU_SCENE_PATH = "res://main_menu/MainMenu.tscn"
 
-var saveManager: SaveManager = SaveManager.new()
+var save_manager: SaveManager = SaveManager.new()
 var viewport
+
 @onready var board = $Board
-@onready var plannerUI = $%PlannerUI
-@onready var inputListener = $InputListener
+@onready var planner_ui = $%PlannerUI
+@onready var input_listener = $InputListener
 
 func _ready():
   board.create_board()
-  board.load_scene(SceneContext.currentScene)
-  plannerUI.set_tile_resources(SceneContext.tileResources)
-  plannerUI.tile_selected.connect(SceneContext.update_selected_tile)
-  plannerUI.new_scene.connect(self.new_scene)
-  plannerUI.save_current_scene.connect(self.save_scene)
-  plannerUI.load_scene.connect(self.load_scene)
-  plannerUI.set_save_names(saveManager.sceneNames)
-  plannerUI.quit_scene.connect(quit_scene)
+  board.load_scene(SceneContext.current_scene)
+  planner_ui.set_tile_resources(SceneContext.tile_resources)
+  planner_ui.tile_selected.connect(SceneContext.update_selected_tile)
+  planner_ui.new_scene.connect(new_scene)
+  planner_ui.save_current_scene.connect(save_scene)
+  planner_ui.load_scene.connect(load_scene)
+  planner_ui.set_save_names(save_manager.scene_names)
+  planner_ui.quit_scene.connect(quit_scene)
   viewport = get_viewport()
   viewport.size_changed.connect(on_viewport_resized)
 
 func new_scene():
-  var newScene = SceneData.new()
-  SceneContext.currentScene = newScene
-  board.load_scene(newScene)
+  var new_data = SceneData.new()
+  SceneContext.current_scene = new_data
+  board.load_scene(new_data)
 
 func save_scene(scene_name: String):
-  SceneContext.currentScene.sceneName = scene_name
-  var sceneData = SceneContext.currentScene
-  saveManager.save_scene_to_user(sceneData)
+  SceneContext.current_scene.scene_name = scene_name
+  var scene_data = SceneContext.current_scene
+  save_manager.save_scene_to_user(scene_data)
 
 func load_scene(scene_name: String):
-  var sceneData = saveManager.load_scene_from_user(scene_name)
-  SceneContext.set_current_scene(sceneData)
-  board.load_scene(sceneData)
+  var scene_data = save_manager.load_scene_from_user(scene_name)
+  SceneContext.set_current_scene(scene_data)
+  board.load_scene(scene_data)
 
 func quit_scene():
   # Can't preload main menu scene because it causes circular dependencies
-  var main_menu_scene = load(main_menu_scene_path)
+  var main_menu_scene = load(MAIN_MENU_SCENE_PATH)
   var error = get_tree().change_scene_to_packed(main_menu_scene)
   if error != OK:
     push_error("Failed to change scene: " + str(error))
 
 func on_viewport_resized():
-  plannerUI.on_viewport_resized(viewport.size)
+  planner_ui.on_viewport_resized(viewport.size)

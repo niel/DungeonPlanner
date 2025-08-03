@@ -2,148 +2,159 @@ class_name SceneData
 extends RefCounted
 
 class SavedTile:
-  const key_id = "id"
-  const key_rotation = "rotation"
-  const key_x = "x"
-  const key_z = "z"
+  const KEY_ID = "id"
+  const KEY_ROTATION = "rotation"
+  const KEY_X = "x"
+  const KEY_Z = "z"
 
   var id = ""
-  var occupiedSpaces: Array = []
+  var occupied_spaces: Array = []
   var rotation: Vector3
   var x = 0
   var z = 0
 
-const size = Vector2(20, 20)
-const key_sceneName = "sceneName"
-const key_tiles = "tiles"
+const SIZE = Vector2(20, 20)
+const KEY_SCENE_NAME = "sceneName"
+const KEY_TILES = "tiles"
 
-var sceneName = ""
+var scene_name = ""
 var tiles = []
 
-func toJson() -> String:
+func to_json() -> String:
   var data: Dictionary = {}
-  data[SceneData.key_sceneName] = sceneName
-  data[SceneData.key_tiles] = []
+  data[SceneData.KEY_SCENE_NAME] = scene_name
+  data[SceneData.KEY_TILES] = []
   for tile in tiles:
-    var tileData: Dictionary = {}
-    tileData[SavedTile.key_id] = tile.id
-    tileData[SavedTile.key_rotation] = tile.rotation - PlanningContext.defaultRotation
-    tileData[SavedTile.key_x] = tile.x
-    tileData[SavedTile.key_z] = tile.z
-    data[SceneData.key_tiles].append(tileData)
+    var tile_data: Dictionary = {}
+    tile_data[SavedTile.KEY_ID] = tile.id
+    tile_data[SavedTile.KEY_ROTATION] = tile.rotation - PlanningContext.DEFAULT_ROTATION
+    tile_data[SavedTile.KEY_X] = tile.x
+    tile_data[SavedTile.KEY_Z] = tile.z
+    data[SceneData.KEY_TILES].append(tile_data)
   return JSON.stringify(data)
 
-func fromJson(json: String):
+func from_json(json: String):
   tiles = []
   var data: Dictionary = JSON.parse_string(json)
-  sceneName = data[SceneData.key_sceneName]
-  for tileData in data[SceneData.key_tiles]:
+  scene_name = data[SceneData.KEY_SCENE_NAME]
+  for tile_data in data[SceneData.KEY_TILES]:
     var tile = SavedTile.new()
-    tile.id = tileData[SavedTile.key_id]
-    var rotation = splitOnAnyOf(tileData[SavedTile.key_rotation], " ,()")
-    tile.rotation = Vector3(float(rotation[0]), float(rotation[1]), float(rotation[2])) + PlanningContext.defaultRotation
-    tile.x = tileData[SavedTile.key_x]
-    tile.z = tileData[SavedTile.key_z]
-    updateTileOffset(tile)
+    tile.id = tile_data[SavedTile.KEY_ID]
+    var rotation = split_on_any_of(tile_data[SavedTile.KEY_ROTATION], " ,()")
+    tile.rotation = Vector3(
+        float(rotation[0]),
+        float(rotation[1]),
+        float(rotation[2])
+    ) + PlanningContext.DEFAULT_ROTATION
+    tile.x = tile_data[SavedTile.KEY_X]
+    tile.z = tile_data[SavedTile.KEY_Z]
+    update_tile_offset(tile)
     tiles.append(tile)
 
-func splitOnAnyOf(string: String, delimiters: String) -> Array:
+func split_on_any_of(string: String, delimiters: String) -> Array:
   var tokens = []
-  var currentToken = ""
+  var current_token = ""
   for c in string:
     if delimiters.find(c) != -1:
-      if currentToken != "":
-        tokens.append(currentToken)
-        currentToken = ""
+      if current_token != "":
+        tokens.append(current_token)
+        current_token = ""
     else:
-      currentToken += c
+      current_token += c
   return tokens
 
-func updateTileOffset(tile: SavedTile):
-  var tileData = SceneContext.get_tile_from_id(tile.id)
-  if tileData == null:
-    print("[calculateOccupiedSpaces] Tile with ID ", tile.id, " not found in context.")
+func update_tile_offset(tile: SavedTile):
+  var tile_data = SceneContext.get_tile_from_id(tile.id)
+  if tile_data == null:
+    print("[calculate_occupied_spaces] Tile with ID ", tile.id, " not found in context.")
     return
-  var newOccupiedSpaces = calculateOccupiedSpaces(tileData, Vector2(tile.x, tile.z), tile.rotation)
-  tile.occupiedSpaces.clear()
-  tile.occupiedSpaces.append_array(newOccupiedSpaces)
+  var new_occupied_spaces = calculate_occupied_spaces(
+      tile_data,
+      Vector2(tile.x, tile.z),
+      tile.rotation
+  )
+  tile.occupied_spaces.clear()
+  tile.occupied_spaces.append_array(new_occupied_spaces)
 
-func calculateOccupiedSpaces(tileData: Tile, position: Vector2, rotation: Vector3) -> Array:
+func calculate_occupied_spaces(tile_data: Tile, position: Vector2, rotation: Vector3) -> Array:
   # Create base offsets based on tile size
-  var xSize = tileData.x_size
-  var ySize = tileData.y_size
-  var xEnd = xSize / 2
-  var xStart = xEnd - xSize + 1
-  var yEnd = ySize / 2
-  var yStart = yEnd - ySize + 1
-  var occupiedSpaceOffsets = []
-  for x in range(xStart, xEnd + 1):
-    for y in range(yStart, yEnd + 1):
-      occupiedSpaceOffsets.append(Vector2(x, y))
+  var x_size = tile_data.x_size
+  var y_size = tile_data.y_size
+  var x_end = x_size / 2
+  var x_start = x_end - x_size + 1
+  var y_end = y_size / 2
+  var y_start = y_end - y_size + 1
+  var occupied_space_offsets = []
+  for x in range(x_start, x_end + 1):
+    for y in range(y_start, y_end + 1):
+      occupied_space_offsets.append(Vector2(x, y))
   # Rotate occupied spaces based on tile rotation
   while rotation.y < 0:
     rotation.y += 360
   while rotation.y >= 360:
     rotation.y -= 360
-  if abs(rotation.y - 90) <0.01:
-    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+  if abs(rotation.y - 90) < 0.01:
+    occupied_space_offsets = occupied_space_offsets.map(func(pos):
       return Vector2(pos.y, -pos.x))
   elif abs(rotation.y - 180) < 0.01:
-    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+    occupied_space_offsets = occupied_space_offsets.map(func(pos):
       return Vector2(-pos.x, -pos.y))
   elif abs(rotation.y - 270) < 0.01:
-    occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(pos):
+    occupied_space_offsets = occupied_space_offsets.map(func(pos):
       return Vector2(-pos.y, pos.x))
   # Combine offsets with position
-  occupiedSpaceOffsets = occupiedSpaceOffsets.map(func(offset):
+  occupied_space_offsets = occupied_space_offsets.map(func(offset):
     return Vector2(position.x + offset.x, position.y + offset.y))
-  return occupiedSpaceOffsets
+  return occupied_space_offsets
 
-func hasTileAt(x: int, z: int) -> bool:
+func has_tile_at(x: int, z: int) -> bool:
   for tile in tiles:
     if tile.x == x and tile.z == z:
       return true
   return false
 
-func hasPositionInTileOccupyingSpaceExcludingSelf(position: Vector2, tile_origin: Vector2) -> bool:
+func has_position_in_tile_occupying_space_excluding_self(
+    position: Vector2,
+    tile_origin: Vector2
+) -> bool:
   for tile in tiles:
     if tile.x == tile_origin.x and tile.z == tile_origin.y:
-      continue  # Skip the tile at the given position
-    for occupiedSpace in tile.occupiedSpaces:
-      if occupiedSpace.x == position.x and occupiedSpace.y == position.y:
+      continue # Skip the tile at the given position
+    for occupied_space in tile.occupied_spaces:
+      if occupied_space.x == position.x and occupied_space.y == position.y:
         return true
   return false
 
 
-func getTileAt(x: int, z: int) -> SavedTile:
+func get_tile_at(x: int, z: int) -> SavedTile:
   for tile in tiles:
     if tile.x == x and tile.z == z:
       return tile
   return null
 
-func setTileAt(x: int, z: int, tileContext: SceneContext.TileContext):
-  if not doesTileFit(tileContext.tile, Vector2(x, z), tileContext.rotation):
+func set_tile_at(x: int, z: int, tile_context: SceneContext.TileContext):
+  if not does_tile_fit(tile_context.tile, Vector2(x, z), tile_context.rotation):
     return
-  var savedTile: SavedTile
-  if (hasTileAt(x, z)):
-    savedTile = getTileAt(x, z)
+  var saved_tile: SavedTile
+  if (has_tile_at(x, z)):
+    saved_tile = get_tile_at(x, z)
   else:
-    savedTile = SavedTile.new()
-    savedTile.x = x
-    savedTile.z = z
-    tiles.append(savedTile)
-  savedTile.id = tileContext.tile.id
-  savedTile.rotation = tileContext.rotation
-  updateTileOffset(savedTile)
+    saved_tile = SavedTile.new()
+    saved_tile.x = x
+    saved_tile.z = z
+    tiles.append(saved_tile)
+  saved_tile.id = tile_context.tile.id
+  saved_tile.rotation = tile_context.rotation
+  update_tile_offset(saved_tile)
   return
 
-func doesTileFit(tile: Tile, position: Vector2, rotation: Vector3) -> bool:
-  var occupiedSpaces = calculateOccupiedSpaces(tile, position, rotation)
-  for space in occupiedSpaces:
-    if hasPositionInTileOccupyingSpaceExcludingSelf(Vector2(space.x, space.y), position):
+func does_tile_fit(tile: Tile, position: Vector2, rotation: Vector3) -> bool:
+  var occupied_spaces = calculate_occupied_spaces(tile, position, rotation)
+  for space in occupied_spaces:
+    if has_position_in_tile_occupying_space_excluding_self(Vector2(space.x, space.y), position):
       return false
     if space.x < 0 or space.y < 0:
       return false
-    if space.x >= size.x or space.y >= size.y:
+    if space.x >= SIZE.x or space.y >= SIZE.y:
       return false
   return true

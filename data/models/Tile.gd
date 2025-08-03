@@ -9,46 +9,45 @@ var id: String = ""
 var x_size: int = 0
 var y_size: int = 0
 
-func  load_imported_tile(json: Dictionary) -> TileStatus:
-  var resPath = json.get(DragonbiteTileSet.keyTileResPath, "")
-  if !FileAccess.file_exists(resPath):
+func load_imported_tile(json: Dictionary) -> TileStatus:
+  var res_path = json.get(DragonbiteTileSet.KEY_TILE_RES_PATH, "")
+  if !FileAccess.file_exists(res_path):
     return TileStatus.CACHE_MISS
-  name = json.get(DragonbiteTileSet.keyTileName, "")
+  name = json.get(DragonbiteTileSet.KEY_TILE_NAME, "")
   if (name == ""):
     print("Tile name is empty")
-  id = json.get(DragonbiteTileSet.keyTileId, "")
+  id = json.get(DragonbiteTileSet.KEY_TILE_ID, "")
   if (id == ""):
     print("Tile ID is empty")
-  mesh = load(resPath) 
-  x_size = json.get(DragonbiteTileSet.keyTileXSize, 1)
-  y_size = json.get(DragonbiteTileSet.keyTileYSize, 1)
+  mesh = load(res_path)
+  x_size = json.get(DragonbiteTileSet.KEY_TILE_X_SIZE, 1)
+  y_size = json.get(DragonbiteTileSet.KEY_TILE_Y_SIZE, 1)
   return TileStatus.CACHED
 
-func create_tile(sourcePath: String, destinationPath: String) -> TileStatus:
-  if !FileAccess.file_exists(sourcePath):
-    print("Source file does not exist: ", sourcePath)
+func create_tile(source_path: String, destination_path: String) -> TileStatus:
+  if !FileAccess.file_exists(source_path):
+    print("Source file does not exist: ", source_path)
     return TileStatus.NOT_FOUND
-  if FileAccess.file_exists(destinationPath):
-    print("Destination file already exists: ", destinationPath)
+  if FileAccess.file_exists(destination_path):
+    print("Destination file already exists: ", destination_path)
     return TileStatus.CACHED
-  var startTime = Time.get_ticks_msec()
-  var stlToMesh = StlToMesh.new(sourcePath)
-  mesh = stlToMesh.mesh
-  id = stlToMesh.mesh_hash
-  x_size = stlToMesh.x_size
-  y_size = stlToMesh.y_size
-  var endTime = Time.get_ticks_msec()
-  name = sourcePath.get_file().get_slice(".", 0)
-  print("Imported ", name, " in ", endTime - startTime, " ms")
+  var start_time = Time.get_ticks_msec()
+  var stl_to_mesh = StlToMesh.new(source_path)
+  mesh = stl_to_mesh.mesh
+  id = stl_to_mesh.mesh_hash
+  x_size = stl_to_mesh.x_size
+  y_size = stl_to_mesh.y_size
+  var end_time = Time.get_ticks_msec()
+  name = source_path.get_file().get_slice(".", 0)
+  print("Imported ", name, " in ", end_time - start_time, " ms")
   var dir = DirAccess.open("user://")
-  var destinationDir = destinationPath.get_base_dir()
-  if !dir.dir_exists(destinationDir):
-    var res = dir.make_dir_recursive(destinationDir)
+  var destination_dir = destination_path.get_base_dir()
+  if !dir.dir_exists(destination_dir):
+    var res = dir.make_dir_recursive(destination_dir)
     if res != OK:
-      print("Failed to create directory: ", destinationDir, " with error: ", res)
+      print("Failed to create directory: ", destination_dir, " with error: ", res)
       return TileStatus.NOT_FOUND
-  var saveStatus = ResourceSaver.save(mesh, destinationPath, ResourceSaver.FLAG_CHANGE_PATH)
-  if (saveStatus != OK):
-    print("Failed to save mesh to ", destinationPath, " with status ", saveStatus)
+  var save_status = ResourceSaver.save(mesh, destination_path, ResourceSaver.FLAG_CHANGE_PATH)
+  if (save_status != OK):
+    print("Failed to save mesh to ", destination_path, " with status ", save_status)
   return TileStatus.CREATED
-

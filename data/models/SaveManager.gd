@@ -1,58 +1,57 @@
+class_name SaveManager
 extends Node
 
-class_name SaveManager
+const SAVED_SCENES_PATH = "user://SavedScenes/"
 
-const savedScenesPath = "user://SavedScenes/"
-
-var sceneNames: Array[String] = []
+var scene_names: Array[String] = []
 
 func _init():
   var dir = DirAccess.open("user://")
-  if dir.dir_exists(savedScenesPath) == false:
-    dir.make_dir(savedScenesPath)
-  var savedScenesDir = DirAccess.open(savedScenesPath)
-  savedScenesDir.list_dir_begin()
-  var saveName = savedScenesDir.get_next()
-  while saveName != "":
-    if saveName.ends_with(".json"):
-      sceneNames.append(saveName.replace(".json", ""))
-    saveName = savedScenesDir.get_next()
-  savedScenesDir.list_dir_end()
+  if dir.dir_exists(SAVED_SCENES_PATH) == false:
+    dir.make_dir(SAVED_SCENES_PATH)
+  var saved_scenes_dir = DirAccess.open(SAVED_SCENES_PATH)
+  saved_scenes_dir.list_dir_begin()
+  var save_name = saved_scenes_dir.get_next()
+  while save_name != "":
+    if save_name.ends_with(".json"):
+      scene_names.append(save_name.replace(".json", ""))
+    save_name = saved_scenes_dir.get_next()
+  saved_scenes_dir.list_dir_end()
 
 func load_scene_from_json(file_path: String) -> SceneData:
     var file = FileAccess.open(file_path, FileAccess.READ)
     if file == null:
       return SceneData.new()
-    var jsonString = file.get_as_text()
-    var parsedScene = SceneData.new()
-    parsedScene.fromJson(jsonString)
+    var json_string = file.get_as_text()
+    var parsed_scene = SceneData.new()
+    parsed_scene.from_json(json_string)
     file.close()
-    var fileName = file_path.get_file().trim_suffix(".json")
-    parsedScene.sceneName = fileName
-    return parsedScene
+    var file_name = file_path.get_file().trim_suffix(".json")
+    parsed_scene.scene_name = file_name
+    return parsed_scene
 
 func load_scene_from_user(file_name: String) -> SceneData:
-    var file = FileAccess.open(savedScenesPath + file_name + ".json", FileAccess.READ)
+    var file = FileAccess.open(SAVED_SCENES_PATH + file_name + ".json", FileAccess.READ)
     if file == null:
-      var newScene = SceneData.new()
-      newScene.sceneName = file_name
-      return newScene
-    var jsonString = file.get_as_text()
-    var parsedScene = SceneData.new()
-    parsedScene.fromJson(jsonString)
+      var new_scene = SceneData.new()
+      new_scene.scene_name = file_name
+      return new_scene
+    var json_string = file.get_as_text()
+    var parsed_scene = SceneData.new()
+    parsed_scene.from_json(json_string)
     file.close()
-    return parsedScene
+    return parsed_scene
 
 func save_scene_to_user(scene: SceneData):
-  var jsonString = scene.toJson()
-  var file = FileAccess.open(savedScenesPath + scene.sceneName + ".json", FileAccess.WRITE)
-  file.store_string(jsonString)
+  var json_string = scene.to_json()
+  var file = FileAccess.open(SAVED_SCENES_PATH + scene.scene_name + ".json", FileAccess.WRITE)
+  file.store_string(json_string)
   file.close()
 
 func delete_scene(file_name: String):
-  var localPath = savedScenesPath + file_name + ".json"
-  OS.move_to_trash(ProjectSettings.globalize_path(localPath))
-  sceneNames.erase(file_name)
+  var local_path = SAVED_SCENES_PATH + file_name + ".json"
+  OS.move_to_trash(ProjectSettings.globalize_path(local_path))
+  scene_names.erase(file_name)
 
 func get_scene_path(file_name: String) -> String:
-  return savedScenesPath + file_name + ".json"
+  return SAVED_SCENES_PATH + file_name + ".json"

@@ -1,19 +1,20 @@
 extends PanelContainer
 
-const delete_confirmation_text = "Are you sure you want to delete %s?"
-const imported_set_item_scene = preload("res://main_menu/ImportedSetItem.tscn")
-const planning_scene_path = "res://scene_builder/PlannerScene.tscn"
-const ui_recent_scene_item = preload("res://main_menu/RecentSceneItem.tscn")
+const DELETE_CONFIRMATION_STRING_TEMPLATE = "Are you sure you want to delete %s?"
+const IMPORTED_SET_ITEM_SCENE = preload("res://main_menu/ImportedSetItem.tscn")
+const PLANNING_SCENE_PATH = "res://scene_builder/PlannerScene.tscn"
+const RECENT_SCENE_ITEM_SCENE = preload("res://main_menu/RecentSceneItem.tscn")
 
-@onready var confirmationDialog: ConfirmationDialog = $ConfirmationDialog
-var confirmationDialogTarget: String
-@onready var exportDestinationSelectDialog: FileDialog = $ExportDestinationSelectDialog
-var exportSceneName: String = ""
-@onready var importedSetsContainer: VBoxContainer = $%ImportedSets
-@onready var importSet: MarginContainer = $%ImportTileSet
-@onready var recentScenesContainer: VBoxContainer = $%RecentScenes
-@onready var sceneImportDialog: FileDialog = $%SceneImportDialog
-var saveManager := SaveManager.new()
+var confirmation_dialog_target: String
+var export_scene_name: String = ""
+var save_manager := SaveManager.new()
+
+@onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
+@onready var export_destination_select_dialog: FileDialog = $ExportDestinationSelectDialog
+@onready var imported_sets_container: VBoxContainer = $%ImportedSets
+@onready var import_set: MarginContainer = $%ImportTileSet
+@onready var recent_scenes_container: VBoxContainer = $%RecentScenes
+@onready var scene_import_dialog: FileDialog = $%SceneImportDialog
 
 func _ready():
   SceneContext.initialize()
@@ -22,91 +23,91 @@ func _ready():
 
 func update_recent_scenes():
   #Delete existing scenes
-  for child in recentScenesContainer.get_children():
+  for child in recent_scenes_container.get_children():
     child.queue_free()
-  var recentScenes = saveManager.sceneNames
-  for scene in recentScenes:
-    var button = ui_recent_scene_item.instantiate()
-    button.setText(scene)
+  var recent_scenes = save_manager.scene_names
+  for scene in recent_scenes:
+    var button = RECENT_SCENE_ITEM_SCENE.instantiate()
+    button.set_text(scene)
     button.select_pressed.connect(load_recent_scene.bind(scene))
     button.export_pressed.connect(export_recent_scene.bind(scene))
     button.delete_pressed.connect(delete_recent_scene.bind(scene))
-    recentScenesContainer.add_child(button)
+    recent_scenes_container.add_child(button)
 
 func update_imported_sets():
-  var importedSets = SceneContext.get_set_names()
-  for child in importedSetsContainer.get_children():
+  var imported_sets = SceneContext.get_set_names()
+  for child in imported_sets_container.get_children():
     child.queue_free()
-  for importedSet in importedSets:
-    var new_item = imported_set_item_scene.instantiate()
-    new_item.setText(importedSet)
-    new_item.delete_pressed.connect(delete_imported_set.bind(importedSet))
-    importedSetsContainer.add_child(new_item)
+  for imported_set in imported_sets:
+    var new_item = IMPORTED_SET_ITEM_SCENE.instantiate()
+    new_item.set_text(imported_set)
+    new_item.delete_pressed.connect(delete_imported_set.bind(imported_set))
+    imported_sets_container.add_child(new_item)
 
 func import_set_pressed():
-  importSet.initialize()
+  import_set.initialize()
 
 func load_recent_scene(scene_name: String):
-  var sceneData = saveManager.load_scene_from_user(scene_name)
-  SceneContext.get_instance(self).currentScene = sceneData
+  var scene_data = save_manager.load_scene_from_user(scene_name)
+  SceneContext.get_instance(self).current_scene = scene_data
   change_to_planning_scene()
 
 func export_recent_scene(scene_name: String):
-  exportSceneName = scene_name
-  exportDestinationSelectDialog.popup_centered()
+  export_scene_name = scene_name
+  export_destination_select_dialog.popup_centered()
 
 func export_scene_at_path(export_path: String):
-  var scenePath = saveManager.get_scene_path(exportSceneName)
-  var file = FileAccess.open(scenePath, FileAccess.READ)
-  var exportFile = FileAccess.open(export_path, FileAccess.WRITE)
+  var scene_path = save_manager.get_scene_path(export_scene_name)
+  var file = FileAccess.open(scene_path, FileAccess.READ)
+  var export_file = FileAccess.open(export_path, FileAccess.WRITE)
   if file == null:
     print("Error opening scene file.")
     return
-  if exportFile == null:
+  if export_file == null:
     print("Error opening export file.")
     return
-  exportFile.store_string(file.get_as_text())
-  exportFile.close()
+  export_file.store_string(file.get_as_text())
+  export_file.close()
   file.close()
 
 func delete_imported_set(removed_set_name: String):
-  confirmationDialogTarget = removed_set_name
-  confirmationDialog.confirmed.connect(delete_set_confirmed)
-  confirmationDialog.dialog_text = delete_confirmation_text % confirmationDialogTarget
-  confirmationDialog.popup_centered()
+  confirmation_dialog_target = removed_set_name
+  confirmation_dialog.confirmed.connect(delete_set_confirmed)
+  confirmation_dialog.dialog_text = DELETE_CONFIRMATION_STRING_TEMPLATE % confirmation_dialog_target
+  confirmation_dialog.popup_centered()
 
 func delete_set_confirmed():
-  confirmationDialog.confirmed.disconnect(delete_set_confirmed)
-  SceneContext.remove_set(confirmationDialogTarget)
+  confirmation_dialog.confirmed.disconnect(delete_set_confirmed)
+  SceneContext.remove_set(confirmation_dialog_target)
   update_imported_sets()
 
 func delete_recent_scene(scene_name: String):
-  confirmationDialogTarget = scene_name
-  confirmationDialog.confirmed.connect(delete_scene_confirmed)
-  confirmationDialog.dialog_text = delete_confirmation_text % confirmationDialogTarget
-  confirmationDialog.popup_centered()
+  confirmation_dialog_target = scene_name
+  confirmation_dialog.confirmed.connect(delete_scene_confirmed)
+  confirmation_dialog.dialog_text = DELETE_CONFIRMATION_STRING_TEMPLATE % confirmation_dialog_target
+  confirmation_dialog.popup_centered()
 
 func delete_scene_confirmed():
-  confirmationDialog.confirmed.disconnect(delete_scene_confirmed)
-  saveManager.delete_scene(confirmationDialogTarget)
+  confirmation_dialog.confirmed.disconnect(delete_scene_confirmed)
+  save_manager.delete_scene(confirmation_dialog_target)
   update_recent_scenes()
 
 func on_new_scene():
-  SceneContext.get_instance(self).currentScene = SceneData.new()
+  SceneContext.get_instance(self).current_scene = SceneData.new()
   change_to_planning_scene()
 
 func change_to_planning_scene():
   # Can't preload planning_scene because it causes circular dependencies
-  var planning_scene = load(planning_scene_path)
+  var planning_scene = load(PLANNING_SCENE_PATH)
   var error = get_tree().change_scene_to_packed(planning_scene)
   if error != OK:
     print("Error loading planning scene: ", error_string(error))
 
 func _on_import_scene_pressed() -> void:
-  sceneImportDialog.popup_centered()
+  scene_import_dialog.popup_centered()
 
 func _on_scene_import_dialog_file_selected(path: String) -> void:
-  var sceneData = saveManager.load_scene_from_json(path)
-  SceneContext.get_instance(self).currentScene = sceneData
-  saveManager.save_scene_to_user(sceneData)
+  var scene_data = save_manager.load_scene_from_json(path)
+  SceneContext.get_instance(self).current_scene = scene_data
+  save_manager.save_scene_to_user(scene_data)
   change_to_planning_scene()

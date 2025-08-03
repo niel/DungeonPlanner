@@ -1,33 +1,33 @@
 extends Node3D
 
-var rightClicked = false
-const zoomPercent = 0.1
-const zoomMin = 20.0
-const zoomMax = 150.0
-const transformSpeed = 0.1
-const zoomCoefficient = 0.0154
+const ZOOM_PERCENT = 0.1
+const ZOOM_MIN = 20.0
+const ZOOM_MAX = 150.0
+const TRANSFORM_SPEED = 0.1
+const ZOOM_COEFFICIENT = 0.0154
+
+var right_clicked = false
 
 @onready var camera = $Camera3D
 
 func handle_mouse_button(event: InputEventMouseButton):
-	var eventButton = event.get_button_index()
-	if eventButton == MOUSE_BUTTON_RIGHT:
-		rightClicked = event.is_pressed()
-	if eventButton == MOUSE_BUTTON_WHEEL_DOWN:
-		camera.size += camera.size * zoomPercent
-		if camera.size > zoomMax:
-			camera.size = zoomMax
-	if eventButton == MOUSE_BUTTON_WHEEL_UP:
-		camera.size -= camera.size * zoomPercent
-		if camera.size < zoomMin:
-			camera.size = zoomMin
+	var event_button = event.get_button_index()
+	if event_button == MOUSE_BUTTON_RIGHT:
+		right_clicked = event.is_pressed()
+	if event_button == MOUSE_BUTTON_WHEEL_DOWN:
+		camera.size += camera.size * ZOOM_PERCENT
+		if camera.size > ZOOM_MAX:
+			camera.size = ZOOM_MAX
+	if event_button == MOUSE_BUTTON_WHEEL_UP:
+		camera.size -= camera.size * ZOOM_PERCENT
+		if camera.size < ZOOM_MIN:
+			camera.size = ZOOM_MIN
 
 func handle_mouse_motion(event: InputEventMouseMotion):
-	if !rightClicked:
+	if !right_clicked:
 		return
-	transform.origin.x -= event.relative.x * transformSpeed * (zoomCoefficient * camera.size)
-	transform.origin.z -= event.relative.y * transformSpeed * (zoomCoefficient * camera.size)
-	
+	transform.origin.x -= event.relative.x * TRANSFORM_SPEED * (ZOOM_COEFFICIENT * camera.size)
+	transform.origin.z -= event.relative.y * TRANSFORM_SPEED * (ZOOM_COEFFICIENT * camera.size)
 
 func _input(event):
 	if event is InputEventMouseButton:
