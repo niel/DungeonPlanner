@@ -43,7 +43,7 @@ func handle_mouse_motion(event: InputEventMouseMotion):
     var rotation_amount = -event.relative.y * ROTATE_SPEED
     var pitch_result = current_euler.x + rotation_amount
     if pitch_result < PITCH_MIN:
-      rotation_amount = current_euler.x - PITCH_MIN
+      rotation_amount = PITCH_MIN - current_euler.x
     elif pitch_result > PITCH_MAX:
       rotation_amount = PITCH_MAX - current_euler.x
     transform = transform.rotated_local(Vector3.RIGHT, rotation_amount)
