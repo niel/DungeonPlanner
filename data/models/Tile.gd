@@ -48,6 +48,7 @@ func create_tile(source_path: String, destination_path: String) -> TileStatus:
       print("Failed to create directory: ", destination_dir, " with error: ", res)
       return TileStatus.NOT_FOUND
   var save_status = ResourceSaver.save(array_mesh, destination_path, ResourceSaver.FLAG_CHANGE_PATH)
+  mesh_path = destination_path
   if (save_status != OK):
     print("Failed to save mesh to ", destination_path, " with status ", save_status)
   return TileStatus.CREATED
