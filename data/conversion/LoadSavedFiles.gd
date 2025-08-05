@@ -1,5 +1,8 @@
 class_name LoadSavedFiles
 extends RefCounted
+##
+##
+##
 
 signal import_started(int)
 signal tile_imported()
@@ -7,18 +10,22 @@ signal tile_imported()
 const TILE_PATH = "user://Meshes/"
 
 func import_tile_set_from_directory(path: String, set_name: String):
+  # Check path was provided
+  if path.split("/").size() == 0:
+    print("Attempted to load tile set at empty path")
+    return
+
+  if !FileAccess.file_exists(path):
+    print("File path appears to have invalid characters.  Please check it.")
+    print(path)
+    return
+
+  # Check set_name is not in use already.
   if SceneContext.get_set_names().has(set_name):
     print("Tile set with name ", set_name, " already exists")
     return
 
   var set_definition := {}
-  var split_path = path.split("/")
-
-  # Check path
-  if split_path.size() == 0:
-    print("Attempted to load tile set at empty path")
-    return
-
   var set_definition_dir = DirAccess.open(path)
   if set_definition_dir == null:
     print("Failed to open ", DirAccess.get_open_error())
