@@ -4,7 +4,7 @@ signal tile_selected(tile: Tile)
 
 const TILE_UI_SCENE = preload("res://scene_builder/ui/Tile.tscn")
 
-@export var margin: int = 81
+@export var margin: int = 120
 
 var current_page: int = 0
 var number_of_tile_buttons = 0

@@ -81,8 +81,9 @@ func on_space_clicked(space: Node3D, x: int, y: int):
       var selected_tile = SceneContext.current_scene.get_origin_tile(Vector2(x, y))
       if selected_tile == null:
         return
-      SceneContext.current_scene.remove_tile_at(x, y)
-      space.set_empty()
+      SceneContext.current_scene.remove_tile_at(selected_tile.x, selected_tile.z)
+      var origin_space = board_nodes[selected_tile.x][selected_tile.z]
+      origin_space.set_empty()
       updated.emit()
 
 func on_context_updated():
