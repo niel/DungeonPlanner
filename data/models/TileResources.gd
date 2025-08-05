@@ -1,6 +1,9 @@
 class_name TileResources
 extends RefCounted
 
+const KEY_SET = "set"
+const KEY_TILE = "tile"
+
 var tile_sets: Array = []
 var selected_set_idx = 0
 
@@ -19,6 +22,13 @@ func import_set(set_name: String, stl_file_paths: Array):
 
 func get_selected_set() -> DragonbiteTileSet:
   return tile_sets[selected_set_idx]
+
+func get_set_and_tile_data(tile_id: String) -> Dictionary:
+  for tile_set in tile_sets:
+    for tile in tile_set.tiles:
+      if tile.id == tile_id:
+        return {KEY_SET: tile_set, KEY_TILE: tile}
+  return {KEY_SET: null, KEY_TILE: null}
 
 func remove_set(set_name: String):
   for i in range(tile_sets.size()):

@@ -10,7 +10,6 @@ const EMPTY_SPACE_MESH = preload ("res://scene_builder/board/SpaceMesh.tres")
 var selected_mesh: Mesh = EMPTY_SPACE_MESH
 var tile_rotation = Vector3.ZERO
 var is_space_mesh_set = false
-var is_error = false
 
 func exit_preview():
   mesh = selected_mesh
@@ -22,18 +21,26 @@ func exit_preview():
   else:
     set_surface_override_material(0, SPACE_MATERIAL)
 
-func set_tile_context(context: PlanningContext.TileContext, new_is_error: bool = false):
-  is_error = new_is_error
+func set_tile_context(context: PlanningContext.TileContext, is_red: bool = false):
   visible = true
   var new_mesh: Mesh = context.mesh
   if new_mesh != null:
     mesh = new_mesh
     if get_active_material(0) != null:
       var new_material = PREVIEW_MATERIAL
-      if is_error:
+      if is_red:
         new_material = ERROR_MATERIAL
       set_surface_override_material(0, new_material)
     set_rotation_degrees(context.rotation)
+
+func set_color(is_red: bool):
+  visible = true
+  if get_active_material(0) == null:
+    return
+  if is_red:
+    set_surface_override_material(0, ERROR_MATERIAL)
+  else:
+    set_surface_override_material(0, PREVIEW_MATERIAL)
 
 func set_tile(new_tile: PlanningContext.TileContext):
   visible = true

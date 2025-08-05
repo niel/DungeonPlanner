@@ -125,11 +125,19 @@ func has_position_in_tile_occupying_space_excluding_self(
         return true
   return false
 
-
 func get_tile_at(x: int, z: int) -> SavedTile:
   for tile in tiles:
     if tile.x == x and tile.z == z:
       return tile
+  return null
+
+func get_origin_tile(position: Vector2) -> SavedTile:
+  for tile in tiles:
+    if tile.x == position.x and tile.z == position.y:
+      return tile
+    for occupied_space in tile.occupied_spaces:
+      if occupied_space.x == position.x and occupied_space.y == position.y:
+        return tile
   return null
 
 func set_tile_at(x: int, z: int, tile_context: SceneContext.TileContext):
@@ -147,6 +155,13 @@ func set_tile_at(x: int, z: int, tile_context: SceneContext.TileContext):
   saved_tile.rotation = tile_context.rotation
   update_tile_offset(saved_tile)
   return
+
+func remove_tile_at(x: int, z: int):
+  for i in range(tiles.size()):
+    if tiles[i].x == x and tiles[i].z == z:
+      tiles.remove_at(i)
+      return
+  print("No tile found at position (", x, ", ", z, ") to remove.")
 
 func does_tile_fit(tile: Tile, position: Vector2, rotation: Vector3) -> bool:
   var occupied_spaces = calculate_occupied_spaces(tile, position, rotation)
