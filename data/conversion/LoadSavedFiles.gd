@@ -10,16 +10,20 @@ func import_tile_set_from_directory(path: String, set_name: String):
   if SceneContext.get_set_names().has(set_name):
     print("Tile set with name ", set_name, " already exists")
     return
+
   var set_definition := {}
   var split_path = path.split("/")
+
   # Check path
   if split_path.size() == 0:
     print("Attempted to load tile set at empty path")
     return
+
   var set_definition_dir = DirAccess.open(path)
   if set_definition_dir == null:
     print("Failed to open ", DirAccess.get_open_error())
     return
+
   var new_set := DragonbiteTileSet.new()
   # Get name
   new_set.name = set_name
@@ -28,13 +32,16 @@ func import_tile_set_from_directory(path: String, set_name: String):
   var tiles = []
   var stl_file_paths := set_definition_dir.get_files()
   call_deferred("emit_import_started", stl_file_paths.size())
+
   for file_name in stl_file_paths:
     if file_name.get_extension() != "stl":
       continue
     var new_tile = new_set.import_tile(path + "/" + file_name)
+
     var tile_definition = {}
     tile_definition[DragonbiteTileSet.KEY_TILE_NAME] = new_tile.name
     tile_definition[DragonbiteTileSet.KEY_TILE_ID] = new_tile.id
+
     var tile_res_path = TILE_PATH + set_name + "/" + new_tile.name + ".res"
     tile_definition[DragonbiteTileSet.KEY_TILE_RES_PATH] = tile_res_path
     tile_definition[DragonbiteTileSet.KEY_TILE_X_SIZE] = new_tile.x_size
@@ -42,6 +49,7 @@ func import_tile_set_from_directory(path: String, set_name: String):
     tiles.append(tile_definition)
     call_deferred("emit_tile_imported")
   set_definition["tiles"] = tiles
+
   # Save file
   var result = JSON.stringify(set_definition, "  ")
   var json_path = SceneContext.SET_DEFINITIONS_PATH + set_name + ".json"
