@@ -71,7 +71,9 @@ func load_scene(scene: SceneData):
     var tile_context = SceneContext.TileContext.new()
     tile_context.tile = tile_data
     tile_context.rotation = tile.rotation
-    tile_context.mesh = tile_data.mesh
+    var mesh_path = tile_data.mesh_path
+    if mesh_path != "":
+      tile_context.mesh = load(mesh_path)
     board_nodes[tile.x][tile.z].set_tile(tile_context)
     updated[tile.x][tile.z] = true
   for i in START_ROWS:
