@@ -96,10 +96,10 @@ static func get_selected_rotation() -> Vector3:
 
 static func update_selected_tile(new_selected: Tile):
   selected_tile_context.tile = new_selected
-  if new_selected.mesh_path != "":
-    selected_tile_context.mesh = load(new_selected.mesh_path)
-  else: # If the tile does not have a mesh path, set it to null
+  if new_selected == null or new_selected.mesh_path == "":
     selected_tile_context.mesh = null
+    return
+  selected_tile_context.mesh = load(new_selected.mesh_path)
 
 static func set_tile(x: int, z: int, tile: TileContext):
   current_scene.set_tile_at(x, z, tile)
