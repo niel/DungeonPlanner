@@ -95,12 +95,12 @@ func on_context_updated():
 func load_scene(scene: SceneData):
   if scene == null:
     return
-  var updated = []
+  var is_updated = []
   for i in START_ROWS:
     var new_row = []
     for j in START_COLS:
       new_row.append(false)
-    updated.append(new_row)
+    is_updated.append(new_row)
   for tile in scene.tiles:
     var tile_data = SceneContext.get_tile_from_id(tile.id)
     var tile_context = SceneContext.TileContext.new()
@@ -110,10 +110,10 @@ func load_scene(scene: SceneData):
     if mesh_path != "":
       tile_context.mesh = load(mesh_path)
     board_nodes[tile.x][tile.z].set_tile(tile_context)
-    updated[tile.x][tile.z] = true
+    is_updated[tile.x][tile.z] = true
   for i in START_ROWS:
     for j in START_COLS:
-      if !updated[i][j]:
+      if !is_updated[i][j]:
         board_nodes[i][j].set_empty()
 
 func update_current_tool(tool_type: CustomEnums.ToolType):
