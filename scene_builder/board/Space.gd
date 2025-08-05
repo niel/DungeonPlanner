@@ -9,14 +9,14 @@ var z = 0
 
 @onready var mesh_node = $Area3D/MeshInstance3D
 
-func update_context(context: PlanningContext.TileContext, is_error: bool):
-  mesh_node.set_tile_context(context, is_error)
+func update_context(context: PlanningContext.TileContext, is_red: bool):
+  mesh_node.set_tile_context(context, is_red)
+
+func update_color(is_red: bool):
+  mesh_node.set_color(is_red)
 
 func set_tile(tile: PlanningContext.TileContext):
   mesh_node.set_tile(tile)
-
-func start_preview(tile: PlanningContext.TileContext, is_error: bool):
-  mesh_node.set_tile_context(tile, is_error)
 
 func end_preview():
   mesh_node.exit_preview()

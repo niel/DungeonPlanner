@@ -4,7 +4,7 @@ extends RefCounted
 enum TileStatus {CACHED, CREATED, NOT_FOUND, CACHE_MISS}
 
 var name = ""
-var mesh: Mesh
+var mesh_path: String = ""
 var id: String = ""
 var x_size: int = 0
 var y_size: int = 0
@@ -19,7 +19,7 @@ func load_imported_tile(json: Dictionary) -> TileStatus:
   id = json.get(DragonbiteTileSet.KEY_TILE_ID, "")
   if (id == ""):
     print("Tile ID is empty")
-  mesh = load(res_path)
+  mesh_path = res_path
   x_size = json.get(DragonbiteTileSet.KEY_TILE_X_SIZE, 1)
   y_size = json.get(DragonbiteTileSet.KEY_TILE_Y_SIZE, 1)
   return TileStatus.CACHED
@@ -33,7 +33,7 @@ func create_tile(source_path: String, destination_path: String) -> TileStatus:
     return TileStatus.CACHED
   var start_time = Time.get_ticks_msec()
   var stl_to_mesh = StlToMesh.new(source_path)
-  mesh = stl_to_mesh.mesh
+  var array_mesh: ArrayMesh = stl_to_mesh.mesh
   id = stl_to_mesh.mesh_hash
   x_size = stl_to_mesh.x_size
   y_size = stl_to_mesh.y_size
@@ -47,7 +47,8 @@ func create_tile(source_path: String, destination_path: String) -> TileStatus:
     if res != OK:
       print("Failed to create directory: ", destination_dir, " with error: ", res)
       return TileStatus.NOT_FOUND
-  var save_status = ResourceSaver.save(mesh, destination_path, ResourceSaver.FLAG_CHANGE_PATH)
+  var save_status = ResourceSaver.save(array_mesh, destination_path, ResourceSaver.FLAG_CHANGE_PATH)
+  mesh_path = destination_path
   if (save_status != OK):
     print("Failed to save mesh to ", destination_path, " with status ", save_status)
   return TileStatus.CREATED

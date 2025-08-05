@@ -4,23 +4,32 @@ class UIContext:
   var current_scene: String = ""
   var recent_scenes: Array[String] = []
 
-signal tile_selected(tile: Tile)
+signal load_scene(scene_name: String)
 signal new_scene()
 signal save_current_scene(scene_name: String)
-signal load_scene(scene_name: String)
+signal tile_selected(tile: Tile)
+signal tool_add_tile_selected()
+signal tool_select_tile_selected()
+signal tool_remove_tile_selected()
 signal quit_scene()
 
+const TOOL_ADD_TILE_GROUP: StringName = "add_tile"
+const TOOL_SELECT_TILE_GROUP: StringName = "select_tile"
+const TOOL_REMOVE_TILE_GROUP: StringName = "remove_tile"
 const UNSAVED_CHANGES_DONT_SAVE_ACTION: StringName = "dont_save"
 
 var context: UIContext
+var current_tool: CustomEnums.ToolType = CustomEnums.ToolType.ADD_TILE
 var resources: TileResources
 var unsaved_changes: bool = false
 
-@onready var tile_selector_node = $%TileSelectorControl
-@onready var set_selector_node = $%SetSelectorControl
-@onready var menu_bar = $%MenuBar
 @onready var file_button = $%FileButton
+@onready var menu_bar = $%MenuBar
 @onready var save_as_dialog = $%SaveAsDialogControl
+@onready var set_selector_node = $%SetSelectorControl
+@onready var tile_info = $%TileInfo
+@onready var tile_selector_node = $%TileSelectorControl
+@onready var tool_info = $%ToolInfo
 @onready var unsaved_changes_dialog = $%UnsavedChangesDialog
 @onready var unsaved_changes_save_as_dialog = $%UnsavedChangesSaveAsDialog
 
@@ -44,6 +53,12 @@ func set_tile_resources(new_resources: TileResources):
 
 func set_selected_tile(tile: Tile):
   tile_selected.emit(tile)
+
+func set_selected_tile_from_copy(tile: Tile):
+  if tile == null:
+    return
+  tile_selected.emit(tile)
+  on_select_add_tool()
 
 func set_selected_set(tile_set: DragonbiteTileSet):
   tile_selector_node.set_selected_set(tile_set)
@@ -86,7 +101,7 @@ func on_viewport_resized(new_size: Vector2):
   set_selector_node.on_viewport_resized(new_size)
   tile_selector_node.on_viewport_resized(new_size)
 
-func on_board_tile_placed() -> void:
+func on_board_updated() -> void:
   unsaved_changes = true
 
 func unsaved_changes_save():
@@ -106,3 +121,38 @@ func on_unsaved_changes_save_as_dialog_saved(scene_name: String) -> void:
   SceneContext.current_scene.scene_name = scene_name
   save_current_scene.emit(SceneContext.current_scene.scene_name)
   quit_scene.emit()
+
+func on_select_add_tool():
+  current_tool = CustomEnums.ToolType.ADD_TILE
+  show_only_tool_info_of_group(TOOL_ADD_TILE_GROUP)
+  tool_add_tile_selected.emit()
+
+func on_select_select_tool():
+  current_tool = CustomEnums.ToolType.SELECT_TILE
+  show_only_tool_info_of_group(TOOL_SELECT_TILE_GROUP)
+  tool_select_tile_selected.emit()
+
+func on_select_remove_tool():
+  current_tool = CustomEnums.ToolType.REMOVE_TILE
+  show_only_tool_info_of_group(TOOL_REMOVE_TILE_GROUP)
+  tool_remove_tile_selected.emit()
+
+func show_only_tool_info_of_group(group: StringName):
+  for child in tool_info.get_children():
+    if child.get_groups().has(group):
+      child.visible = true
+    else:
+      child.visible = false
+
+func on_tile_selected(tile_id: String) -> void:
+  var tile_data = SceneContext.tile_resources.get_set_and_tile_data(tile_id)
+  if tile_data[TileResources.KEY_TILE] == null:
+    print("Tile with ID ", tile_id, " not found in resources.")
+    return
+  if tile_data[TileResources.KEY_SET] == null:
+    print("Tile set for tile ID ", tile_id, " not found in resources.")
+    return
+  tile_info.set_state(
+      tile_data[TileResources.KEY_SET].name,
+      tile_data[TileResources.KEY_TILE]
+  )
