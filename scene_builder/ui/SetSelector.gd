@@ -4,7 +4,7 @@ signal set_selected(set: DragonbiteTileSet)
 
 const SET_BUTTON_SCENE = preload ("res://scene_builder/ui/SetButton.tscn")
 
-@export var margin: int = 81
+@export var margin: int = 120
 
 var current_page: int = 0
 var number_of_set_buttons: int = 0
@@ -110,7 +110,7 @@ func calculate_number_of_tiles(target_size: float = 0):
   var new_number_of_sets = int(
     (target_size - base_set.size.y)
     / (base_set.size.y + set_container.get_theme_constant("separation"))
-  ) + 1
+  )
   if new_number_of_sets != number_of_set_buttons:
     number_of_set_buttons = new_number_of_sets
     current_page = 0

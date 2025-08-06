@@ -18,3 +18,6 @@ Here is an example scene, this scene requires tiles from the Sewer Starter Set p
  - Scene: https://www.myminifactory.com/object/3d-print-aesewr0-city-sewers-starter-set-383585
 After both the set and scene are imported, selecting sewer test should load this scene
 <img width="516" height="346" alt="image" src="https://github.com/user-attachments/assets/b247e6cb-fa94-4a2e-a1af-b2f3e7ec6385" />
+
+## Dev setup
+Using gdlinter from https://github.com/Scony/godot-gdscript-toolkit. Not yet using the formatter
