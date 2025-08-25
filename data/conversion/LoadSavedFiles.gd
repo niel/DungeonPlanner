@@ -15,12 +15,12 @@ func import_tile_set_from_directory(path: String, set_name: String):
     print("Attempted to load tile set at empty path")
     return
 
-  if !FileAccess.file_exists(path):
-    print("File path appears to have invalid characters.  Please check it.")
+  if !path.is_valid_filename():
+    print("File path has invalid characters (: / \\ ? * \" | % < >).  Please check it.")
     print(path)
     return
 
-  # Check set_name is not in use already.
+  # Check set_name is not already in use.
   if SceneContext.get_set_names().has(set_name):
     print("Tile set with name ", set_name, " already exists")
     return
