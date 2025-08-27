@@ -12,7 +12,7 @@ var save_manager := SaveManager.new()
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 @onready var export_destination_select_dialog: FileDialog = $ExportDestinationSelectDialog
 @onready var imported_sets_container: VBoxContainer = $%ImportedSets
-@onready var import_set: MarginContainer = $%ImportTileSet
+@onready var import_set: MarginContainer = $%ImportTileSetDialog
 @onready var recent_scenes_container: VBoxContainer = $%RecentScenes
 @onready var scene_import_dialog: FileDialog = $%SceneImportDialog
 

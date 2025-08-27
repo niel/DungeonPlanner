@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://1myiixlnm62i"]
+
+[ext_resource type="Script" uid="uid://cm7bf8h0kb843" path="res://main_menu/scene_browser_item.gd" id="1_g2wpu"]
+
+[node name="SceneBrowserItem" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g2wpu")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+
+[node name="Author" type="Label" parent="."]
+layout_mode = 2
