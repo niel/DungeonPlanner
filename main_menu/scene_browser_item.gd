@@ -1,9 +1,9 @@
-extends VBoxContainer
+extends Container
 
 const AUTHOR_STRING_TEMPLATE = "by: %s"
 
-@onready var name_label = $Name
-@onready var author_label = $Author
+@onready var name_label = $%Name
+@onready var author_label = $%Author
 
 var scene_name: String
 var author_value: String

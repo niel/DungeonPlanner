@@ -15,6 +15,11 @@ func handle_scene_list(_result, _response_code, _headers, body: PackedByteArray)
   var scenes: Array = []
   for scene_json in json:
     var scene_data = Scene.new()
+    if scene_json.has("id"):
+      scene_data.id = scene_json.id
+    else:
+      # No id, can't process scene
+      continue
     if scene_json.has("name"):
       scene_data.scene_name = scene_json.name
     else:

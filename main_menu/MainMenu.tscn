@@ -70,6 +70,7 @@ text = "Online Scene Browser"
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/SceneBrowser"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
 [node name="Scenes" type="VBoxContainer" parent="HBoxContainer/SceneBrowser/ScrollContainer"]
 layout_mode = 2
