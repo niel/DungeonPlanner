@@ -1,21 +1,24 @@
 extends Container
 
+signal on_pressed(scene_id: String)
+
 const AUTHOR_STRING_TEMPLATE = "by: %s"
 
 @onready var name_label = $%Name
 @onready var author_label = $%Author
 
-var scene_name: String
-var author_value: String
+var scene_data: Scene
 
 func _ready() -> void:
-  name_label.text = scene_name
-  author_label.text = author_value
+  name_label.text = scene_data.scene_name
+  author_label.text = AUTHOR_STRING_TEMPLATE % scene_data.author
 
-func set_scene_info(name_value: String, author: String) -> void:
-  scene_name = name_value
+func set_scene(scene: Scene) -> void:
+  scene_data = scene
   if name_label != null:
-      name_label.text = name_value
-  author_value = AUTHOR_STRING_TEMPLATE % author
+      name_label.text = scene_data.scene_name
   if author_label != null:
-    author_label.text = author_value
+      author_label.text = AUTHOR_STRING_TEMPLATE % scene_data.author
+
+func forward_pressed() -> void:
+  on_pressed.emit(scene_data.id)

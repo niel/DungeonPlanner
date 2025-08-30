@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d3ickkox8vwuo" path="res://scene_builder/ui/MainMenu.gd" id="1_les83"]
 [ext_resource type="PackedScene" uid="uid://cm8f1ot0p4yyv" path="res://main_menu/ImportTileSet.tscn" id="2_7rqq1"]
 [ext_resource type="Script" uid="uid://b0liuxw30plba" path="res://main_menu/scene_browser.gd" id="2_yt4ty"]
-[ext_resource type="PackedScene" uid="uid://q4f24g8olnji" path="res://main_menu/server_connection.tscn" id="3_ff7fd"]
+[ext_resource type="Script" uid="uid://bmgtjiuv33c2u" path="res://main_menu/ServerConnection.gd" id="4_yt4ty"]
 
 [node name="MainMenu" type="PanelContainer"]
 anchors_preset = 15
@@ -103,11 +103,13 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="ServerConnection" parent="." instance=ExtResource("3_ff7fd")]
+[node name="ServerConnection" type="Node" parent="."]
+script = ExtResource("4_yt4ty")
 
 [connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/New Scene" to="." method="on_new_scene"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/Import" to="." method="_on_import_scene_pressed"]
+[connection signal="scene_import_request" from="HBoxContainer/SceneBrowser/ScrollContainer/Scenes" to="ServerConnection" method="request_scene_import"]
 [connection signal="set_imported" from="ImportTileSetDialog" to="." method="update_imported_sets"]
 [connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
 [connection signal="file_selected" from="ExportDestinationSelectDialog" to="." method="export_scene_at_path"]
