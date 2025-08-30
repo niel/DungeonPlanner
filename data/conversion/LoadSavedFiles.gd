@@ -11,14 +11,18 @@ const TILE_PATH = "user://Meshes/"
 
 func import_tile_set_from_directory(path: String, set_name: String):
   # Check path was provided
-  if path.split("/").size() == 0:
+  var dirs = path.split("/")
+  var count = dirs.size()
+  if count == 0:
     print("Attempted to load tile set at empty path")
     return
 
-  if !path.is_valid_filename():
-    print("File path has invalid characters (: / \\ ? * \" | % < >).  Please check it.")
-    print(path)
-    return
+  for index in range(1, count):
+    var segment = dirs.get(index)
+    if !segment.is_valid_filename():
+      print("File path has invalid characters (: / \\ ? * \" | % < >) in directory:")
+      print("/".join(dirs.slice(1, index + 1))) # Show the actual directory that broke us.
+      return
 
   # Check set_name is not already in use.
   if SceneContext.get_set_names().has(set_name):
@@ -40,6 +44,7 @@ func import_tile_set_from_directory(path: String, set_name: String):
   var stl_file_paths := set_definition_dir.get_files()
   call_deferred("emit_import_started", stl_file_paths.size())
 
+  print("Import thread starting for: ", path)
   for file_name in stl_file_paths:
     if file_name.get_extension() != "stl":
       continue
