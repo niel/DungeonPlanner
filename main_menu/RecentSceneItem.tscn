@@ -31,11 +31,10 @@ text = "Select
 layout_mode = 2
 text = "Delete"
 
-[node name="Export" type="Button" parent="."]
+[node name="Upload" type="Button" parent="."]
 layout_mode = 2
-text = "Export
-"
+text = "Upload"
 
 [connection signal="pressed" from="Select" to="." method="forward_select_pressed"]
 [connection signal="pressed" from="Delete" to="." method="forward_delete_pressed"]
-[connection signal="pressed" from="Export" to="." method="forward_export_pressed"]
+[connection signal="pressed" from="Upload" to="." method="forward_upload_pressed"]

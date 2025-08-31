@@ -5,6 +5,9 @@ signal scene_import_request(scene_id: String)
 const SCENE_BROWSER_ITEM_SCENE = preload("res://main_menu/SceneBrowserItem.tscn")
 
 func set_scene_items(scenes: Array) -> void:
+    # Clear existing items
+    for child in get_children():
+        child.queue_free()
     for scene: Scene in scenes:
         var item = SCENE_BROWSER_ITEM_SCENE.instantiate()
         item.set_scene(scene)

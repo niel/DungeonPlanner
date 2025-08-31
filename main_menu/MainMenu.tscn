@@ -97,13 +97,8 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="ExportDestinationSelectDialog" type="FileDialog" parent="."]
-unique_name_in_owner = true
-access = 2
-filters = PackedStringArray("*.json")
-use_native_dialog = true
-
 [node name="ServerConnection" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("4_yt4ty")
 
 [connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
@@ -112,5 +107,5 @@ script = ExtResource("4_yt4ty")
 [connection signal="scene_import_request" from="HBoxContainer/SceneBrowser/ScrollContainer/Scenes" to="ServerConnection" method="request_scene_import"]
 [connection signal="set_imported" from="ImportTileSetDialog" to="." method="update_imported_sets"]
 [connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
-[connection signal="file_selected" from="ExportDestinationSelectDialog" to="." method="export_scene_at_path"]
 [connection signal="new_scene_list" from="ServerConnection" to="HBoxContainer/SceneBrowser/ScrollContainer/Scenes" method="set_scene_items"]
+[connection signal="scene_imported" from="ServerConnection" to="." method="on_scene_imported_from_server"]
