@@ -42,6 +42,13 @@ func load_scene_from_user(file_name: String) -> SceneData:
     file.close()
     return parsed_scene
 
+func import_server_json(json: Dictionary) -> SceneData:
+    var parsed_scene = SceneData.new()
+    parsed_scene.from_server_json(json)
+    scene_names.append(parsed_scene.scene_name)
+    save_scene_to_user(parsed_scene)
+    return parsed_scene
+
 func save_scene_to_user(scene: SceneData):
   var json_string = scene.to_json()
   var file = FileAccess.open(SAVED_SCENES_PATH + scene.scene_name + ".json", FileAccess.WRITE)

@@ -4,7 +4,10 @@ extends RefCounted
 class SavedTile:
   const KEY_ID = "id"
   const KEY_ROTATION = "rotation"
+  const KEY_TILE_ID = "tileID"
   const KEY_X = "x"
+  const KEY_X_POS = "xPos"
+  const KEY_Y_POS = "yPos"
   const KEY_Z = "z"
 
   var id = ""
@@ -13,8 +16,11 @@ class SavedTile:
   var x = 0
   var z = 0
 
+const AUTHOR_STRING = "A community member"
 const SIZE = Vector2(20, 20)
+const KEY_AUTHOR = "author"
 const KEY_SCENE_NAME = "sceneName"
+const KEY_NAME = "name"
 const KEY_TILES = "tiles"
 
 var scene_name = ""
@@ -50,6 +56,38 @@ func from_json(json: String):
     tile.z = tile_data[SavedTile.KEY_Z]
     update_tile_offset(tile)
     tiles.append(tile)
+
+func from_server_json(json: Dictionary):
+  tiles = []
+  scene_name = json[SceneData.KEY_NAME]
+  for tile_data in json[SceneData.KEY_TILES]:
+    var tile = SavedTile.new()
+    tile.id = tile_data[SavedTile.KEY_TILE_ID]
+    var y_rotation = tile_data[SavedTile.KEY_ROTATION]
+    tile.rotation = Vector3(
+        0,
+        y_rotation,
+        0
+    ) + PlanningContext.DEFAULT_ROTATION
+    tile.x = tile_data[SavedTile.KEY_X_POS]
+    tile.z = tile_data[SavedTile.KEY_Y_POS]
+    update_tile_offset(tile)
+    tiles.append(tile)
+
+func to_server_json() -> String:
+  var data: Dictionary = {}
+  data[SceneData.KEY_NAME] = scene_name
+  data[SceneData.KEY_AUTHOR] = AUTHOR_STRING
+  data[SceneData.KEY_TILES] = []
+  for tile in tiles:
+    var tile_data: Dictionary = {}
+    tile_data[SavedTile.KEY_TILE_ID] = tile.id
+    var y_rotation = tile.rotation.y - PlanningContext.DEFAULT_ROTATION.y
+    tile_data[SavedTile.KEY_ROTATION] = y_rotation
+    tile_data[SavedTile.KEY_X_POS] = tile.x
+    tile_data[SavedTile.KEY_Y_POS] = tile.z
+    data[SceneData.KEY_TILES].append(tile_data)
+  return JSON.stringify(data)
 
 func split_on_any_of(string: String, delimiters: String) -> Array:
   var tokens = []
