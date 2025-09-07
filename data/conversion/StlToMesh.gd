@@ -24,8 +24,15 @@ func stl_file_to_array_mesh(stl_file: String) -> ArrayMesh:
 
   var triangles = []
   if is_ascii(stl):
-    return convert_ascii(stl)
-  triangles = convert_binary(stl)
+    triangles = convert_ascii(stl)
+  else:
+    triangles = convert_binary(stl)
+
+  if triangles == []:
+    push_error("Failed to convert STL file: " + stl_file)
+    return ArrayMesh.new()
+
+  #Position the mesh to align with the grid.
   triangles = position_mesh(triangles)
   hash_input.append(stl.get_length())
   stl.close()
@@ -41,6 +48,97 @@ func is_ascii(file: FileAccess) -> bool:
   # Reset file position
   file.seek(current_pos)
   return result
+
+
+func convert_ascii(file: FileAccess) -> Array:
+  var surface_tool = SurfaceTool.new()
+  surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+
+  var regex = RegEx.new()
+  regex.compile("([\\w\\d\\.-]+)")
+
+  # Skip first line with "solid" header.
+  file.seek(0)
+  var line = file.get_line()
+  var triangles = []
+  var vertices = []
+  while !file.eof_reached():
+    line = file.get_line()
+    var results = regex.search_all(line)
+    if results == []:
+      continue
+
+    #print("Result: ",  results.get(0).strings[1])
+
+    # for result in results:
+    #   print(result.strings.get(1))
+
+    var triangle = Triangle.new()
+    match results.get(0).strings[1]:
+      "facet":
+        # print("'Facet' found")
+        if results.get(1).strings[1] != "normal":
+          push_error("Expected 'normal' after 'facet'")
+          return []
+
+        triangle.normal = Vector3(
+          results.get(2).strings[1].to_float(),
+          results.get(3).strings[1].to_float(),
+          results.get(4).strings[1].to_float(),
+        )
+
+#region Disabled Normal Setting
+        # print(
+        #   "'Normal' found: ",
+        #   results.get(2).strings[1], ", ",
+        #   results.get(3).strings[1], ", ",
+        #   results.get(4).strings[1],
+        # )
+
+        # surface_tool.set_normal(
+        #   Vector3(
+        #     results.get(2).strings[1].to_float(),
+        #     results.get(3).strings[1].to_float(),
+        #     results.get(4).strings[1].to_float(),
+        #   )
+        # )
+#endregion
+      "outer":
+        if results.get(1).strings[1] != "loop":
+          push_error("Expected 'loop' after 'outer'")
+          return []
+
+        vertices = []
+      "vertex":
+        # print(
+        #   "'Vertex' found: ",
+        #   results.get(1).strings[1], ", ",
+        #   results.get(2).strings[1], ", ",
+        #   results.get(3).strings[1],
+        # )
+
+        var vertex_x = results.get(1).strings[1].to_float()
+        var vertex_y = results.get(2).strings[1].to_float()
+        var vertex_z = results.get(3).strings[1].to_float()
+        vertices.append(
+          Vector3(
+            vertex_x,
+            vertex_y,
+            vertex_z,
+          )
+        )
+        append_vertex_to_hash_input(vertex_x)
+        append_vertex_to_hash_input(vertex_y)
+        append_vertex_to_hash_input(vertex_z)
+      "endloop":
+        vertices.reverse()
+        triangle.vertices = vertices
+        triangles.append(triangle)
+      _:
+        print('Nothing to do on "endfacet" or "endsolid"')
+
+  return triangles
+
 
 func convert_binary(file: FileAccess) -> Array:
   #Skip header
@@ -71,6 +169,7 @@ func convert_binary(file: FileAccess) -> Array:
 
     # 2 unused bytes
     file.seek(file.get_position() + 2)
+
   return triangles
 
 func append_vertex_to_hash_input(vertex: float):
@@ -127,34 +226,3 @@ func get_tile_length(min_val : float, max_val: float) -> int:
   if leftover >= 25:
     tile_count += 1
   return tile_count
-
-# TODO Double check that this works
-func convert_ascii(file: FileAccess) -> ArrayMesh:
-  var surface_tool = SurfaceTool.new()
-  surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-  # Skip header
-  var line = file.get_line()
-  var vertices = []
-  while !file.eof_reached():
-    line = file.get_line()
-    match line.begins_with(line):
-      "facet":
-        var normal = line.split(" ").slice(2)
-        surface_tool.set_normal(Vector3(
-            normal[0].to_float(),
-            normal[1].to_float(),
-            normal[2].to_float()))
-      "outer loop":
-        vertices = []
-      "vertex":
-        var vertex = line.split(" ").slice(1)
-        vertices.append(Vector3(
-            vertex[0].to_float(),
-            vertex[1].to_float(),
-            vertex[2].to_float()))
-      "endloop":
-        vertices.reverse()
-        for v in vertices:
-          surface_tool.add_vertex(v)
-      #Nothing to do on "endfacet" or "endsolid"
-  return surface_tool.commit()
