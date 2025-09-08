@@ -27,20 +27,22 @@ func load_from_json(json: Dictionary):
   print("Loaded tileset " + name + " in " + str(end_time - start_time) + "ms")
   print("Cached: ", status_count[0], " Created: ", status_count[1], " Not found: ", status_count[2])
 
+
 func import_set(set_name: String, stl_file_paths: PackedStringArray):
   name = set_name
   var start_time = Time.get_ticks_msec()
   for path in stl_file_paths:
     var new_tile := Tile.new()
-    var dest_file = path.get_file().get_slice(".", 0)
+    var dest_file = File.name_sans_extension(path.get_file())
     var dest_path = MESHES_PATH + name + "/" + dest_file + ".res"
     new_tile.create_tile(path, dest_path)
   var end_time = Time.get_ticks_msec()
   print("Imported tileset " + name + " in " + str(end_time - start_time) + "ms")
 
+
 func import_tile(stl_file_path: String) -> Tile:
   var new_tile := Tile.new()
-  var dest_file = stl_file_path.get_file().get_slice(".", 0)
+  var dest_file = File.name_sans_extension(stl_file_path.get_file())
   var dest_path = MESHES_PATH + name + "/" + dest_file + ".res"
   var status = new_tile.create_tile(stl_file_path, dest_path)
   if status == Tile.TileStatus.CREATED or status == Tile.TileStatus.CACHED:
