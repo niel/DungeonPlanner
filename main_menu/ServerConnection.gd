@@ -9,14 +9,11 @@ const SCENE_LIST_URL_TEMPLATE = DOMAIN + "/scenes/list/%d"
 const SCENE_REQUEST_DATA_URL_TEMPLATE = DOMAIN + "/scenes/%s"
 const DOMAIN = "http://localhost:8080"
 
-func _ready() -> void:
-  request_scene_list()
-
 func request_scene_list(startIdx: int = 0) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
-    func (_result, _response_code, _headers, body: PackedByteArray) -> void:
+    func(_result, _response_code, _headers, body: PackedByteArray) -> void:
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
       var response = SceneListResponse.new()
       if json.has("sceneCount"):
@@ -59,7 +56,7 @@ func request_scene_import(scene_id: String) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
-    func (_result, _response_code, _headers, body: PackedByteArray) -> void:
+    func(_result, _response_code, _headers, body: PackedByteArray) -> void:
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
       http_request.queue_free()
       scene_imported.emit(json)
@@ -70,7 +67,7 @@ func upload_scene(scene: SceneData) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
-    func (_result, response_code: int, _headers, _body) -> void:
+    func(_result, response_code: int, _headers, _body) -> void:
       if response_code == 200:
         request_scene_list()
       else:
