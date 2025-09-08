@@ -63,16 +63,12 @@ func convert_ascii(file: FileAccess) -> Array:
   var triangles = []
   var triangle: Triangle
   var vertices = []
+
   while !file.eof_reached():
     line = file.get_line()
     var results = regex.search_all(line)
     if results == []:
       continue
-
-    #print("Result: ",  results.get(0).strings[1])
-
-    # for result in results:
-    #   print(result.strings.get(1))
 
     match results.get(0).strings[1]:
       "facet":
@@ -87,23 +83,6 @@ func convert_ascii(file: FileAccess) -> Array:
           results.get(3).strings[1].to_float(),
           results.get(4).strings[1].to_float(),
         )
-
-#region Disabled Normal Setting
-        # print(
-        #   "'Normal' found: ",
-        #   results.get(2).strings[1], ", ",
-        #   results.get(3).strings[1], ", ",
-        #   results.get(4).strings[1],
-        # )
-
-        # surface_tool.set_normal(
-        #   Vector3(
-        #     results.get(2).strings[1].to_float(),
-        #     results.get(3).strings[1].to_float(),
-        #     results.get(4).strings[1].to_float(),
-        #   )
-        # )
-#endregion
       "outer":
         if results.get(1).strings[1] != "loop":
           push_error("Expected 'loop' after 'outer'")
@@ -111,13 +90,6 @@ func convert_ascii(file: FileAccess) -> Array:
 
         vertices = []
       "vertex":
-        # print(
-        #   "'Vertex' found: ",
-        #   results.get(1).strings[1], ", ",
-        #   results.get(2).strings[1], ", ",
-        #   results.get(3).strings[1],
-        # )
-
         var vertex_x = results.get(1).strings[1].to_float()
         var vertex_y = results.get(2).strings[1].to_float()
         var vertex_z = results.get(3).strings[1].to_float()
