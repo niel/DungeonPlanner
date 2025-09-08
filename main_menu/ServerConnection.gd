@@ -1,47 +1,59 @@
 class_name ServerConnection
 extends Node
 
-signal new_scene_list(scenes: Array)
+signal new_scene_list(scenes: SceneListResponse)
 signal scene_imported(sceneJson: Dictionary)
 
 const SCENE_ADD_URL = DOMAIN + "/scenes/add"
-const SCENE_LIST_URL = DOMAIN + "/scenes/list"
+const SCENE_LIST_URL_TEMPLATE = DOMAIN + "/scenes/list/%d"
 const SCENE_REQUEST_DATA_URL_TEMPLATE = DOMAIN + "/scenes/%s"
-const DOMAIN = "https://dungeon-planner-backend-7f50910efa9c.herokuapp.com"
+const DOMAIN = "http://localhost:8080"
 
 func _ready() -> void:
   request_scene_list()
 
-func request_scene_list() -> void:
+func request_scene_list(startIdx: int = 0) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
     func (_result, _response_code, _headers, body: PackedByteArray) -> void:
-      var json: Array = JSON.parse_string(body.get_string_from_utf8())
-      var scenes: Array = []
-      for scene_json in json:
-        var scene_data = Scene.new()
+      var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
+      var response = SceneListResponse.new()
+      if json.has("sceneCount"):
+        response.sceneCount = json.sceneCount
+      else:
+        response.sceneCount = 0
+      if json.has("pageSize"):
+        response.pageSize = json.pageSize
+      else:
+        response.pageSize = 5
+      var scenes = []
+      if json.has("scenes"):
+        scenes = json.scenes
+      for scene_json in scenes:
+        var new_scene = Scene.new()
         if scene_json.has("id"):
-          scene_data.id = scene_json.id
+          new_scene.id = scene_json.id
         else:
           # No id, can't process scene 
           continue
         if scene_json.has("name"):
-          scene_data.scene_name = scene_json.name
+          new_scene.scene_name = scene_json.name
         else:
-          scene_data.scene_name = "Untitled"
+          new_scene.scene_name = "Untitled"
         if scene_json.has("author"):
-          scene_data.author = scene_json.author
+          new_scene.author = scene_json.author
         else:
-          scene_data.author = "Unknown author"
+          new_scene.author = "Unknown author"
         if scene_json.has("uniqueTileIds"):
-          scene_data.uniqueTileIds = scene_json.uniqueTileIds
+          new_scene.uniqueTileIds = scene_json.uniqueTileIds
         else:
-          scene_data.uniqueTileIds = {}
-        scenes.append(scene_data)
+          new_scene.uniqueTileIds = {}
+        response.scenes.append(new_scene)
       http_request.queue_free()
-      new_scene_list.emit(scenes))
-  http_request.request(SCENE_LIST_URL)
+      new_scene_list.emit(response))
+  var uri = SCENE_LIST_URL_TEMPLATE % startIdx
+  http_request.request(uri)
 
 func request_scene_import(scene_id: String) -> void:
   var http_request := HTTPRequest.new()
