@@ -4,9 +4,10 @@ extends Node
 signal new_scene_list(scenes: Array)
 signal scene_imported(sceneJson: Dictionary)
 
-const SCENE_ADD_URL = "http://localhost:8080/scenes/add"
-const SCENE_LIST_URL = "http://localhost:8080/scenes/list"
-const SCENE_REQUEST_DATA_URL_TEMPLATE = "http://localhost:8080/scenes/%s"
+const SCENE_ADD_URL = DOMAIN + "/scenes/add"
+const SCENE_LIST_URL = DOMAIN + "/scenes/list"
+const SCENE_REQUEST_DATA_URL_TEMPLATE = DOMAIN + "/scenes/%s"
+const DOMAIN = "https://dungeon-planner-backend-7f50910efa9c.herokuapp.com"
 
 func _ready() -> void:
   request_scene_list()
