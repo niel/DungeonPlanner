@@ -61,6 +61,7 @@ func convert_ascii(file: FileAccess) -> Array:
   file.seek(0)
   var line = file.get_line()
   var triangles = []
+  var triangle: Triangle
   var vertices = []
   while !file.eof_reached():
     line = file.get_line()
@@ -73,7 +74,6 @@ func convert_ascii(file: FileAccess) -> Array:
     # for result in results:
     #   print(result.strings.get(1))
 
-    var triangle = Triangle.new()
     match results.get(0).strings[1]:
       "facet":
         # print("'Facet' found")
@@ -81,6 +81,7 @@ func convert_ascii(file: FileAccess) -> Array:
           push_error("Expected 'normal' after 'facet'")
           return []
 
+        triangle = Triangle.new()
         triangle.normal = Vector3(
           results.get(2).strings[1].to_float(),
           results.get(3).strings[1].to_float(),
@@ -135,7 +136,7 @@ func convert_ascii(file: FileAccess) -> Array:
         triangle.vertices = vertices
         triangles.append(triangle)
       _:
-        print('Nothing to do on "endfacet" or "endsolid"')
+        print_verbose('Nothing to do on "endfacet" or "endsolid"')
 
   return triangles
 
