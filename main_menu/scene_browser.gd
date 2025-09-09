@@ -5,19 +5,19 @@ signal scene_import_request(scene_id: String)
 
 const SCENE_BROWSER_ITEM_SCENE = preload("res://main_menu/SceneBrowserItem.tscn")
 
-@onready var scene_list_container: VBoxContainer = $%SceneListContainer
-
-var start_idx: int = 0
 var page_size: int = 0
+var start_idx: int = 0
 var total_scenes: int = 0
+
+@onready var scene_list_container: VBoxContainer = $%SceneListContainer
 
 func _ready() -> void:
   # Example: Request the first page of scenes
   request_scene_list.emit(start_idx)
 
 func set_scene_items(scenes: SceneListResponse) -> void:
-  page_size = scenes.pageSize
-  total_scenes = scenes.sceneCount
+  page_size = scenes.page_size
+  total_scenes = scenes.scene_count
   # Clear existing items
   for child in scene_list_container.get_children():
     child.queue_free()

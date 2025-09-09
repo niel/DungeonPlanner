@@ -6,7 +6,7 @@ const KEY_TILE = "tile"
 
 var selected_set_idx = 0
 var tile_sets: Array = []
-var uniqueTileIds: Dictionary = {}
+var unique_tile_ids: Dictionary = {}
 
 func add_imported_set(json: Dictionary):
   var new_set := DragonbiteTileSet.new()
@@ -21,9 +21,9 @@ func import_set(set_name: String, stl_file_paths: Array):
 func add_set(new_set: DragonbiteTileSet):
   for tile in new_set.tiles:
     # Hash collision, should be very rare
-    if uniqueTileIds.has(tile.id):
+    if unique_tile_ids.has(tile.id):
       print("Hash collision detected for tile ID: %s" % tile.id)
-    uniqueTileIds.set(tile.id, 1)
+    unique_tile_ids.set(tile.id, 1)
   tile_sets.append(new_set)
 
 func get_selected_set() -> DragonbiteTileSet:
@@ -40,13 +40,13 @@ func remove_set(set_name: String):
   for i in range(tile_sets.size()):
     if tile_sets[i].name == set_name:
       for tile in tile_sets[i].tiles:
-        uniqueTileIds.erase(tile.id)
+        unique_tile_ids.erase(tile.id)
       tile_sets[i].delete_tiles()
       tile_sets.remove_at(i)
       return
 
 func has_tile_ids(tile_ids: Array) -> bool:
   for tile_id in tile_ids:
-    if not uniqueTileIds.has(tile_id):
+    if not unique_tile_ids.has(tile_id):
       return false
   return true

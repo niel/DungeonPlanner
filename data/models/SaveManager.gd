@@ -11,7 +11,7 @@ func _init():
     dir.make_dir(SAVED_SCENES_PATH)
   var saved_scenes_dir = DirAccess.open(SAVED_SCENES_PATH)
   saved_scenes_dir.list_dir_begin()
-  var save_name = saved_scenes_dir.get_next() 
+  var save_name = saved_scenes_dir.get_next()
   while save_name != "":
     if save_name.ends_with(".json"):
       var scene = Scene.new()
@@ -37,7 +37,8 @@ func load_scene_from_json(file_path: String) -> SceneData:
 func load_scene_from_user(file_name: String) -> SceneData:
     var file = FileAccess.open(SAVED_SCENES_PATH + file_name + ".json", FileAccess.READ)
     if file == null:
-      print("Failed to open saved scene:%s with error %s" % [file_name, str(FileAccess.get_open_error())])
+      print("Failed to open saved scene:%s with error %s" %
+       [file_name, str(FileAccess.get_open_error())])
       var new_scene = SceneData.new()
       new_scene.scene_name = file_name
       return new_scene

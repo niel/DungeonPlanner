@@ -1,6 +1,6 @@
 class_name SceneListResponse
 extends RefCounted
 
-var pageSize: int
-var sceneCount: int
+var page_size: int
+var scene_count: int
 var scenes: Array = []
