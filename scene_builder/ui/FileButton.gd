@@ -17,7 +17,7 @@ const ID_SCENES_END = 199
 const OPEN_SCENE_MENU_NAME = "OpenScene"
 
 var open_menu: PopupMenu = PopupMenu.new()
-var recent_scenes: Array = []
+var recent_scene_names: Array = []
 
 func _ready():
   var menu = get_popup()
@@ -30,22 +30,22 @@ func _ready():
   menu.add_item("Save As", ID_SAVE_AS)
   menu.add_item("Quit", ID_QUIT)
 
-func set_saves(save_names: Array):
-  recent_scenes = save_names
+func set_saves(recent_scenes: Array):
   open_menu.clear()
   var idx = ID_SCENES_START
-  for save_name in save_names:
+  for scene in recent_scenes:
     if idx > ID_SCENES_END:
       break
-    open_menu.add_item(save_name, idx)
+    recent_scene_names.append(scene.scene_name)
+    open_menu.add_item(scene.scene_name, idx)
     idx += 1
 
 func add_save(new_save: String):
-  recent_scenes.append(new_save)
-  var idx = ID_SCENES_START + recent_scenes.size() - 1
+  var idx = ID_SCENES_START + recent_scene_names.size() - 1
   if idx > ID_SCENES_END:
     print("Too many saves, not adding new save")
     return
+  recent_scene_names.append(new_save)
   open_menu.add_item(new_save, idx)
 
 func on_menu_button_id_pressed(id: int):
@@ -67,4 +67,4 @@ func on_submenu_press(id: int, menu_name: String):
   match menu_name:
     OPEN_SCENE_MENU_NAME:
       if id >= ID_SCENES_START and id <= ID_SCENES_END:
-        load_scene.emit(recent_scenes[id - ID_SCENES_START])
+        load_scene.emit(recent_scene_names[id - ID_SCENES_START])
