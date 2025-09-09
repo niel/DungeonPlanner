@@ -23,13 +23,13 @@ func request_scene_list(startIdx: int = 0) -> void:
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
       var response = SceneListResponse.new()
       if json.has("sceneCount"):
-        response.sceneCount = json.sceneCount
+        response.scene_count = json.sceneCount
       else:
-        response.sceneCount = 0
+        response.scene_count = 0
       if json.has("pageSize"):
-        response.pageSize = json.pageSize
+        response.page_size = json.pageSize
       else:
-        response.pageSize = 5
+        response.page_size = 5
       var scenes = []
       if json.has("scenes"):
         scenes = json.scenes
@@ -49,9 +49,9 @@ func request_scene_list(startIdx: int = 0) -> void:
         else:
           new_scene.author = "Unknown author"
         if scene_json.has("uniqueTileIds"):
-          new_scene.uniqueTileIds = scene_json.uniqueTileIds
+          new_scene.unique_tile_ids = scene_json.uniqueTileIds
         else:
-          new_scene.uniqueTileIds = {}
+          new_scene.unique_tile_ids = {}
         response.scenes.append(new_scene)
       http_request.queue_free()
       new_scene_list.emit(response))

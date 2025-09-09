@@ -4,10 +4,10 @@ signal on_pressed(scene_id: String)
 
 const AUTHOR_STRING_TEMPLATE = "by: %s"
 
+var scene_data: Scene
+
 @onready var name_label = $%Name
 @onready var author_label = $%Author
-
-var scene_data: Scene
 
 func _ready() -> void:
   name_label.text = scene_data.scene_name

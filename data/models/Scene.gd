@@ -9,10 +9,10 @@ var data: SceneData :
       set_unique_tile_ids()
 var id: String
 var scene_name: String
-var uniqueTileIds: Dictionary = {}
+var unique_tile_ids: Dictionary = {}
 
 func set_unique_tile_ids():
-  uniqueTileIds.clear()
+  unique_tile_ids.clear()
   for tile in data.tiles:
-    if not uniqueTileIds.has(tile.id):
-      uniqueTileIds.set(tile.id, 1)
+    if not unique_tile_ids.has(tile.id):
+      unique_tile_ids.set(tile.id, 1)
