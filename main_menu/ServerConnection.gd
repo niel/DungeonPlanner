@@ -15,7 +15,11 @@ func request_scene_list(startIdx: int = 0) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
-    func(_result, _response_code, _headers, body: PackedByteArray) -> void:
+    func(_result, response_code, _headers, body: PackedByteArray) -> void:
+      if response_code != 200:
+        print("Failed to get scene list from server, response code: %d" % response_code)
+        http_request.queue_free()
+        return
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
       var response = SceneListResponse.new()
       if json.has("sceneCount"):
@@ -58,7 +62,11 @@ func request_scene_import(scene_id: String) -> void:
   var http_request := HTTPRequest.new()
   add_child(http_request)
   http_request.request_completed.connect(
-    func(_result, _response_code, _headers, body: PackedByteArray) -> void:
+    func(_result, response_code, _headers, body: PackedByteArray) -> void:
+      if response_code != 200:
+        print("Failed to get scene data from server, response code: %d" % response_code)
+        http_request.queue_free()
+        return
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
       scene_imported.emit(json)
       http_request.queue_free()
@@ -79,4 +87,6 @@ func upload_scene(scene: SceneData) -> void:
   var json_string = scene.to_server_json()
   var headers = ["Content-Type: application/json"]
   var error = http_request.request(SCENE_ADD_URL, headers, HTTPClient.METHOD_PUT, json_string)
-  print(error)
+  if error != OK:
+    print("Failed to upload scene: %s with error: %s" % [scene.scene_name, error])
+    http_request.queue_free()
