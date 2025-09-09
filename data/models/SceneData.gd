@@ -57,7 +57,7 @@ func from_json(json: String):
     update_tile_offset(tile)
     tiles.append(tile)
 
-func from_server_json(json: Dictionary):
+func from_server_json(json: Dictionary) -> SceneData:
   tiles = []
   scene_name = json[SceneData.KEY_NAME]
   for tile_data in json[SceneData.KEY_TILES]:
@@ -73,6 +73,7 @@ func from_server_json(json: Dictionary):
     tile.z = tile_data[SavedTile.KEY_Y_POS]
     update_tile_offset(tile)
     tiles.append(tile)
+  return self
 
 func to_server_json() -> String:
   var data: Dictionary = {}

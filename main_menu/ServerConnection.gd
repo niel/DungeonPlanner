@@ -58,8 +58,8 @@ func request_scene_import(scene_id: String) -> void:
   http_request.request_completed.connect(
     func(_result, _response_code, _headers, body: PackedByteArray) -> void:
       var json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
-      http_request.queue_free()
       scene_imported.emit(json)
+      http_request.queue_free()
   )
   http_request.request(SCENE_REQUEST_DATA_URL_TEMPLATE % scene_id)
 
