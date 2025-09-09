@@ -4,6 +4,8 @@ const DELETE_CONFIRMATION_STRING_TEMPLATE = "Are you sure you want to delete %s?
 const IMPORTED_SET_ITEM_SCENE = preload("res://main_menu/ImportedSetItem.tscn")
 const PLANNING_SCENE_PATH = "res://scene_builder/PlannerScene.tscn"
 const RECENT_SCENE_ITEM_SCENE = preload("res://main_menu/RecentSceneItem.tscn")
+const UPLOAD_SUCCESS_STRING_TEMPLATE = "Successfully uploaded scene: %s"
+const UPLOAD_FAILURE_STRING_TEMPLATE = "Failed to upload scene: %s"
 
 var confirmation_dialog_target: String
 var export_scene_name: String = ""
@@ -61,6 +63,19 @@ func load_recent_scene(scene_name: String):
 func upload_scene(scene_name: String):
   var scene_to_upload := save_manager.load_scene_from_user(scene_name)
   server_connection.upload_scene(scene_to_upload)
+
+func on_upload_success(scene_name: String):
+  confirmation_dialog_target = scene_name
+  confirmation_dialog.dialog_text = UPLOAD_SUCCESS_STRING_TEMPLATE % confirmation_dialog_target
+  confirmation_dialog.popup_centered()
+  for recent_scene_node in recent_scenes_container.get_children():
+    if recent_scene_node.is_scene(scene_name):
+      recent_scene_node.disable_upload()
+
+func on_upload_failure(scene_name: String):
+  confirmation_dialog_target = scene_name
+  confirmation_dialog.dialog_text = UPLOAD_FAILURE_STRING_TEMPLATE % confirmation_dialog_target
+  confirmation_dialog.popup_centered()
 
 func delete_imported_set(removed_set_name: String):
   confirmation_dialog_target = removed_set_name

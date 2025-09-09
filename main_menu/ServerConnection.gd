@@ -3,6 +3,8 @@ extends Node
 
 signal new_scene_list(scenes: SceneListResponse)
 signal scene_imported(sceneJson: Dictionary)
+signal upload_success(scene_name: String)
+signal upload_failure(scene_name: String)
 
 const SCENE_ADD_URL = DOMAIN + "/scenes/add"
 const SCENE_LIST_URL_TEMPLATE = DOMAIN + "/scenes/list/%d"
@@ -69,11 +71,12 @@ func upload_scene(scene: SceneData) -> void:
   http_request.request_completed.connect(
     func(_result, response_code: int, _headers, _body) -> void:
       if response_code == 200:
-        request_scene_list()
+        upload_success.emit(scene.scene_name)
       else:
-        print("Failed to upload scene.")
+        upload_failure.emit(scene.scene_name)
       http_request.queue_free()
   )
   var json_string = scene.to_server_json()
   var headers = ["Content-Type: application/json"]
-  http_request.request(SCENE_ADD_URL, headers, HTTPClient.METHOD_PUT, json_string)
+  var error = http_request.request(SCENE_ADD_URL, headers, HTTPClient.METHOD_PUT, json_string)
+  print(error)
