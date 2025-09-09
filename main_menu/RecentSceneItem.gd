@@ -13,10 +13,14 @@ var tile_resources: TileResources
 @onready var name_label: Label = $%Name
 @onready var select_button: Button = $%Select
 @onready var status_label: Label = $%Status
+@onready var upload_button: Button = $%Upload
 
 func _ready() -> void:
   if scene != null and tile_resources != null:
     update_nodes()
+
+func is_scene(scene_name: String) -> bool:
+  return scene.scene_name == scene_name
 
 func set_recent_scene_data(new_scene: Scene, new_tile_resources: TileResources):
   scene = new_scene
@@ -36,6 +40,9 @@ func update_nodes():
       status_label.text = MISSING_TILES_STRING
       status_label.add_theme_color_override("font_color", Color.RED)
       select_button.disabled = true
+
+func disable_upload():
+  upload_button.disabled = true
 
 func forward_delete_pressed():
   delete_pressed.emit()

@@ -128,3 +128,5 @@ script = ExtResource("4_yt4ty")
 [connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
 [connection signal="new_scene_list" from="ServerConnection" to="HBoxContainer/SceneBrowser" method="set_scene_items"]
 [connection signal="scene_imported" from="ServerConnection" to="." method="on_scene_imported_from_server"]
+[connection signal="upload_failure" from="ServerConnection" to="." method="on_upload_failure"]
+[connection signal="upload_success" from="ServerConnection" to="." method="on_upload_success"]

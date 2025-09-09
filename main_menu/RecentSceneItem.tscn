@@ -36,6 +36,7 @@ layout_mode = 2
 text = "Delete"
 
 [node name="Upload" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Upload"
 
