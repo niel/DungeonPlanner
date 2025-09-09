@@ -7,7 +7,7 @@ const RECENT_SCENE_ITEM_SCENE = preload("res://main_menu/RecentSceneItem.tscn")
 
 var confirmation_dialog_target: String
 var export_scene_name: String = ""
-var save_manager := SaveManager.new()
+var save_manager: SaveManager
 
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 @onready var imported_sets_container: VBoxContainer = $%ImportedSets
@@ -18,6 +18,7 @@ var save_manager := SaveManager.new()
 
 func _ready():
   SceneContext.initialize()
+  save_manager = SaveManager.new()
   update_recent_scenes()
   update_imported_sets()
 
@@ -25,13 +26,14 @@ func update_recent_scenes():
   #Delete existing scenes
   for child in recent_scenes_container.get_children():
     child.queue_free()
-  var recent_scenes = save_manager.scene_names
+  var recent_scenes = save_manager.scenes
+  var tile_resources = SceneContext.tile_resources
   for scene in recent_scenes:
     var button = RECENT_SCENE_ITEM_SCENE.instantiate()
-    button.set_text(scene)
-    button.delete_pressed.connect(delete_recent_scene.bind(scene))
-    button.select_pressed.connect(load_recent_scene.bind(scene))
-    button.upload_pressed.connect(upload_scene.bind(scene))
+    button.set_recent_scene_data(scene, tile_resources)
+    button.delete_pressed.connect(delete_recent_scene.bind(scene.scene_name))
+    button.select_pressed.connect(load_recent_scene.bind(scene.scene_name))
+    button.upload_pressed.connect(upload_scene.bind(scene.scene_name))
     recent_scenes_container.add_child(button)
 
 func update_imported_sets():
@@ -46,6 +48,10 @@ func update_imported_sets():
 
 func import_set_pressed():
   import_set.initialize()
+
+func on_set_imported():
+  update_imported_sets()
+  update_recent_scenes()
 
 func load_recent_scene(scene_name: String):
   var scene_data = save_manager.load_scene_from_user(scene_name)
@@ -66,6 +72,7 @@ func delete_set_confirmed():
   confirmation_dialog.confirmed.disconnect(delete_set_confirmed)
   SceneContext.remove_set(confirmation_dialog_target)
   update_imported_sets()
+  update_recent_scenes()
 
 func delete_recent_scene(scene_name: String):
   confirmation_dialog_target = scene_name
