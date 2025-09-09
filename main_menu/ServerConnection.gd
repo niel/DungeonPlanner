@@ -9,7 +9,7 @@ signal upload_failure(scene_name: String)
 const SCENE_ADD_URL = DOMAIN + "/scenes/add"
 const SCENE_LIST_URL_TEMPLATE = DOMAIN + "/scenes/list/%d"
 const SCENE_REQUEST_DATA_URL_TEMPLATE = DOMAIN + "/scenes/%s"
-const DOMAIN = "http://localhost:8080"
+const DOMAIN = "https://dungeon-planner-backend-7f50910efa9c.herokuapp.com"
 
 func request_scene_list(startIdx: int = 0) -> void:
   var http_request := HTTPRequest.new()
