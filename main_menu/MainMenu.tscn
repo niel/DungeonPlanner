@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhqcdwpxul6uo"]
+[gd_scene load_steps=5 format=3 uid="uid://dhqcdwpxul6uo"]
 
 [ext_resource type="Script" uid="uid://d3ickkox8vwuo" path="res://scene_builder/ui/MainMenu.gd" id="1_les83"]
 [ext_resource type="PackedScene" uid="uid://cm8f1ot0p4yyv" path="res://main_menu/ImportTileSet.tscn" id="2_7rqq1"]
+[ext_resource type="Script" uid="uid://b0liuxw30plba" path="res://main_menu/scene_browser.gd" id="2_yt4ty"]
+[ext_resource type="Script" uid="uid://bmgtjiuv33c2u" path="res://main_menu/ServerConnection.gd" id="4_yt4ty"]
 
 [node name="MainMenu" type="PanelContainer"]
 anchors_preset = 15
@@ -58,12 +60,43 @@ text = "Import Scene"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="SceneBrowser" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_yt4ty")
+
+[node name="Title" type="Label" parent="HBoxContainer/SceneBrowser"]
+layout_mode = 2
+text = "Online Scene Browser"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/SceneBrowser"]
+layout_mode = 2
+
+[node name="Previous" type="Button" parent="HBoxContainer/SceneBrowser/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Prev"
+
+[node name="Next" type="Button" parent="HBoxContainer/SceneBrowser/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Next"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/SceneBrowser"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SceneListContainer" type="VBoxContainer" parent="HBoxContainer/SceneBrowser/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("2_yt4ty")
+
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 title = "Confirm delete"
 initial_position = 2
 dialog_text = "Deleting map "
 
-[node name="ImportTileSet" parent="." instance=ExtResource("2_7rqq1")]
+[node name="ImportTileSetDialog" parent="." instance=ExtResource("2_7rqq1")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -79,15 +112,21 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="ExportDestinationSelectDialog" type="FileDialog" parent="."]
+[node name="ServerConnection" type="Node" parent="."]
 unique_name_in_owner = true
-access = 2
-filters = PackedStringArray("*.json")
-use_native_dialog = true
+script = ExtResource("4_yt4ty")
 
 [connection signal="pressed" from="HBoxContainer/Tile sets/Import tiles" to="." method="import_set_pressed"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/New Scene" to="." method="on_new_scene"]
 [connection signal="pressed" from="HBoxContainer/LoadScene/SceneButtons/Import" to="." method="_on_import_scene_pressed"]
-[connection signal="set_imported" from="ImportTileSet" to="." method="update_imported_sets"]
+[connection signal="request_scene_list" from="HBoxContainer/SceneBrowser" to="ServerConnection" method="request_scene_list"]
+[connection signal="scene_import_request" from="HBoxContainer/SceneBrowser" to="ServerConnection" method="request_scene_import"]
+[connection signal="pressed" from="HBoxContainer/SceneBrowser/HBoxContainer/Previous" to="HBoxContainer/SceneBrowser" method="_on_prev_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/SceneBrowser/HBoxContainer/Next" to="HBoxContainer/SceneBrowser" method="_on_next_button_pressed"]
+[connection signal="scene_import_request" from="HBoxContainer/SceneBrowser/ScrollContainer/SceneListContainer" to="ServerConnection" method="request_scene_import"]
+[connection signal="set_imported" from="ImportTileSetDialog" to="." method="on_set_imported"]
 [connection signal="file_selected" from="SceneImportDialog" to="." method="_on_scene_import_dialog_file_selected"]
-[connection signal="file_selected" from="ExportDestinationSelectDialog" to="." method="export_scene_at_path"]
+[connection signal="new_scene_list" from="ServerConnection" to="HBoxContainer/SceneBrowser" method="set_scene_items"]
+[connection signal="scene_imported" from="ServerConnection" to="." method="on_scene_imported_from_server"]
+[connection signal="upload_failure" from="ServerConnection" to="." method="on_upload_failure"]
+[connection signal="upload_success" from="ServerConnection" to="." method="on_upload_success"]
