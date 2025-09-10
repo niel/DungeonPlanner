@@ -2,7 +2,7 @@ extends MarginContainer
 
 class UIContext:
   var current_scene: String = ""
-  var recent_scenes: Array[String] = []
+  var recent_scenes: Array[Scene] = []
 
 signal load_scene(scene_name: String)
 signal new_scene()
@@ -63,8 +63,8 @@ func set_selected_tile_from_copy(tile: Tile):
 func set_selected_set(tile_set: DragonbiteTileSet):
   tile_selector_node.set_selected_set(tile_set)
 
-func set_save_names(names: Array[String]):
-  context.recent_scenes = names
+func set_recent_scenes(scenes: Array[Scene]):
+  context.recent_scenes = scenes
   file_button.set_saves(context.recent_scenes)
 
 func _on_file_new():

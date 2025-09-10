@@ -104,6 +104,9 @@ func load_scene(scene: SceneData):
     is_updated.append(new_row)
   for tile in scene.tiles:
     var tile_data = SceneContext.get_tile_from_id(tile.id)
+    if tile_data == null:
+      print("Tile ID not found: %s" % tile.id)
+      continue
     var tile_context = SceneContext.TileContext.new()
     tile_context.tile = tile_data
     tile_context.rotation = tile.rotation
